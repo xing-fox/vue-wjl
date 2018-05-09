@@ -2,7 +2,7 @@ import Fly from 'flyio/dist/npm/wx'
 const fly = new Fly
 
 fly.interceptors.request.use((config,promise)=>{
-  wx.showLoading({ title: '小猿正在加载...' })
+  wx.showLoading({ title: '正在加载中...' })
   config.headers["X-Tag"]="flyio"
   return config
 })
