@@ -1,25 +1,25 @@
 <template>
   <div class="page">
     <div class="register">
-  <div class="register-input name">
-    <img mode='widthFix' src='../../../static/name.png'>
-    <input placeholder-class="p-gray" placeholder="请输入姓名" />
-  </div>
-  <div class="register-input phone">
-    <img mode='widthFix' src='../../../static/phone.png'>
-    <input placeholder-class="p-gray" placeholder="请输入手机号" />
-  </div>
-  <div class="register-input code">
-    <img mode='widthFix' src='../../../static/code.png'>
-    <input placeholder-class="p-gray" placeholder="请输入验证码" />
-    <button size='mini'>获取验证码</button>
-  </div>
-  <div class="register-input password">
-    <img mode='widthFix' src='../../../static/pass.png'>
-    <input placeholder-class="p-gray" placeholder="请输入6-16位密码" />
-  </div>
-  <button type="primary">立即注册</button>
-</div>
+      <div class="register-input name">
+        <img mode='widthFix' src='../../../static/name.png'>
+        <input placeholder-class="p-gray" placeholder="请输入姓名" />
+      </div>
+      <div class="register-input phone">
+        <img mode='widthFix' src='../../../static/phone.png'>
+        <input placeholder-class="p-gray" placeholder="请输入手机号" />
+      </div>
+      <div class="register-input code">
+        <img mode='widthFix' src='../../../static/code.png'>
+        <input placeholder-class="p-gray" placeholder="请输入验证码" />
+        <button size='mini'>获取验证码</button>
+      </div>
+      <div class="register-input password">
+        <img mode='widthFix' src='../../../static/pass.png'>
+        <input placeholder-class="p-gray" placeholder="请输入6-16位密码" />
+      </div>
+      <button type="primary">立即注册</button>
+    </div>
   </div>
 </template>
 

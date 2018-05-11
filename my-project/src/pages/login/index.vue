@@ -1,6 +1,5 @@
 <template>
-  <div class="page">
-    <div class="login" style="background-image: url('../../../static/bg.png')">
+    <div class="login" style="background-image: url('../../../static/bg.jpg')">
       <img class="login-bg" mode='widthFix' src='../../../static/players.png'>
       <div class="login-input phone">
         <img mode='widthFix' src='../../../static/phone.png'>
@@ -18,7 +17,6 @@
         <img mode='widthFix' src='../../../static/logo.png'>
       </div>
     </div>
-  </div>
 </template>
 
 <script>
@@ -33,7 +31,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.page{
+page{
   button {
     height: 88rpx;
     font-size: 32rpx;
@@ -41,10 +39,12 @@ export default {
     border-radius: 5rpx;
   }
   .login {
-    background-image: url('../../../static/bg.png');
     background-size: 100% 100%; 
-    padding: 440rpx 30rpx;
-    position: relative;
+    padding: 440rpx 30rpx 0;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    position: fixed;
   }
   .login img {
     position: absolute;
@@ -79,7 +79,7 @@ export default {
   .login .code button {
     position: absolute;
     right: 0;
-    top: 12rpx;
+    top: 0;
     color: #05a21b;
     border-color: #fff;
     background: none;
