@@ -2,7 +2,7 @@
   <div class="page">
     <div class="header">
       <div class="addr">
-        <i></i><span>合肥市科学大道</span>
+        <i></i><span>{{ Address }}</span>
       </div>
       <div class="searchBox">
         <picker class="weui-btn" @change="PickerChange" value="0" :range="Square">
@@ -45,6 +45,7 @@ export default {
   data () {
     return {
       Abs: [],
+      Address: '',
       Square: [
         '万达广场',
         '大润发',
@@ -88,8 +89,15 @@ export default {
   },
   created () {
     this.$http.testApi({}).then(res => {
-      console.log(res.data.data.ad.length)
       this.Abs = res.data.data.ad
+    })
+  },
+  onLoad () {
+    let self = this
+    wx.getUserInfo({
+      success: function(res) {
+        self.Address = `${res.userInfo.province} ${res.userInfo.city}`
+      }
     })
   }
 }
