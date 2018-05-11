@@ -91,6 +91,13 @@ export default {
     this.$http.testApi({}).then(res => {
       this.Abs = res.data.data.ad
     })
+    this.$http.lunboApi({
+      code: '123'
+    }).then(res => {
+      console.log(res)
+    }).catch((cat) => {
+      console.log(cat)
+    })
   },
   onLoad () {
     let self = this

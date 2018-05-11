@@ -37,25 +37,24 @@
 
 <script>
 export default {
-  data () {
-    return {
+  data() {
+    return {}
+  },
+  components: {},
+  methods: {
+    openEditInfo() {
+      wx.navigateTo({
+        url: "/pages/editInfo/main"
+      })
     }
   },
-  components: {
-  },
-  methods: {
-    openEditInfo () {
-      wx.navigateTo({
-        url: '/pages/editInfo/main'
-      })
-    },
-  },
-  created () {
-  }
+  created() {}
 }
 </script>
 <style>
-page{background: #f9f9f9}
+page {
+  background: #f9f9f9;
+}
 </style>
 <style lang="less" scoped>
 .page {
@@ -64,18 +63,18 @@ page{background: #f9f9f9}
     width: 100%;
     text-align: center;
     box-sizing: border-box;
-    padding-top:46rpx;
+    padding-top: 46rpx;
     background-size: 100% 100%;
     img {
       width: 126rpx;
-      height:126rpx;
+      height: 126rpx;
     }
   }
-  .nav-list li{
-    background:#fff;
-    margin-top:20rpx;
-    padding:0 30rpx;
-    height:86rpx;
+  .nav-list li {
+    background: #fff;
+    margin-top: 20rpx;
+    padding: 0 30rpx;
+    height: 86rpx;
     font-size: 26rpx;
     line-height: 86rpx;
     i {
@@ -88,32 +87,31 @@ page{background: #f9f9f9}
       background-size: 30rpx auto;
     }
     .icon1 {
-      background-image:url(../../../static/menpiao.png) ;
+      background-image: url(../../../static/menpiao.png);
     }
     .icon2 {
-      background-image:url(../../../static/jfdh.png) ;
+      background-image: url(../../../static/jfdh.png);
     }
     .icon3 {
-      background-image:url(../../../static/jfmx.png) ;
+      background-image: url(../../../static/jfmx.png);
     }
     .icon4 {
-      background-image:url(../../../static/bianj.png) ;
+      background-image: url(../../../static/bianj.png);
     }
-    a{
-      color:#313131;
-      background-image:url(../../../static/jiantright.png);
+    a {
+      color: #313131;
+      background-image: url(../../../static/jiantright.png);
       background-position: right center;
       background-size: 12rpx auto;
       background-repeat: no-repeat;
     }
   }
   .btn {
-    padding:180rpx 32rpx 0;
+    padding: 180rpx 32rpx 0;
     button {
-      margin-bottom:36rpx;
+      margin-bottom: 36rpx;
     }
   }
 }
-
 </style>
 
