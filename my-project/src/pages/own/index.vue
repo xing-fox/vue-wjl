@@ -5,22 +5,22 @@
     </div>
     <ul class="nav-list">
       <li>
-        <a href="#">
+        <div  @click="openEditInfo">
           <i class="icon1"></i>
           我的门票
-        </a>
+        </div>
       </li>
       <li>
-        <a href="#">
+        <div  @click="openEditInfo">
           <i class="icon2"></i>
           积分兑换
-        </a>
+        </div>
       </li>
       <li>
-        <a href="#">
+        <div  @click="openEditInfo">
           <i class="icon3"></i>
           积分明细
-        </a>
+        </div>
       </li>
       <li>
         <div  @click="openEditInfo">
@@ -99,7 +99,7 @@ page{background: #f9f9f9}
     .icon4 {
       background-image:url(../../../static/bianj.png) ;
     }
-    a{
+    div{
       color:#313131;
       background-image:url(../../../static/jiantright.png);
       background-position: right center;
