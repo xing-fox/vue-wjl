@@ -1,19 +1,19 @@
 <template>
   <div class="page">
     <div class="top" style="background-image: url('../../../static/bgydl.png')">
-      <img src="../../../static/logo.png">
+      <img  @click="updataPhoto" src="../../../static/updataPhoto.png">
     </div>
     <ul class="list-input">
       <li class="name">
-        <img mode='widthFix' src='../../../static/name.png'>
+        <i></i>
         <input placeholder-class="p-gray" placeholder="请输入姓名" />
       </li>
       <li class="phone">
-        <img mode='widthFix' src='../../../static/phone.png'>
+        <i></i>
         <input placeholder-class="p-gray" placeholder="请输入手机号" />
       </li>
       <li class="password">
-        <img mode='widthFix' src='../../../static/pass.png'>
+        <i></i>
         <input placeholder-class="p-gray" placeholder="请输入6-16位密码" />
       </li>
     </ul>
@@ -32,14 +32,21 @@ export default {
   components: {
   },
   methods: {
+    updataPhoto () {
+      wx.chooseImage({
+        count: 1,
+        sizeType: ['original', 'compressed'],
+        sourceType: ['album', 'camera'],
+        success: (res) => {
+            console.log(res.tempFilePaths);
+        },        
+    });
+    },
   },
   created () {
   }
 }
 </script>
-<style>
-page{background: #f9f9f9}
-</style>
 <style lang="less" scoped>
 .page {
   .top {
@@ -47,15 +54,55 @@ page{background: #f9f9f9}
     width: 100%;
     text-align: center;
     box-sizing: border-box;
-    padding-top:46rpx;
+    padding-top:52rpx;
     background-size: 100% 100%;
     img {
-      width: 126rpx;
-      height:126rpx;
+      width: 145rpx;
+      height:145rpx;
+      border-radius:50%;
+    }
+  }
+  .list-input {
+    padding:60rpx 32rpx 0;
+    li {
+      position: relative;
+      border:#dcdcdc solid 1rpx;
+      margin-bottom: 40rpx;
+      border-radius: 6rpx;
+      padding-left: 96rpx;
+      i{
+        position: absolute;
+        left:0;
+        top:0;
+        width: 94rpx;
+        height:88rpx;
+        background-repeat: no-repeat;
+        background-position: center;
+      }
+      input {
+        display: inline-block;
+        vertical-align:top;
+        width: 100%;
+        height: 88rpx;
+        font-size: 26rpx;
+        color:#2f2f2f;
+      }
+    }
+    .name i{
+      background-image:url(../../../static/name.png);
+      background-size: 33rpx auto;
+    }
+    .phone i{
+      background-image:url(../../../static/phone.png);
+      background-size: 29rpx auto;
+    }
+    .password i{
+      background-image:url(../../../static/pass.png);
+      background-size: 30rpx auto;
     }
   }
   .btn {
-    padding:180rpx 32rpx 0;
+    padding:110rpx 32rpx 0;
     button {
       margin-bottom:36rpx;
     }
