@@ -23,10 +23,10 @@
         </a>
       </li>
       <li>
-        <a href="#">
+        <div  @click="openEditInfo">
           <i class="icon4"></i>
           编辑资料
-        </a>
+        </div>
       </li>
     </ul>
     <div class="btn">
@@ -44,12 +44,19 @@ export default {
   components: {
   },
   methods: {
+    openEditInfo () {
+      wx.navigateTo({
+        url: '/pages/editInfo/main'
+      })
+    },
   },
   created () {
   }
 }
 </script>
-
+<style>
+page{background: #f9f9f9}
+</style>
 <style lang="less" scoped>
 .page {
   .top {
