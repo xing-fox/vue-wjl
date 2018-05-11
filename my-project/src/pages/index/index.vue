@@ -29,7 +29,7 @@
         <span>专属活动</span>
       </div>
       <ul class="tab2_content">
-        <li v-for="(item, index) in imgUrls1" :key="index">
+        <li v-for="(item, index) in imgUrls1" :key="index" @click="goToCandidate">
           <img :src="item.img">
           <div class="tab2_content_name">
             <span>{{ item.title }}</span>
@@ -85,6 +85,11 @@ export default {
   methods: {
     PickerChange(e) {
       this.choiseSquareValue = this.Square[e.mp.detail.value]
+    },
+    goToCandidate(){
+      wx.navigateTo({
+        url: '/pages/candidate/main',
+      })
     }
   },
   created () {
