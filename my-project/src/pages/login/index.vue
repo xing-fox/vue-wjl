@@ -1,14 +1,13 @@
 <template>
     <div class="login" style="background-image: url('../../../static/bg.jpg')">
       <img class="login-bg" mode='widthFix' src='../../../static/players.png'>
-      <div class="login-input phone">
-        <img mode='widthFix' src='../../../static/phone.png'>
-        <input placeholder-class="p-gray" placeholder="请输入手机号" />
+      <div class="login-input name">
+        <img mode='widthFix' src='../../../static/name.png'>
+        <input placeholder-class="p-gray" placeholder="请输入姓名" />
       </div>
-      <div class="login-input code">
-        <img mode='widthFix' src='../../../static/code.png'>
-        <input placeholder-class="p-gray" placeholder="请输入验证码" />
-        <button size='mini'>获取验证码</button>
+      <div class="login-input password">
+        <img mode='widthFix' src='../../../static/pass.png'>
+        <input placeholder-class="p-gray" placeholder="请输入6-16位密码" />
       </div>
       <div>
         <button type="primary">登陆</button>
@@ -62,30 +61,15 @@ page{
     padding-left: 96rpx;
     background: #fff;
   }
-  .login .phone img {
-    left: 32rpx;
-    top: 22rpx;
-    width: 29rpx;
+  .login .name image{
+    left:32rpx;
+    top:24rpx;
+    width: 33rpx;
   }
-  .login .code img {
-    left: 32rpx;
-    top: 28rpx;
-    width: 32rpx;
-  }
-
-  .login .code {
-    padding-right: 200rpx;
-  }
-  .login .code button {
-    position: absolute;
-    right: 0;
-    top: 0;
-    color: #05a21b;
-    border-color: #fff;
-    background: none;
-  }
-  .login .code button::after {
-    border: 0;
+  .login .password image{
+    left:32rpx;
+    top:24rpx;
+    width: 30rpx;
   }
   .login-input input {
     display: inline-block;

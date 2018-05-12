@@ -8,10 +8,6 @@
         <i></i>
         <input placeholder-class="p-gray" placeholder="请输入姓名" />
       </li>
-      <li class="phone">
-        <i></i>
-        <input placeholder-class="p-gray" placeholder="请输入手机号" />
-      </li>
       <li class="password">
         <i></i>
         <input placeholder-class="p-gray" placeholder="请输入6-16位密码" />
@@ -91,10 +87,6 @@ export default {
     .name i{
       background-image:url(../../../static/name.png);
       background-size: 33rpx auto;
-    }
-    .phone i{
-      background-image:url(../../../static/phone.png);
-      background-size: 29rpx auto;
     }
     .password i{
       background-image:url(../../../static/pass.png);
