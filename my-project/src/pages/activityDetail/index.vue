@@ -1,24 +1,40 @@
 <template>
   <div class="page">
     <div class="top">
-      <img src="../../../static/updataPhoto.png">
+      <img src="../../../static/xjqtbanner.jpg">
     </div>
-    <ul class="list-input">
-      <li class="name">
-        <i></i>
-        <input placeholder-class="p-gray" placeholder="请输入姓名" />
-      </li>
-      <li class="phone">
-        <i></i>
-        <input placeholder-class="p-gray" placeholder="请输入手机号" />
-      </li>
-      <li class="password">
-        <i></i>
-        <input placeholder-class="p-gray" placeholder="请输入6-16位密码" />
-      </li>
-    </ul>
+    <div class="caddie-list">
+      <div class="title" @click="goToCandidate">
+        <div class="cont">球童候选人</div>
+      </div>
+      <div class="box">
+        <img src="../../../static/qiutong1.png">
+        <button>投票</button>
+      </div>
+      <div class="box">
+        <img src="../../../static/qiutong1.png">
+        <button>投票</button>
+      </div>
+      <div class="box">
+        <img src="../../../static/qiutong1.png">
+        <button>投票</button>
+      </div>
+    </div>
+    <div class="act-info">
+      <div class="title"><span>活动摘要</span></div>
+      <div class="list">
+        <p>活动时间：2018-5-30-2018-8-30</p>
+        <p>截止时间：2018-8-30 18:00</p>
+        <p>主办方：西甲俱乐部</p>
+        <p class="tel">客服热线：0551-2328346</p>
+      </div>
+      <div class="title"><span>活动须知</span></div>
+      <div class="cont">
+        <p>参与玩家参与玩家参与玩家参与玩家参与玩家参与玩家参与玩家参与玩家参与玩家参与玩家参与玩家参与玩家参与玩家参与玩家</p>
+      </div>
+    </div>
     <div class="btn">
-      <button type="primary">确认修改</button>
+      <button type="primary">立即购票参与活动</button>
     </div>
   </div>
 </template>
@@ -32,6 +48,11 @@ export default {
   components: {
   },
   methods: {
+    goToCandidate(){
+      wx.navigateTo({
+        url: '/pages/candidate/main',
+      })
+    }
   },
   created () {
   }
@@ -40,37 +61,53 @@ export default {
 <style lang="less" scoped>
 .page {
   .top {
-    height: 420rpx;
-    width: 100%;
     img {
       width: 100%;
-      height:100%;
     }
   }
-  .list-input {
-    padding:60rpx 32rpx 0;
-    li {
-      position: relative;
-      border:#dcdcdc solid 1rpx;
-      margin-bottom: 40rpx;
-      border-radius: 6rpx;
-      padding-left: 96rpx;
-      i{
-        position: absolute;
-        left:0;
-        top:0;
-        width: 94rpx;
-        height:88rpx;
-        background-repeat: no-repeat;
-        background-position: center;
+  .caddie-list {
+    margin:64rpx 30rpx 20rpx;
+    padding:54rpx 0 34rpx;
+    border:#02a319 solid 1rpx;
+    border-radius: 5rpx;
+    font-size: 0;
+    position: relative;
+    .title {
+      position: absolute;
+      top:-30rpx;
+      left:50%;
+      margin-left:-80rpx;
+      padding:6rpx 8rpx;
+      border:#02a319 solid 1rpx;
+      background:#fff;
+      .cont {
+        width: 140rpx;
+        height: 42rpx;
+        line-height: 42rpx;
+        font-size: 24rpx;
+        color:#02a319;
+        border:#02a319 solid 1rpx;
+        text-align: center;
       }
-      input {
-        display: inline-block;
-        vertical-align:top;
-        width: 100%;
-        height: 88rpx;
-        font-size: 26rpx;
-        color:#2f2f2f;
+    }
+    .box {
+      display: inline-block;
+      text-align: center;
+      width: 33.3%;
+      img{
+        width: 146rpx;
+        height:146rpx;
+      }
+      button {
+        margin: 36rpx auto 0;
+        width: 116rpx;
+        height: 38rpx;
+        font-size: 24rpx;
+        line-height: 38rpx;
+        color:#02a319;
+        border:#02a319 solid 1rpx;
+        background:#fff;
+        border-radius: 4rpx;
       }
     }
     .name i{
@@ -86,10 +123,48 @@ export default {
       background-size: 30rpx auto;
     }
   }
+  .act-info {
+    padding:0 30rpx 65rpx;
+    font-size: 24rpx;
+    line-height: 40rpx;
+    color:#333;
+    .title {
+      margin-bottom:18rpx;
+      border-bottom: #e5e5e5 solid 1px;
+      color:#333;
+      font-size: 26rpx;
+      line-height: 64rpx;
+      span {
+        display: inline-block;
+        border-bottom: #02a319 solid 4rpx;
+      }
+    }
+    .list {
+      margin-bottom: 18rpx;
+      p{
+        padding-left:36rpx;
+        background:url(../../../static/diangray.png) left center no-repeat;
+        background-size: 10rpx; 
+      }
+      .tel {
+        background:url(../../../static/phoneicon.png) left center no-repeat;
+        background-size: 28rpx; 
+      }
+    }
+    .cont {
+      margin-bottom: 18rpx;
+      p{
+        text-indent: 48rpx;
+      }
+    }
+  }
   .btn {
-    padding:110rpx 32rpx 0;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
     button {
-      margin-bottom:36rpx;
+      border-radius: 0;
     }
   }
 }
