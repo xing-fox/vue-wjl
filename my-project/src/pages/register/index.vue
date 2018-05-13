@@ -3,22 +3,22 @@
     <div class="register">
       <div class="register-input name">
         <img mode='widthFix' src='../../../static/name.png'>
-        <input placeholder-class="p-gray" placeholder="请输入姓名" />
+        <input placeholder-class="p-gray" placeholder="请输入姓名" v-model="userName"/>
       </div>
       <div class="register-input phone">
         <img mode='widthFix' src='../../../static/phone.png'>
-        <input placeholder-class="p-gray" placeholder="请输入手机号" />
+        <input placeholder-class="p-gray" placeholder="请输入手机号" v-model="telephone"/>
       </div>
       <div class="register-input code">
         <img mode='widthFix' src='../../../static/code.png'>
-        <input placeholder-class="p-gray" placeholder="请输入验证码" />
+        <input placeholder-class="p-gray" placeholder="请输入验证码" v-model="code"/>
         <button size='mini'>获取验证码</button>
       </div>
       <div class="register-input password">
         <img mode='widthFix' src='../../../static/pass.png'>
-        <input placeholder-class="p-gray" placeholder="请输入6-16位密码" />
+        <input placeholder-class="p-gray" placeholder="请输入6-16位密码" v-model="password"/>
       </div>
-      <button type="primary">立即注册</button>
+      <button type="primary" @click="submit">立即注册</button>
     </div>
   </div>
 </template>
@@ -27,13 +27,67 @@
 export default {
   data () {
     return {
+      userName:'',
+      telephone:'',
+      code:'',
+      password:'',
+      pic:''
     }
   },
   components: {
   },
   methods: {
+    submit(){
+      if (!this.userName) {
+        return wx.showToast({
+          title: '请输入姓名',
+          icon: 'none',
+          duration: 2000
+        })
+      }
+      if (!this.telephone) {
+        return wx.showToast({
+          title: '请输入手机号',
+          icon: 'none',
+          duration: 2000
+        })
+      }
+      if (!this.code) {
+        return wx.showToast({
+          title: '请输入验证码',
+          icon: 'none',
+          duration: 2000
+        })
+      }
+      if (!this.password) {
+        return wx.showToast({
+          title: '请输入6-16位密码',
+          icon: 'none',
+          duration: 2000
+        })
+      }
+      this.$http.saveUser({
+        name: this.name,
+        mobile: this.telephone,
+        smsCode: this.code,
+        pwd: this.password,
+        pic: this.pic
+      }).then(res => {
+        console.log(res)
+      }).catch((cat) => {
+        console.log(cat)
+      })
+    }
   },
   created () {
+  },
+  onLoad () {
+    let self = this
+    wx.getUserInfo({
+      success: function(res) {
+        self.pic = res.userInfo.avatarUrl;
+      }
+    })
   }
 }
 </script>
