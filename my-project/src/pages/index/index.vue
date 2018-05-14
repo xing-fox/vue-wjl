@@ -19,7 +19,7 @@
         <span>精选活动</span>
       </div>
       <ul class="tab1_content">
-        <li v-for="(item, index) in imgUrls" :key="index">
+        <li v-for="(item, index) in imgUrls" :key="index" @click="goToCaddieList">
           <img :src="item">
         </li>
       </ul>
@@ -85,6 +85,11 @@ export default {
   methods: {
     PickerChange(e) {
       this.choiseSquareValue = this.Square[e.mp.detail.value]
+    },
+    goToCaddieList(){
+      wx.navigateTo({
+        url: '/pages/caddieList/main',
+      })
     },
     goToActivity(){
       wx.navigateTo({
