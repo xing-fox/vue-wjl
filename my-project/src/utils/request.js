@@ -50,14 +50,17 @@ if (env === 'development') {
 
 export default {
     /* 测试接口 */
-    testApi(params) {
-        return post('https://www.lexbst.com/server.php/api/v1/supplier/main?agent_id=1&main=1&scale=0', params)
+    mallList(params) {
+        return get('/xijia/mall/list', params)
     },
     lunboApi(params) {
         return get('/xijia/banner/list', params)
     },
     activityList(params) {
         return get('/xijia/activity/list', params)
+    },
+    activityHomeList(params) {
+        return get('/xijia/activityHome/list', params)
     },
     saveUser(params) {
         return post('/xijia/user/saveUser', params)

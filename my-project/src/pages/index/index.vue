@@ -5,22 +5,26 @@
         <i></i><span>{{ Address }}</span>
       </div>
       <div class="searchBox">
-        <picker class="weui-btn" @change="PickerChange" value="0" :range="Square">
+        <picker class="weui-btn" @change="PickerChange" :range="Square" :range-key="mallName">
           <span>{{ choiseSquareValue }}</span>
           <i></i>
         </picker>
       </div>
     </div>
-    <div class="absView">
-      <img v-for="(item, index) in Abs" :key="index" :src="item.img">
-    </div>
+    <swiper class="absView" indicator-dots="true" autoplay="true">
+      <block v-for="(item, index) in Abs" :key="index">
+        <swiper-item>
+          <img :src="item.bannerImage"/>
+        </swiper-item>
+      </block>
+    </swiper>
     <div class="tab">
       <div class="tab1_title bor-1px-b">
         <span>精选活动</span>
       </div>
       <ul class="tab1_content">
         <li v-for="(item, index) in imgUrls" :key="index">
-          <img :src="item">
+          <img :src="item.activityPic">
         </li>
       </ul>
     </div>
@@ -30,9 +34,9 @@
       </div>
       <ul class="tab2_content">
         <li v-for="(item, index) in imgUrls1" :key="index" @click="goToActivity">
-          <img :src="item.img">
+          <img :src="item.activityPic">
           <div class="tab2_content_name">
-            <span>{{ item.title }}</span>
+            <span>{{ item.activityName }}</span>
           </div>
         </li>
       </ul>
@@ -44,64 +48,56 @@
 export default {
   data () {
     return {
+      cityId: '2',
       Abs: [],
       Address: '',
-      Square: [
-        '万达广场',
-        '大润发',
-        '家乐福',
-        '苏果超市',
-        '永辉超市'
-      ],
+      Square: [],
       choiseSquareValue: '选择广场',
-      imgUrls: [
-        'http://img02.tooopen.com/images/20150928/tooopen_sy_143912755726.jpg',
-        'http://img06.tooopen.com/images/20160818/tooopen_sy_175866434296.jpg',
-        'http://img06.tooopen.com/images/20160818/tooopen_sy_175833047715.jpg',
-        'http://img06.tooopen.com/images/20160818/tooopen_sy_175833047715.jpg'
-      ],
-      imgUrls1: [
-        {
-          img: 'http://img02.tooopen.com/images/20150928/tooopen_sy_143912755726.jpg',
-          title: '西甲球童'
-        },
-        {
-          img: 'http://img06.tooopen.com/images/20160818/tooopen_sy_175866434296.jpg',
-          title: '西甲国家德比大战'
-        },
-        {
-          img: 'http://img02.tooopen.com/images/20150928/tooopen_sy_143912755726.jpg',
-          title: '球童名单'
-        },
-        {
-          img: 'http://img02.tooopen.com/images/20150928/tooopen_sy_143912755726.jpg',
-          title: '德比十强'
-        }
-      ]
+      imgUrls: [],
+      imgUrls1: []
     }
   },
   components: {
   },
   methods: {
     PickerChange(e) {
-      this.choiseSquareValue = this.Square[e.mp.detail.value]
+      this.choiseSquareValue = this.Square[e.mp.detail.value].mallName
     },
     goToActivity(){
+      wx.navigateTo({
+        url: '/pages/activityDetail/main',
+      })
+    },
+    goToCity(){
       wx.navigateTo({
         url: '/pages/activityDetail/main',
       })
     }
   },
   created () {
-    this.$http.testApi({}).then(res => {
-      this.Abs = res.data.data.ad
-    })
-    this.$http.lunboApi({
-      code: '123'
+    this.$http.mallList({
+      id:  this.cityId
     }).then(res => {
-      console.log(res)
-    }).catch((cat) => {
-      console.log(cat)
+      if (res.data.code == '200'){
+        this.Square = res.data.result;
+      }
+    })
+    this.$http.lunboApi({}).then(res => {
+      if (res.data.code == '200'){
+        this.Abs = res.data.result;
+      }
+    })
+    this.$http.activityList({
+      mId: this.cityId
+    }).then(res => {
+      if (res.data.code == '200'){
+        this.imgUrls1 = res.data.result;
+      }
+    })
+    this.$http.activityHomeList({}).then(res => {
+      if (res.data.code == '200'){
+        this.imgUrls = res.data.result;
+      }
     })
   },
   onLoad () {
@@ -170,11 +166,12 @@ export default {
       }
     }
     .absView{
+      margin: 20rpx 0 0 0;
       font-size: 0;
       padding: 0 30rpx;
-      img{
+      img {
         width: 100%;
-        margin: 15px 0 0 0;
+        height:  320rpx;
       }
     }
     .tab{
