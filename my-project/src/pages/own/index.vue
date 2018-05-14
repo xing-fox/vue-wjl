@@ -24,6 +24,12 @@
       </li>
       <li>
         <div  @click="openEditInfo">
+          <i class="icon5"></i>
+          赠送积分
+        </div>
+      </li>
+      <li>
+        <div  @click="openEditInfo">
           <i class="icon4"></i>
           编辑资料
         </div>
@@ -97,6 +103,9 @@ page {
     }
     .icon4 {
       background-image: url(../../../static/bianj.png);
+    }
+    .icon5 {
+      background-image: url(../../../static/zsjficon.png);
     }
     div{
       color:#313131;

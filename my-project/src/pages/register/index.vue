@@ -12,7 +12,8 @@
       <div class="register-input code">
         <img mode='widthFix' src='../../../static/code.png'>
         <input placeholder-class="p-gray" placeholder="请输入验证码" v-model="code"/>
-        <button size='mini'>获取验证码</button>
+        <button v-if="phoneSure" @click="sendCodeFunc" size='mini'>获取验证码</button>
+        <button v-else>{{ timeLeave }}s后重新发送</button>
       </div>
       <div class="register-input password">
         <img mode='widthFix' src='../../../static/pass.png'>
@@ -31,7 +32,10 @@ export default {
       telephone:'',
       code:'',
       password:'',
-      pic:''
+      pic:'',
+      timeLeave: 60,
+      timeInter: '',
+      phoneSure: true
     }
   },
   components: {
@@ -76,6 +80,41 @@ export default {
         console.log(res)
       }).catch((cat) => {
         console.log(cat)
+      })
+    },
+    sendCodeFunc () {
+      if (!this.telephone) {
+        return wx.showToast({
+          title: '请输入手机号',
+          icon: 'none',
+          duration: 2000
+        })
+      }
+      if (!(/^1[3|4|5|7|8|9][0-9]\d{4,8}$/.test(this.telephone))) {
+        return wx.showToast({
+          title: '手机号输入有误,请重新输入',
+          icon: 'none',
+          duration: 2000
+        })
+      }
+      this.$http.getIdentifyCode({
+        'phone': this.telephone
+      }).then(res => {
+        if (res.code === 'E00000') {
+          wx.showToast({
+            title: '发送成功',
+            icon: 'none',
+            duration: 2000
+          })
+          this.phoneSure = false
+          this.changeTime()
+        } else {
+          wx.showToast({
+            title: '发送失败，请稍后重试',
+            icon: 'none',
+            duration: 2000
+          })
+        }
       })
     }
   },
