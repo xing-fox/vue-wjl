@@ -34,12 +34,12 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": -1,
+			"current": 0,
 			"list": [
 				{
 					"id": 0,
-					"name": "pages/register/main",
-					"pathName": "pages/register/main",
+					"name": "pages/index/main",
+					"pathName": "pages/index/main",
 					"query": ""
 				}
 			]

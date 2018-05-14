@@ -56,33 +56,24 @@ export default {
 </script>
 
 <style>
-  page{background:#f9f9f9;padding:3% 0 3% 4%;}
-  .fl{
-    float: left;
-  }
-  .fr{
-    float: right;
-  }
+  page{background:#fff;padding:0 3%;width:100%;box-sizing:border-box;}
 </style>
 <style lang="less" scoped>
   .page{
-      padding:0 20rpx;
-    .xbox{display:-webkit-flex;display:flex;}
+    .xbox{display:-webkit-flex;display:flex;font-size:34rpx;height: 120rpx;line-height: 120rpx;}
     .xbox-1-3{width: 33.3328%;}
     .tl{text-align: left}
     .tc{text-align:center}
     .tr{text-align:right}
     .player_tab{
       width:100%;  
-      height: 100rpx;
-      line-height: 100rpx;
-      font-size: 30rpx;   
-      border-bottom:1px solid #eee;
+      font-size:34rpx;   
+      border-top:1px solid #eee;
       img{
-        width:40rpx;
-        height:40rpx;
+        width:75rpx;
+        height:75rpx;
         border-radius:50%;
-        margin-right:10rpx;
+        margin-right:20rpx;
         vertical-align:middle;
       }
     }
