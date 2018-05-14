@@ -56,7 +56,13 @@ export default {
     lunboApi(params) {
         return get('/xijia/banner/list', params)
     },
+    activityList(params) {
+        return get('/xijia/activity/list', params)
+    },
     saveUser(params) {
-        return post('/xijia/user/saveuser', params)
+        return post('/xijia/user/saveUser', params)
+    },
+    userLogin(params) {
+        return post('/xijia/user/userlogin', params)
     }
 }

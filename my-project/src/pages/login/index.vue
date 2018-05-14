@@ -1,16 +1,16 @@
 <template>
     <div class="login" style="background-image: url('../../../static/bg.jpg')">
       <img class="login-bg" mode='widthFix' src='../../../static/players.png'>
-      <div class="login-input name">
-        <img mode='widthFix' src='../../../static/name.png'>
-        <input placeholder-class="p-gray" placeholder="请输入姓名" />
+      <div class="login-input phone">
+        <img mode='widthFix' src='../../../static/phone.png'>
+        <input placeholder-class="p-gray" placeholder="请输入手机号" v-model="telephone"/>
       </div>
       <div class="login-input password">
         <img mode='widthFix' src='../../../static/pass.png'>
-        <input placeholder-class="p-gray" placeholder="请输入6-16位密码" />
+        <input placeholder-class="p-gray" placeholder="请输入6-16位密码" v-model="password" />
       </div>
       <div>
-        <button type="primary">登陆</button>
+        <button type="primary" @click="submit">登陆</button>
       </div>
       <div class="logo">
         <img mode='widthFix' src='../../../static/logo.png'>
@@ -21,10 +21,38 @@
 <script>
 export default {
   data() {
-    return {};
+    return {
+      telephone:'',
+      password:''
+    };
   },
   components: {},
-  methods: {},
+  methods: {
+    submit(){
+      if (!this.telephone) {
+        return wx.showToast({
+          title: '请输入手机号',
+          icon: 'none',
+          duration: 2000
+        })
+      }
+      if (!this.password) {
+        return wx.showToast({
+          title: '请输入6-16位密码',
+          icon: 'none',
+          duration: 2000
+        })
+      }
+      this.$http.userLogin({
+        mobile: this.telephone,
+        pwd: this.password
+      }).then(res => {
+        console.log(res)
+      }).catch((cat) => {
+        console.log(cat)
+      })
+    }
+  },
   created() {}
 };
 </script>
@@ -61,10 +89,10 @@ page{
     padding-left: 96rpx;
     background: #fff;
   }
-  .login .name image{
+  .login .phone image{
     left:32rpx;
-    top:24rpx;
-    width: 33rpx;
+    top:22rpx;
+    width: 29rpx;
   }
   .login .password image{
     left:32rpx;
