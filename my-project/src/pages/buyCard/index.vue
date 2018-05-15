@@ -138,6 +138,8 @@ export default {
     },
     clearFunc () {
       this.choiseList = []
+      this.shopCartNum = 0
+      this.totalMoney = 0
       this.zzcFunc()
     },
     plusFunc (index) {
