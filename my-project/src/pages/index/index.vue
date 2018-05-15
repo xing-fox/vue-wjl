@@ -80,15 +80,14 @@ export default {
       ]
     }
   },
-  components: {
-  },
+  components: {},
   methods: {
     PickerChange(e) {
       this.choiseSquareValue = this.Square[e.mp.detail.value]
     },
     goToActivity(){
       wx.navigateTo({
-        url: '/pages/activityDetail/main',
+        url: '/pages/activityDetail/main'
       })
     }
   },

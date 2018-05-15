@@ -32,23 +32,30 @@
     <div class="btn">
       <button type="primary">退出账号</button>
     </div>
+    <editInfo v-if="editInfo"></editInfo>
   </div>
 </template>
 
 <script>
+import editInfo from "@/components/editInfo"
 export default {
   data() {
-    return {}
-  },
-  components: {},
-  methods: {
-    openEditInfo() {
-      wx.navigateTo({
-        url: "/pages/editInfo/main"
-      })
+    return {
+      editInfo: false
     }
   },
-  created() {}
+  components: {
+    editInfo
+  },
+  methods: {
+    openEditInfo () {
+      this.editInfo = true
+      // wx.navigateTo({
+      //   url: "/pages/editInfo/main"
+      // })
+    }
+  },
+  onLoad () {}
 }
 </script>
 <style>
@@ -58,6 +65,9 @@ page {
 </style>
 <style lang="less" scoped>
 .page {
+  width: 100%;
+  height: 100%;
+  position: relative;
   .top {
     height: 254rpx;
     width: 100%;
@@ -98,9 +108,9 @@ page {
     .icon4 {
       background-image: url(../../../static/bianj.png);
     }
-    div{
-      color:#313131;
-      background-image:url(../../../static/jiantright.png);
+    div {
+      color: #313131;
+      background-image: url(../../../static/jiantright.png);
       background-position: right center;
       background-size: 12rpx auto;
       background-repeat: no-repeat;
