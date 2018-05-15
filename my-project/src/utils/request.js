@@ -45,27 +45,30 @@ export function post(url, params) {
 
 const env = process.env.NODE_ENV
 if (env === 'development') {
-    fly.config.baseURL = 'http://61.190.254.82:8080'
+    fly.config.baseURL = 'http://61.190.254.82:8080/xijia/'
 }
 
 export default {
     /* 测试接口 */
     mallList(params) {
-        return get('/xijia/mall/list', params)
+        return get('mall/list', params)
     },
     lunboApi(params) {
-        return get('/xijia/banner/list', params)
+        return get('banner/list', params)
     },
     activityList(params) {
-        return get('/xijia/activity/list', params)
+        return get('activity/list', params)
+    },
+    activityDetail(params) {
+        return get('activity/listDetail', params)
     },
     activityHomeList(params) {
-        return get('/xijia/activityHome/list', params)
+        return get('activityHome/list', params)
     },
     saveUser(params) {
-        return get('/xijia/user/saveUser', params)
+        return get('user/saveUser', params)
     },
     userLogin(params) {
-        return get('/xijia/user/userlogin', params)
+        return get('user/userlogin', params)
     }
 }

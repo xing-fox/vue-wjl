@@ -1,7 +1,7 @@
 <template>
   <div class="page">
     <div class="top">
-      <img src="../../../static/xjqtbanner.jpg">
+      <img :src="activityData.activityPic">
     </div>
     <div class="caddie-list">
       <div class="title" @click="goToCandidate">
@@ -25,15 +25,13 @@
       <div class="list">
         <p>活动时间：2018-5-30-2018-8-30</p>
         <p>截止时间：2018-8-30 18:00</p>
-        <p>主办方：西甲俱乐部</p>
-        <p class="tel">客服热线：0551-2328346</p>
+        <p>主办方：{{ activityData.zhuban }}</p>
+        <p class="tel">客服热线：{{ activityData.kefu }}</p>
       </div>
       <div class="title"><span>活动须知</span></div>
-      <div class="cont">
-        <p>参与玩家参与玩家参与玩家参与玩家参与玩家参与玩家参与玩家参与玩家参与玩家参与玩家参与玩家参与玩家参与玩家参与玩家</p>
-      </div>
+      <div class="cont">{{ activityData.activityDetails }}</div>
     </div>
-    <div class="btn">
+    <div class="btn" @click="goToBuy">
       <button type="primary">立即购票参与活动</button>
     </div>
   </div>
@@ -43,6 +41,8 @@
 export default {
   data () {
     return {
+      productId: '',
+      activityData:{},
     }
   },
   components: {
@@ -52,9 +52,28 @@ export default {
       wx.navigateTo({
         url: '/pages/candidate/main',
       })
+    },
+    goToBuy(){
+      wx.navigateTo({
+        url: '/pages/buyCard/main',
+      })
     }
   },
   created () {
+  },
+  onLoad (options) {
+    let self = this
+    self.productId = options.id
+    self.$http.activityDetail({
+      activityId: self.productId
+    }).then(res => {
+      if (res.data.code == '200'){
+        self.activityData = res.data.result[0];
+        wx.setNavigationBarTitle({
+          title: self.activityData.activityName + '详情'
+        })
+      }
+    })
   }
 }
 </script>

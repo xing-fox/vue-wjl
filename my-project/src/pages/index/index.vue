@@ -33,8 +33,8 @@
         <span>专属活动</span>
       </div>
       <ul class="tab2_content">
-        <li v-for="(item, index) in imgUrls1" :key="index" @click="goToActivity(item.activityId)">
-          <img :src="item.activityPic">
+        <li v-for="(item, index) in imgUrls1" :key="index">
+          <img :src="item.activityPic" @click="goToActivity(item.activityId)">
           <div class="tab2_content_name">
             <span>{{ item.activityName }}</span>
           </div>

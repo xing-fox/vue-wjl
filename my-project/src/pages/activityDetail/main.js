@@ -6,6 +6,6 @@ app.$mount()
 
 export default {
     config: {
-        navigationBarTitleText: '西甲球童详情'
+        navigationBarTitleText: '详情'
     }
 }
