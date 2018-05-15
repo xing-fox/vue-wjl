@@ -12,14 +12,14 @@
       </li>
       <li>
         <div  @click="openEditInfo">
-          <i class="icon2"></i>
-          积分兑换
+          <i class="icon3"></i>
+          积分明细
         </div>
       </li>
       <li>
         <div  @click="openEditInfo">
-          <i class="icon3"></i>
-          积分明细
+          <i class="icon5"></i>
+          赠送积分
         </div>
       </li>
       <li>
@@ -108,9 +108,12 @@ page {
     .icon4 {
       background-image: url(../../../static/bianj.png);
     }
-    div {
-      color: #313131;
-      background-image: url(../../../static/jiantright.png);
+    .icon5 {
+      background-image: url(../../../static/zsjficon.png);
+    }
+    div{
+      color:#313131;
+      background-image:url(../../../static/jiantright.png);
       background-position: right center;
       background-size: 12rpx auto;
       background-repeat: no-repeat;
