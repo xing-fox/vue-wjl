@@ -71,7 +71,7 @@ export default {
         })
       }
       this.$http.saveUser({
-        name: this.name,
+        name: this.userName,
         mobile: this.telephone,
         smsCode: this.code,
         pwd: this.password,

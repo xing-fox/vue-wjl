@@ -63,9 +63,9 @@ export default {
         return get('/xijia/activityHome/list', params)
     },
     saveUser(params) {
-        return post('/xijia/user/saveUser', params)
+        return get('/xijia/user/saveUser', params)
     },
     userLogin(params) {
-        return post('/xijia/user/userlogin', params)
+        return get('/xijia/user/userlogin', params)
     }
 }

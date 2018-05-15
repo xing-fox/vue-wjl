@@ -33,11 +33,12 @@
         <span>专属活动</span>
       </div>
       <ul class="tab2_content">
-        <li v-for="(item, index) in imgUrls1" :key="index" @click="goToActivity">
+        <li v-for="(item, index) in imgUrls1" :key="index" @click="goToActivity(item.activityId)">
           <img :src="item.activityPic">
           <div class="tab2_content_name">
             <span>{{ item.activityName }}</span>
           </div>
+          <div v-if="!item.status" class="mask">敬请期待</div>
         </li>
       </ul>
     </div>
@@ -62,9 +63,9 @@ export default {
     PickerChange(e) {
       this.choiseSquareValue = this.Square[e.mp.detail.value].mallName
     },
-    goToActivity(){
+    goToActivity(id){
       wx.navigateTo({
-        url: '/pages/activityDetail/main'
+        url: '/pages/activityDetail/main?id=' + id
       })
     },
     goToCity(){
@@ -223,6 +224,7 @@ export default {
         flex-direction: row;
         justify-content: space-between;
         li{
+          position: relative;
           width: 330rpx;
           margin: 30rpx 0 0 0;
           border: 1px solid #ddd;
@@ -230,6 +232,18 @@ export default {
           img{
             width: 100%;
             height: 140rpx;
+          }
+          .mask {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            color:rgba(255, 255, 255, .6);
+            font-size: 24rpx;
+            line-height: 180rpx;
+            text-align: center;
+            background-color: rgba(0, 0, 0, .45)
           }
         }
         .tab2_content_name{
