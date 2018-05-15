@@ -12,12 +12,6 @@
       </li>
       <li>
         <div  @click="openEditInfo">
-          <i class="icon2"></i>
-          积分兑换
-        </div>
-      </li>
-      <li>
-        <div  @click="openEditInfo">
           <i class="icon3"></i>
           积分明细
         </div>

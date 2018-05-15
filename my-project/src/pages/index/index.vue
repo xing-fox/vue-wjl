@@ -5,7 +5,7 @@
         <i></i><span>{{ Address }}</span>
       </div>
       <div class="searchBox">
-        <picker class="weui-btn" @change="PickerChange" :range="Square" :range-key="mallName">
+        <picker class="weui-btn" @change="PickerChange" :range="Square" :range-key="'mallName'">
           <span>{{ choiseSquareValue }}</span>
           <i></i>
         </picker>
