@@ -3,9 +3,9 @@
     <div class="top" style="background-image: url('../../../static/bgydl.png')">
       <img src="../../../static/logo.png">
     </div>
-    <ul class="nav-list">
+    <ul v-if="!!userId" class="nav-list">
       <li>
-        <div  @click="openEditInfo">
+        <div @click="openEditInfo">
           <i class="icon1"></i>
           我的门票
         </div>
@@ -29,8 +29,12 @@
         </div>
       </li>
     </ul>
-    <div class="btn">
+    <div v-if="!!userId" class="btn">
       <button type="primary">退出账号</button>
+    </div>
+    <div v-else class="btn">
+      <button type="primary" @click="goToLogin">登录</button>
+      <button type="primary" @click="goToRegister">立即注册</button>
     </div>
     <editInfo v-if="editInfo"></editInfo>
   </div>
@@ -41,6 +45,7 @@ import editInfo from "@/components/editInfo"
 export default {
   data() {
     return {
+      userId:'',
       editInfo: false
     }
   },
@@ -49,13 +54,31 @@ export default {
   },
   methods: {
     openEditInfo () {
-      this.editInfo = true
-      // wx.navigateTo({
-      //   url: "/pages/editInfo/main"
-      // })
+      // this.editInfo = true
+      wx.navigateTo({
+        url: "/pages/editInfo/main"
+      })
+    },
+    goToLogin () {
+      wx.navigateTo({
+        url: "/pages/login/main"
+      })
+    },
+    goToRegister () {
+      wx.navigateTo({
+        url: "/pages/register/main"
+      })
     }
   },
-  onLoad () {}
+  onShow () {
+    let self = this
+    wx.getStorage({
+      key: 'userInfo',
+      success: function(res) {
+        self.userId = res.data.userId
+      } 
+    })
+  }
 }
 </script>
 <style>

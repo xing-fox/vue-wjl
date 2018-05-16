@@ -47,7 +47,19 @@ export default {
         mobile: this.telephone,
         pwd: this.password
       }).then(res => {
-        console.log(res)
+        let data = {
+          userId: res.data.result.userId
+        }
+        console.log(data)
+        wx.setStorage({
+          key:"userInfo",
+          data:data,
+          success:function(){
+            wx.navigateTo({
+              url: "/pages/own/main"
+            })
+          }
+        })
       }).catch((cat) => {
         console.log(cat)
       })
