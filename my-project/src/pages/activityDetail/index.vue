@@ -3,8 +3,8 @@
     <div class="top">
       <img :src="activityData.activityPic">
     </div>
-    <div class="caddie-list">
-      <div class="title" @click="goToCandidate">
+    <div class="caddie-list" @click="goToCandidate">
+      <div class="title">
         <div class="cont">球童候选人</div>
       </div>
       <div class="box">
@@ -54,7 +54,7 @@ export default {
       })
     },
     goToBuy(){
-      wx.navigateTo({
+      wx.switchTab({
         url: '/pages/buyCard/main',
       })
     }

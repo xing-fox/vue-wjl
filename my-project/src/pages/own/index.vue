@@ -30,7 +30,7 @@
       </li>
     </ul>
     <div v-if="!!userId" class="btn">
-      <button type="primary">退出账号</button>
+      <button type="primary" @click="logOut">退出账号</button>
     </div>
     <div v-else class="btn">
       <button type="primary" @click="goToLogin">登录</button>
@@ -54,7 +54,6 @@ export default {
   },
   methods: {
     openEditInfo () {
-      // this.editInfo = true
       wx.navigateTo({
         url: "/pages/editInfo/main"
       })
@@ -67,6 +66,15 @@ export default {
     goToRegister () {
       wx.navigateTo({
         url: "/pages/register/main"
+      })
+    },
+    logOut (){
+      let self = this
+      wx.removeStorage({
+        key: 'userInfo',
+        success: function(res) {
+          self.userId = ''
+        } 
       })
     }
   },

@@ -14,7 +14,7 @@
     <swiper class="absView" indicator-dots="true" autoplay="true">
       <block v-for="(item, index) in Abs" :key="index">
         <swiper-item>
-          <img :src="item.bannerImage"/>
+          <img :src="item.bannerImage" @click="goToUrl(item.bannerUrl)"/>
         </swiper-item>
       </block>
     </swiper>
@@ -72,6 +72,13 @@ export default {
       wx.navigateTo({
         url: '/pages/activityDetail/main',
       })
+    },
+    goToUrl (url){
+      if(url){
+        wx.navigateTo({
+          url: '/pages/openUrl/main?url=' + url,
+        })
+      }
     }
   },
   created () {
