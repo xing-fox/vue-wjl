@@ -48,9 +48,11 @@ export default {
         pwd: this.password
       }).then(res => {
         let data = {
-          userId: res.data.result.userId
+          userId: res.data.result.userId,
+          userName: res.data.result.userName,
+          usermobile: res.data.result.usermobile,
+          pic: res.data.result.pic,
         }
-        console.log(data)
         wx.setStorage({
           key:"userInfo",
           data:data,
