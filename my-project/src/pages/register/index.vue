@@ -42,42 +42,65 @@ export default {
   },
   methods: {
     submit(){
-      if (!this.userName) {
+      let self = this
+      if (!self.userName) {
         return wx.showToast({
           title: '请输入姓名',
-          icon: 'none',
-          duration: 2000
+          icon: 'none'
         })
       }
-      if (!this.telephone) {
+      if (!self.telephone) {
         return wx.showToast({
           title: '请输入手机号',
-          icon: 'none',
-          duration: 2000
+          icon: 'none'
         })
       }
-      if (!this.code) {
+      if (!self.code) {
         return wx.showToast({
           title: '请输入验证码',
-          icon: 'none',
-          duration: 2000
+          icon: 'none'
         })
       }
-      if (!this.password) {
+      if (!self.password) {
         return wx.showToast({
           title: '请输入6-16位密码',
-          icon: 'none',
-          duration: 2000
+          icon: 'none'
         })
       }
-      this.$http.saveUser({
-        name: this.userName,
-        mobile: this.telephone,
-        smsCode: this.code,
-        pwd: this.password,
-        pic: this.pic
+      self.$http.saveUser({
+        name: self.userName,
+        mobile: self.telephone,
+        smsCode: self.code,
+        pwd: self.password,
+        pic: self.pic
       }).then(res => {
-        console.log(res)
+        let resD = res.data
+        if(resD.code == '200'){
+          let data = {
+            userId: resD.result.userId,
+            userName: resD.result.userName,
+            usermobile: resD.result.usermobile,
+            pic: resD.result.pic,
+          }
+          wx.setStorage({
+            key:"userInfo",
+            data:data,
+            success:function(){
+              self.userName = ''
+              self.telephone = ''
+              self.password = ''
+              self.code = ''
+              wx.switchTab({
+                url: "/pages/own/main"
+              })
+            }
+          })
+        } else {
+          wx.showToast({
+            title: resD.message,
+            icon: 'none'
+          })
+        }
       }).catch((cat) => {
         console.log(cat)
       })

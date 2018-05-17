@@ -50,6 +50,7 @@ if (env === 'development') {
 
 export default {
     /* 测试接口 */
+    baseURL: 'http://61.190.254.82:8080/xijia/',
     mallList(params) {
         return get('mall/list', params)
     },
@@ -65,10 +66,16 @@ export default {
     activityHomeList(params) {
         return get('activityHome/list', params)
     },
+    activityHomeDetail(params) {
+        return get('activityHome/listDetail', params)
+    },
     saveUser(params) {
         return get('user/saveUser', params)
     },
     userLogin(params) {
         return get('user/userlogin', params)
+    },
+    ticketList(params) {
+        return get('ticket/list', params)
     }
 }

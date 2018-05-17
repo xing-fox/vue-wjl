@@ -14,7 +14,7 @@
     <swiper class="absView" indicator-dots="true" autoplay="true">
       <block v-for="(item, index) in Abs" :key="index">
         <swiper-item>
-          <img :src="item.bannerImage" @click="goToUrl(item.bannerUrl)"/>
+          <img :src="baseUrl+item.bannerImage" @click="goToUrl(item.bannerUrl)"/>
         </swiper-item>
       </block>
     </swiper>
@@ -23,8 +23,9 @@
         <span>精选活动</span>
       </div>
       <ul class="tab1_content">
-        <li v-for="(item, index) in imgUrls" :key="index">
-          <img :src="item.activityPic">
+        <li v-for="(item, index) in imgUrls" :key="index" @click="goToActivityHome(item.activityId)">
+          <img :src="baseUrl+item.activityPic">
+          <div><span>{{ item.activityName }}</span></div>
         </li>
       </ul>
     </div>
@@ -34,7 +35,7 @@
       </div>
       <ul class="tab2_content">
         <li v-for="(item, index) in imgUrls1" :key="index">
-          <img :src="item.activityPic" @click="goToActivity(item.activityId)">
+          <img :src="baseUrl+item.activityPic" @click="goToActivity(item.activityId,item.type)">
           <div class="tab2_content_name">
             <span>{{ item.activityName }}</span>
           </div>
@@ -49,23 +50,43 @@
 export default {
   data () {
     return {
-      cityId: '2',
+      cityId: '1',
+      mellId: '',
       Abs: [],
       Address: '',
       Square: [],
-      choiseSquareValue: '选择广场',
+      choiseSquareValue: '选择商场',
       imgUrls: [],
-      imgUrls1: []
+      imgUrls1: [],
+      baseUrl: this.$http.baseURL
     }
   },
   components: {},
   methods: {
     PickerChange(e) {
-      this.choiseSquareValue = this.Square[e.mp.detail.value].mallName
+      let self = this
+      self.choiseSquareValue = self.Square[e.mp.detail.value].mallName
+      self.mellId =  self.Square[e.mp.detail.value].mallId
+      wx.setStorage({
+        key:"mellId",
+        data:self.mellId
+      })
+      self.$http.activityList({
+        mId: self.mellId
+      }).then(res => {
+        if (res.data.code == '200'){
+          self.imgUrls1 = res.data.result;
+        }
+      })
     },
-    goToActivity(id){
+    goToActivity(id,type){
       wx.navigateTo({
-        url: '/pages/activityDetail/main?id=' + id
+        url: '/pages/activityDetail/main?activityid=' + id +'&type=' + type
+      })
+    },
+    goToActivityHome(id){
+      wx.navigateTo({
+        url: '/pages/activityHomeDetail/main?activityid=' + id 
       })
     },
     goToCity(){
@@ -82,28 +103,40 @@ export default {
     }
   },
   created () {
-    this.$http.mallList({
-      id:  this.cityId
+    let self = this
+    self.$http.mallList({
+      id:  self.cityId
     }).then(res => {
       if (res.data.code == '200'){
-        this.Square = res.data.result;
+        self.Square = res.data.result;
+        wx.showToast({
+          title: '请选择商场',
+          icon: 'none'
+        })
+        self.choiseSquareValue = self.Square[0].mallName
+        self.mellId =  self.Square[0].mallId
+        wx.setStorage({
+          key:"mellId",
+          data:self.mellId
+        })
+        self.$http.activityList({
+          mId: self.mellId
+        }).then(res => {
+          if (res.data.code == '200'){
+            self.imgUrls1 = res.data.result;
+          }
+        })
       }
     })
-    this.$http.lunboApi({}).then(res => {
+    self.$http.lunboApi({}).then(res => {
       if (res.data.code == '200'){
-        this.Abs = res.data.result;
+        self.Abs = res.data.result;
       }
     })
-    this.$http.activityList({
-      mId: this.cityId
-    }).then(res => {
+    
+    self.$http.activityHomeList({}).then(res => {
       if (res.data.code == '200'){
-        this.imgUrls1 = res.data.result;
-      }
-    })
-    this.$http.activityHomeList({}).then(res => {
-      if (res.data.code == '200'){
-        this.imgUrls = res.data.result;
+        self.imgUrls = res.data.result;
       }
     })
   },
@@ -201,6 +234,7 @@ export default {
         flex-direction: row;
         justify-content: space-between;
         li{
+          position: relative;
           width: 330rpx;
           height: 126rpx;
           margin: 25rpx 0 0 0;
@@ -209,6 +243,22 @@ export default {
           img{
             width: 100%;
             height: 100%;
+          }
+          div{
+            position: absolute;
+            left:0;
+            top:0;
+            width: 100%;
+            height: 100%;
+            background:rgba(0, 0, 0, .3);
+          }
+          span {
+            display: block;
+            position: absolute;
+            right: 18rpx;
+            bottom: 18rpx;
+            font-size: 24rpx;
+            color:#fff;
           }
         }
       }

@@ -11,7 +11,7 @@
         </div>
       </li>
       <li>
-        <div  @click="openEditInfo">
+        <div  @click="openPoint">
           <i class="icon3"></i>
           积分明细
         </div>
@@ -53,6 +53,11 @@ export default {
     editInfo
   },
   methods: {
+    openPoint () {
+      wx.navigateTo({
+        url: "/pages/pointDetail/main"
+      })
+    },
     openEditInfo () {
       wx.navigateTo({
         url: "/pages/editInfo/main"

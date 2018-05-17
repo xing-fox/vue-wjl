@@ -1,9 +1,9 @@
 <template>
   <div class="page">
     <div class="top">
-      <img :src="activityData.activityPic">
+      <img :src="baseUrl+activityData.activityPic">
     </div>
-    <div class="caddie-list" @click="goToCandidate">
+    <div v-if="caddieShow" class="caddie-list" @click="goToCandidate">
       <div class="title">
         <div class="cont">球童候选人</div>
       </div>
@@ -41,8 +41,10 @@
 export default {
   data () {
     return {
-      productId: '',
+      activityid: '',
+      caddieShow: false,
       activityData:{},
+      baseUrl: this.$http.baseURL
     }
   },
   components: {
@@ -63,9 +65,10 @@ export default {
   },
   onLoad (options) {
     let self = this
-    self.productId = options.id
+    self.activityid = options.activityid
+    self.caddieShow = options.type == "1" ? true : false
     self.$http.activityDetail({
-      activityId: self.productId
+      activityId: self.activityid
     }).then(res => {
       if (res.data.code == '200'){
         self.activityData = res.data.result[0];

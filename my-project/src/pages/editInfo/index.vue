@@ -23,6 +23,8 @@
 export default {
   data () {
     return {
+      userId:'',
+      userPic:''
     }
   },
   components: {
@@ -40,6 +42,15 @@ export default {
     },
   },
   created () {
+  },
+  onShow () {
+    let self = this
+    wx.getStorage({
+      key: 'userInfo',
+      success: function(res) {
+        self.userId = res.data.userId
+      } 
+    })
   }
 }
 </script>
