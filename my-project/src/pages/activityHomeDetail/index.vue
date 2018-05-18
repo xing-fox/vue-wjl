@@ -1,11 +1,11 @@
 <template>
   <div class="page">
     <div class="top">
-      <img :src="baseUrl+activityData.activityPic">
+      <img :src="baseUrl+activityData.activityDetailsPic">
     </div>
     
     <div class="act-info">
-      <div class="title"><span>活动须知</span></div>
+      <div class="title"><span>规则说明</span></div>
       <div class="cont">{{ activityData.activityDetails }}</div>
     </div>
   </div>
@@ -47,6 +47,7 @@ export default {
   .top {
     img {
       width: 100%;
+      height:420rpx;
     }
   }
   .act-info {
