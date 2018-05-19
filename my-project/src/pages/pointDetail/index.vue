@@ -1,23 +1,18 @@
 <template>
   <div class="page">
+    <div class="total">我的积分:<span>{{ total }}</span></div>
     <div class="swiper-tab">  
         <div :class="{'on' : currentTab==0}" @click="swichNav(0)"><span>积分记录</span></div>  
         <div :class="{'on' : currentTab==1}" @click="swichNav(1)"><span>赠送记录</span></div>
         <div :class="{'on' : currentTab==2}" @click="swichNav(2)"><span>关于兑换</span></div>
     </div>  
-      
     <swiper :current="currentTab" class="swiper-box" duration="300" @change="bindChange">
         <swiper-item>  
           <ul class="point-List">
-            <li>
-              <p>嘉年华积分</p>
-              <span>2018-5-30</span>
-              <div class="mark">2400积分</div>
-            </li>
-            <li>
-              <p>嘉年华积分</p>
-              <span>2018-5-30</span>
-              <div class="mark">2400积分</div>
+            <li v-for="(item, index) in goleList" :key="index" >
+              <p>{{ item.xijiaActivityName }}</p>
+              <span>{{ item.xijiaintegralchangedate }}</span>
+              <div class="mark">{{ item.xijiaintegralchangegole }}积分</div>
             </li>
           </ul>  
         </swiper-item>
@@ -56,7 +51,10 @@
 export default {
   data () {
     return {
-      currentTab: 0
+      total:'',
+      currentTab: 0,
+      userId:'',
+      goleList:[]
     }
   },
   components: {
@@ -77,24 +75,44 @@ export default {
   },
   created () {
   },
-  onLoad () {
-    this.$http.userIntegral({
-      id:11,
-      start:1
-    }).then(res => {
-      if (res.data.code == '200'){
-        // self.Abs = res.data.result;
-      }
+  onShow () {
+    let self = this
+    wx.getStorage({
+      key: 'userInfo',
+      success: function(res) {
+        self.userId = res.data.userId
+        self.$http.userIntegral({
+          userId: self.userId,
+          start:1,
+          limit:10
+        }).then(res => {
+          if (res.data.code == '200'){
+            self.goleList = res.data.result
+            self.total = self.goleList[0].sumGole 
+          }
+        })
+      } 
     })
   }
 }
 </script>
 
 <style lang="less" scoped>
+.total {
+  text-align: center;
+  height: 160rpx;
+  line-height: 160rpx;
+  color:#2f2f2f;
+  font-size: 32rpx;
+  span{
+    color:#05a21b;
+    font-size: 36rpx;
+  }
+}
 .swiper-tab{  
     position: fixed;
     left:0;
-    top:0;
+    top:160rpx;
     box-sizing: border-box;
     padding:0 30rpx;
     width: 100%;  
@@ -129,7 +147,7 @@ export default {
   height:100%; 
   width: 100%; 
   overflow: hidden;
-  padding-top:90rpx;
+  padding-top:250rpx;
   box-sizing: border-box;
   .code {
     text-align: center;

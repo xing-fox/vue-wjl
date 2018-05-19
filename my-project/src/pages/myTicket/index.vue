@@ -33,7 +33,9 @@
 export default {
   data () {
     return {
-      currentTab: 0
+      currentTab: 0,
+      userId:'',
+      dataList:[]
     }
   },
   components: {
@@ -54,6 +56,23 @@ export default {
     }
   },
   created () {
+  },
+  onShow () {
+    let self = this
+    wx.getStorage({
+      key: 'userInfo',
+      success: function(res) {
+        self.userId = res.data.userId
+        self.$http.myTicket({
+          userId: self.userId
+        }).then(res => {
+          if (res.data.code == '200'){
+            self.dataList = res.data.result
+            console.log(self.dataList)
+          }
+        })
+      } 
+    })
   }
 }
 </script>

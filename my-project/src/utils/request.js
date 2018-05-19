@@ -58,37 +58,55 @@ export default {
     cityList(params) {
         return get('city/list', params)
     },
+    // 获取对应城市商场列表
     mallList(params) {
         return get('mall/list', params)
     },
+    // 轮播图
     lunboApi(params) {
         return get('banner/list', params)
     },
+    // 专题活动列表
     activityList(params) {
         return get('activity/list', params)
     },
+    // 专题活动详情
     activityDetail(params) {
         return get('activity/listDetail', params)
     },
     voteList(params) {
         return get('vote/list', params)
     },
+    // 精选活动列表
     activityHomeList(params) {
         return get('activityHome/list', params)
     },
+    // 精选活动详情
     activityHomeDetail(params) {
         return get('activityHome/listDetail', params)
     },
+    // 注册
     saveUser(params) {
         return get('user/saveUser', params)
     },
+    // 短信发送接口
+    getCode(params) {
+        return get('user/sendSms', params)
+    },
+    // 登陆
     userLogin(params) {
         return get('user/userlogin', params)
     },
+    // 购票列表
     ticketList(params) {
         return get('ticket/list', params)
     },
+    // 我的购票记录
+    myTicket(params) {
+        return get('ticket/myTicket', params)
+    },
+    // 积分明细
     userIntegral(params) {
-        return get('user/userIntegral', params)
+        return get('integralchange/getIntegral', params)
     }
 }
