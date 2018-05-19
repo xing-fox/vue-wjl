@@ -71,6 +71,18 @@
 					"name": "我的",
 					"pathName": "pages/own/main",
 					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "我的门票",
+					"pathName": "pages/myTicket/main",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "积分明细",
+					"pathName": "pages/pointDetail/main",
+					"query": ""
 				}
 			]
 		}

@@ -2,10 +2,13 @@
   <div class="page">
     <div class="header">
       <div class="addr">
-        <i></i><span>{{ Address }}</span>
+        <i @click="getLocationInfo"></i>
+        <picker class="weui-btn" @change="CityChange" :range="cityData" :range-key="'cityName'">
+          <span>{{ Address }}</span>
+        </picker>
       </div>
       <div class="searchBox">
-        <picker class="weui-btn" @change="PickerChange" :range="Square" :range-key="'mallName'">
+        <picker @change="PickerChange" :range="Square" :range-key="'mallName'">
           <span>{{ choiseSquareValue }}</span>
           <i></i>
         </picker>
@@ -50,11 +53,12 @@
 export default {
   data () {
     return {
-      cityId: '1',
-      mellId: '',
       Abs: [],
+      cityData:[],
+      cityId: '',
       Address: '',
       Square: [],
+      mellId: '',
       choiseSquareValue: '选择商场',
       imgUrls: [],
       imgUrls1: [],
@@ -63,22 +67,6 @@ export default {
   },
   components: {},
   methods: {
-    PickerChange(e) {
-      let self = this
-      self.choiseSquareValue = self.Square[e.mp.detail.value].mallName
-      self.mellId =  self.Square[e.mp.detail.value].mallId
-      wx.setStorage({
-        key:"mellId",
-        data:self.mellId
-      })
-      self.$http.activityList({
-        mId: self.mellId
-      }).then(res => {
-        if (res.data.code == '200'){
-          self.imgUrls1 = res.data.result;
-        }
-      })
-    },
     goToActivity(id,type){
       wx.navigateTo({
         url: '/pages/activityDetail/main?activityid=' + id +'&type=' + type
@@ -100,32 +88,102 @@ export default {
           url: '/pages/openUrl/main?url=' + url,
         })
       }
+    },
+    getLocationInfo(){
+      let self = this
+      wx.getLocation({
+        type: 'wgs84',
+        success: function(res) {
+          self.$http.listByGeno({
+            ing:res.longitude,
+            lat:res.latitude
+          }).then(res => {
+            if (res.data.code == '200'){
+              self.Address = `${res.data.result[0].cityName}`
+              self.cityId = res.data.result[0].cityId
+              let cityInfo = {
+                cityId:self.cityId,
+                Address:self.Address
+              }
+              wx.setStorage({
+                key:"cityInfo",
+                data: cityInfo
+              })
+            }else {
+              wx.showToast({
+                title: '当前城市暂无活动，尽情期待～',
+                icon: 'none',
+              })
+            }
+            self.getMallData()
+          })
+        },
+        fail:function(){
+          wx.showToast({
+            title: '定位失败，您可手动切换城市参与活动～',
+            icon: 'none',
+            complete:function(){
+              self.getMallData()
+            }
+          })
+        }
+      })
+    },
+    getMallData(){
+      let self = this
+      self.$http.mallList({
+        id:  self.cityId
+      }).then(res => {
+        if (res.data.code == '200'){
+          self.Square = res.data.result
+          self.choiseSquareValue = self.Square[0].mallName
+          self.mellId =  self.Square[0].mallId
+          self.getActivityList()
+        }
+      })
+    },
+    getActivityList(){
+      let self = this
+      wx.setStorage({
+        key:"mellId",
+        data:self.mellId
+      })
+      self.$http.activityList({
+        mId: self.mellId
+      }).then(res => {
+        if (res.data.code == '200'){
+          self.imgUrls1 = res.data.result;
+        }
+      })
+    },
+    CityChange(e){
+      let self = this
+      self.Address = self.cityData[e.mp.detail.value].cityName
+      self.cityId =  self.cityData[e.mp.detail.value].cityId
+      let cityInfo = {
+        cityId:self.cityId,
+        Address:self.Address
+      }
+      wx.setStorage({
+        key:"cityInfo",
+        data:cityInfo
+      })
+      self.getMallData()
+    },
+    PickerChange(e) {
+      let self = this
+      self.choiseSquareValue = self.Square[e.mp.detail.value].mallName
+      self.mellId =  self.Square[e.mp.detail.value].mallId
+      self.getActivityList()
     }
   },
   created () {
     let self = this
-    self.$http.mallList({
-      id:  self.cityId
-    }).then(res => {
+    self.$http.cityList({}).then(res => {
       if (res.data.code == '200'){
-        self.Square = res.data.result;
-        wx.showToast({
-          title: '请选择商场',
-          icon: 'none'
-        })
-        self.choiseSquareValue = self.Square[0].mallName
-        self.mellId =  self.Square[0].mallId
-        wx.setStorage({
-          key:"mellId",
-          data:self.mellId
-        })
-        self.$http.activityList({
-          mId: self.mellId
-        }).then(res => {
-          if (res.data.code == '200'){
-            self.imgUrls1 = res.data.result;
-          }
-        })
+        self.cityData = res.data.result;
+        self.Address = self.cityData[0].cityName
+        self.cityId =  self.cityData[0].cityId
       }
     })
     self.$http.lunboApi({}).then(res => {
@@ -133,7 +191,6 @@ export default {
         self.Abs = res.data.result;
       }
     })
-    
     self.$http.activityHomeList({}).then(res => {
       if (res.data.code == '200'){
         self.imgUrls = res.data.result;
@@ -142,11 +199,18 @@ export default {
   },
   onLoad () {
     let self = this
-    wx.getUserInfo({
+    wx.getStorage({
+      key: 'cityInfo',
       success: function(res) {
-        self.Address = `${res.userInfo.province} ${res.userInfo.city}`
+        self.Address = res.data.Address
+        self.cityId =  res.data.cityId
+        self.getMallData()
+      },
+      fail: function(){
+        self.getLocationInfo()
       }
     })
+    
   }
 }
 </script>
@@ -176,6 +240,9 @@ export default {
         }
         span{
           vertical-align: middle;
+        }
+        .weui-btn {
+          display: inline-block;
         }
       }
       .searchBox{
@@ -209,6 +276,7 @@ export default {
       margin: 20rpx 0 0 0;
       font-size: 0;
       padding: 0 30rpx;
+      height:  320rpx;
       img {
         width: 100%;
         height:  320rpx;

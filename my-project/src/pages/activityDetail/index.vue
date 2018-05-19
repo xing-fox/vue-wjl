@@ -9,15 +9,15 @@
       </div>
       <div class="box">
         <img src="../../../static/qiutong1.png">
-        <button>投票</button>
+        <div class="ticket-btn">投票</div>
       </div>
       <div class="box">
         <img src="../../../static/qiutong1.png">
-        <button>投票</button>
+        <div class="ticket-btn">投票</div>
       </div>
       <div class="box">
         <img src="../../../static/qiutong1.png">
-        <button>投票</button>
+        <div class="ticket-btn">投票</div>
       </div>
     </div>
     <div class="act-info">
@@ -43,6 +43,7 @@ export default {
     return {
       activityid: '',
       caddieShow: false,
+      caddieData:{},
       activityData:{},
       baseUrl: this.$http.baseURL
     }
@@ -75,6 +76,15 @@ export default {
         wx.setNavigationBarTitle({
           title: self.activityData.activityName + '详情'
         })
+      }
+    })
+    self.$http.voteList({
+      acId: self.activityid,
+      mId:10
+    }).then(res => {
+      if (res.data.code == '200'){
+        self.caddieData = res.data
+        console.log(self.caddieData);
       }
     })
   }
@@ -121,7 +131,7 @@ export default {
         width: 146rpx;
         height:146rpx;
       }
-      button {
+      .ticket-btn {
         margin: 36rpx auto 0;
         width: 116rpx;
         height: 38rpx;

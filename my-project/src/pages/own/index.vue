@@ -5,7 +5,7 @@
     </div>
     <ul v-if="!!userId" class="nav-list">
       <li>
-        <div @click="openEditInfo">
+        <div @click="openTicket">
           <i class="icon1"></i>
           我的门票
         </div>
@@ -53,6 +53,11 @@ export default {
     editInfo
   },
   methods: {
+    openTicket (){
+      wx.navigateTo({
+        url: "/pages/myTicket/main"
+      })
+    },
     openPoint () {
       wx.navigateTo({
         url: "/pages/pointDetail/main"

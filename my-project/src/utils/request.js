@@ -2,7 +2,7 @@ import Fly from 'flyio/dist/npm/wx'
 const fly = new Fly
 
 fly.interceptors.request.use((config, promise) => {
-    wx.showLoading({ title: '正在加载中...' })
+    // wx.showLoading({ title: '正在加载中...' })
     config.headers["X-Tag"] = "flyio"
     return config
 })
@@ -49,8 +49,15 @@ if (env === 'development') {
 }
 
 export default {
-    /* 测试接口 */
     baseURL: 'http://61.190.254.82:8080/xijia/',
+    // 根据经纬度获取城市名
+    listByGeno(params) {
+        return get('city/listByGeno', params)
+    },
+    // 获取活动城市列表
+    cityList(params) {
+        return get('city/list', params)
+    },
     mallList(params) {
         return get('mall/list', params)
     },
@@ -62,6 +69,9 @@ export default {
     },
     activityDetail(params) {
         return get('activity/listDetail', params)
+    },
+    voteList(params) {
+        return get('vote/list', params)
     },
     activityHomeList(params) {
         return get('activityHome/list', params)
@@ -77,5 +87,8 @@ export default {
     },
     ticketList(params) {
         return get('ticket/list', params)
+    },
+    userIntegral(params) {
+        return get('user/userIntegral', params)
     }
 }
