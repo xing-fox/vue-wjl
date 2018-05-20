@@ -8,27 +8,22 @@
     </div>  
     <swiper :current="currentTab" class="swiper-box" duration="300" @change="bindChange">
         <swiper-item>  
-          <ul class="point-List">
-            <li v-for="(item, index) in goleList" :key="index" >
+          <scroll-view class="point-List" scroll-y @scrolltolower="toLow">
+            <div class="list" v-for="(item, index) in goleList" :key="index" >
               <p>{{ item.xijiaActivityName }}</p>
-              <span>{{ item.xijiaintegralchangedate }}</span>
+              <span>{{ item.time }}</span>
               <div class="mark">{{ item.xijiaintegralchangegole }}积分</div>
-            </li>
-          </ul>  
+            </div>
+          </scroll-view>
         </swiper-item>
         <swiper-item>  
-          <ul class="point-List">
-            <li>
-              <p>嘉年华积分</p>
-              <span>2018-5-30</span>
-              <div class="mark">2400积分</div>
-            </li>
-            <li>
-              <p>嘉年华积分</p>
-              <span>2018-5-30</span>
-              <div class="mark">2400积分</div>
-            </li>
-          </ul>  
+          <scroll-view class="point-List" scroll-y @scrolltolower="gifttToLow">
+            <div class="list" v-for="(item, index) in giftList" :key="index" >
+              <p>{{ item.mallName }}</p>
+              <span>{{ item.time }}</span>
+              <div class="mark">{{ item.score }}积分</div>
+            </div>
+          </scroll-view> 
         </swiper-item>
         <swiper-item>  
           <ul class="about">
@@ -51,10 +46,17 @@
 export default {
   data () {
     return {
+      mallId:'',
+      userId:'',
       total:'',
       currentTab: 0,
-      userId:'',
-      goleList:[]
+      pageSize:10,
+      golePageNum: 1,
+      goleHasMore: true,
+      goleList:[],
+      giftPageNum: 1,
+      giftHasMore: true,
+      giftList:[]
     }
   },
   components: {
@@ -71,6 +73,57 @@ export default {
       } else {  
         that.currentTab = tab 
       }
+    },
+    getGoleList(pageNum){
+      let self = this
+      self.goleHasMore = false
+      self.$http.userIntegral({
+        userId: self.userId,
+        start: pageNum,
+        limit:self.pageSize
+      }).then(res => {
+        if (res.data.code == '200'){
+          for (let value of res.data.result) {
+              value.time = self.$format.formatT(value.xijiaintegralchangedate,1)
+          }
+          self.goleList = self.goleList.concat(res.data.result)
+          self.total = self.goleList[0].sumGole 
+          if(res.data.result.length == self.pageSize){
+            self.goleHasMore = true
+          }
+        }
+      })
+    },
+    getGiftList(pageNum){
+      let self = this
+      self.giftHasMore = false
+      self.$http.getShareGift({
+        userId: self.userId,
+        start: pageNum,
+        limit:self.pageSize
+      }).then(res => {
+        if (res.data.code == '200'){
+          for (let value of res.data.result) {
+              value.time = self.$format.formatT(value.createTime)
+          }
+          self.giftList = self.giftList.concat(res.data.result)
+          if(res.data.result.length == self.pageSize){
+            self.giftHasMore = true
+          }
+        }
+      })
+    },
+    toLow() {
+        if(this.goleHasMore){
+          this.golePageNum++;
+          this.getGoleList(this.golePageNum)
+        }
+    },
+    gifttToLow(){
+        if(this.giftHasMore){
+          this.giftPageNum++;
+          this.getGiftList(this.giftPageNum)
+        }
     }
   },
   created () {
@@ -81,16 +134,21 @@ export default {
       key: 'userInfo',
       success: function(res) {
         self.userId = res.data.userId
-        self.$http.userIntegral({
-          userId: self.userId,
-          start:1,
-          limit:10
+        self.getGoleList(self.golePageNum)
+        self.getGiftList(self.giftPageNum)
+      } 
+    })
+    wx.getStorage({
+      key: 'mallId',
+      success: function(res) {
+        self.mallId = res.data
+        self.$http.getShareDescription({
+          mallId:self.mallId 
         }).then(res => {
-          if (res.data.code == '200'){
-            self.goleList = res.data.result
-            self.total = self.goleList[0].sumGole 
-          }
-        })
+      if (res.data.code == '200'){
+        console.log(res)
+      }
+    })
       } 
     })
   }
@@ -157,9 +215,11 @@ export default {
       height:300rpx;
     }
   }
-  ul.point-List{
+  .point-List{
     padding:0 30rpx;
-    li{
+    box-sizing: border-box;
+    height: 100%;
+    .list{
       position: relative;
       padding:40rpx 200rpx 40rpx 70rpx;
       line-height: 40rpx;

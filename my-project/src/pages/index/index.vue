@@ -58,7 +58,7 @@ export default {
       cityId: '',
       Address: '',
       Square: [],
-      mellId: '',
+      mallId: '',
       choiseSquareValue: '选择商场',
       imgUrls: [],
       imgUrls1: [],
@@ -137,7 +137,7 @@ export default {
         if (res.data.code == '200'){
           self.Square = res.data.result
           self.choiseSquareValue = self.Square[0].mallName
-          self.mellId =  self.Square[0].mallId
+          self.mallId =  self.Square[0].mallId
           self.getActivityList()
         }
       })
@@ -145,11 +145,11 @@ export default {
     getActivityList(){
       let self = this
       wx.setStorage({
-        key:"mellId",
-        data:self.mellId
+        key:"mallId",
+        data:self.mallId
       })
       self.$http.activityList({
-        mId: self.mellId
+        mId: self.mallId
       }).then(res => {
         if (res.data.code == '200'){
           self.imgUrls1 = res.data.result;
@@ -173,7 +173,7 @@ export default {
     PickerChange(e) {
       let self = this
       self.choiseSquareValue = self.Square[e.mp.detail.value].mallName
-      self.mellId =  self.Square[e.mp.detail.value].mallId
+      self.mallId =  self.Square[e.mp.detail.value].mallId
       self.getActivityList()
     }
   },

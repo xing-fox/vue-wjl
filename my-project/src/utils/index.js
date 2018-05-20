@@ -1,20 +1,30 @@
-function formatNumber (n) {
-  const str = n.toString()
-  return str[1] ? str : `0${str}`
+function formatNumber(n) {
+    const str = n.toString()
+    return str[1] ? str : `0${str}`
 }
 
-export function formatTime (date) {
-  const year = date.getFullYear()
-  const month = date.getMonth() + 1
-  const day = date.getDate()
+export function formatTime(date, type) {
+    var dateT = new Date(date);
+    const year = dateT.getFullYear()
+    const month = dateT.getMonth() + 1
+    const day = dateT.getDate()
 
-  const hour = date.getHours()
-  const minute = date.getMinutes()
-  const second = date.getSeconds()
+    const hour = dateT.getHours()
+    const minute = dateT.getMinutes()
+    const second = dateT.getSeconds()
 
-  const t1 = [year, month, day].map(formatNumber).join('/')
-  const t2 = [hour, minute, second].map(formatNumber).join(':')
+    const t1 = [year, month, day].map(formatNumber).join('-')
+    const t2 = [hour, minute].map(formatNumber).join(':')
 
-  return `${t1} ${t2}`
+    if (type === 1) {
+        return `${t1} ${t2}`
+    } else {
+        return `${t1}`
+    }
 }
 
+export default {
+    formatT(params, type) {
+        return formatTime(params, type)
+    }
+}

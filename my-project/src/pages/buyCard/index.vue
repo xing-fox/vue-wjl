@@ -66,7 +66,7 @@
 export default {
   data () {
     return {
-      mellId:'',
+      mallId:'',
       baseUrl: this.$http.baseURL,
       dataList: [
         {
@@ -146,9 +146,9 @@ export default {
   onShow () {
     let self = this
     wx.getStorage({
-      key: 'mellId',
+      key: 'mallId',
       success: function(res) {
-        self.mellId = res.data
+        self.mallId = res.data
         self.$http.ticketList({
           cid: '1'
         }).then(res => {

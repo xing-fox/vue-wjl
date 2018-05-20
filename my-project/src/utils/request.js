@@ -108,5 +108,13 @@ export default {
     // 积分明细
     userIntegral(params) {
         return get('integralchange/getIntegral', params)
-    }
+    },
+    // 赠送记录
+    getShareGift(params) {
+        return get('integralchange/getShareGift', params)
+    },
+    // 关于兑换
+    getShareDescription(params) {
+        return get('integralchange/getShareDescription', params)
+    },
 }

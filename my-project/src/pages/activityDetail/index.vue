@@ -7,24 +7,16 @@
       <div class="title">
         <div class="cont">球童候选人</div>
       </div>
-      <div class="box">
-        <img src="../../../static/qiutong1.png">
-        <div class="ticket-btn">投票</div>
-      </div>
-      <div class="box">
-        <img src="../../../static/qiutong1.png">
-        <div class="ticket-btn">投票</div>
-      </div>
-      <div class="box">
-        <img src="../../../static/qiutong1.png">
+      <div class="box" v-for="(item, index) in caddieData" :key="index">
+        <img :src="baseUrl+item.voteImage">
         <div class="ticket-btn">投票</div>
       </div>
     </div>
     <div class="act-info">
       <div class="title"><span>活动摘要</span></div>
       <div class="list">
-        <p>活动时间：2018-5-30-2018-8-30</p>
-        <p>截止时间：2018-8-30 18:00</p>
+        <p>活动时间：{{ activityData.Time }}</p>
+        <p>截止时间：{{ activityData.enddate}}</p>
         <p>主办方：{{ activityData.zhuban }}</p>
         <p class="tel">客服热线：{{ activityData.kefu }}</p>
       </div>
@@ -42,8 +34,9 @@ export default {
   data () {
     return {
       activityid: '',
+      mallId:'',
       caddieShow: false,
-      caddieData:{},
+      caddieData:[],
       activityData:{},
       baseUrl: this.$http.baseURL
     }
@@ -73,20 +66,29 @@ export default {
     }).then(res => {
       if (res.data.code == '200'){
         self.activityData = res.data.result[0];
+        self.activityData.Time = `${self.$format.formatT(self.activityData.startdate)}-${self.$format.formatT(self.activityData.enddate)}`
+        self.activityData.enddate = self.$format.formatT(self.activityData.enddate,1)
+        
         wx.setNavigationBarTitle({
           title: self.activityData.activityName + '详情'
         })
       }
     })
-    self.$http.voteList({
-      acId: self.activityid,
-      mId:10
-    }).then(res => {
-      if (res.data.code == '200'){
-        self.caddieData = res.data
-        console.log(self.caddieData);
-      }
+    wx.getStorage({
+      key: 'mallId',
+      success: function(res) {
+        self.mallId = res.data
+        self.$http.voteList({
+          acId: self.activityid,
+          mId: self.mallId
+        }).then(res => {
+          if (res.data.code == '200'){
+            self.caddieData = res.data.result
+          }
+        })
+      } 
     })
+    
   }
 }
 </script>

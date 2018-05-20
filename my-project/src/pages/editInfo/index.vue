@@ -1,16 +1,19 @@
 <template>
   <div class="page">
     <div class="top" style="background-image: url('../../../static/bgydl.png')">
-      <img  @click="updataPhoto" src="../../../static/updataPhoto.png">
+      <div  @click="updataPhoto">
+        <img :src="userPic">
+        <span></span>
+      </div>
     </div>
     <ul class="list-input">
       <li class="name">
         <i></i>
-        <input placeholder-class="p-gray" placeholder="请输入姓名" />
+        <input placeholder-class="p-gray" placeholder="请输入姓名" v-model="userName" />
       </li>
       <li class="password">
         <i></i>
-        <input placeholder-class="p-gray" placeholder="请输入6-16位密码" />
+        <input placeholder-class="p-gray" placeholder="请输入6-16位密码" v-model="userPass"/>
       </li>
     </ul>
     <div class="btn">
@@ -24,7 +27,9 @@ export default {
   data () {
     return {
       userId:'',
-      userPic:''
+      userName:'',
+      userPass: '',
+      userPic:'',
     }
   },
   components: {
@@ -48,7 +53,11 @@ export default {
     wx.getStorage({
       key: 'userInfo',
       success: function(res) {
+        console.log(res);
         self.userId = res.data.userId
+        self.userName = res.data.userName
+        self.userPass = res.data.userPass
+        self.userPic = res.data.pic
       } 
     })
   }
@@ -63,6 +72,15 @@ export default {
     box-sizing: border-box;
     padding-top:52rpx;
     background-size: 100% 100%;
+    div {
+      margin:0 auto;
+      width: 145rpx;
+      height:145rpx;
+      border-radius:50%;
+      overflow: hidden;
+      background: url(../../../static/updataPhoto.png) no-repeat;
+      background-size: 100% 100%;
+    }
     img {
       width: 145rpx;
       height:145rpx;
