@@ -4,7 +4,8 @@
     <div class="swiper-tab">  
         <div :class="{'on' : currentTab==0}" @click="swichNav(0)"><span>积分记录</span></div>  
         <div :class="{'on' : currentTab==1}" @click="swichNav(1)"><span>赠送记录</span></div>
-        <div :class="{'on' : currentTab==2}" @click="swichNav(2)"><span>关于兑换</span></div>
+        <div :class="{'on' : currentTab==2}" @click="swichNav(2)"><span>兑换记录</span></div>
+        <div :class="{'on' : currentTab==3}" @click="swichNav(3)"><span>关于兑换</span></div>
     </div>  
     <swiper :current="currentTab" class="swiper-box" duration="300" @change="bindChange">
         <swiper-item>  
@@ -26,15 +27,24 @@
           </scroll-view> 
         </swiper-item>
         <swiper-item>  
+          <scroll-view class="point-List" scroll-y @scrolltolower="gifttToLow">
+            <div class="list exchange" v-for="(item, index) in giftList" :key="index" >
+              <p>{{ item.mallName }}</p>
+              <p class="pt">200积分</p>
+              <span>{{ item.time }}</span>
+              <div class="mark">{{ item.score }}游戏币</div>
+            </div>
+          </scroll-view> 
+        </swiper-item>
+        <swiper-item>  
           <ul class="about">
               <li>
                 <div class="title">兑换时间：</div>
-                <p>*兑换时间为2018年6月1日-2018年8月1日（以各站点活动时间为准）</p>
+                <p>*兑换时间为{{ time }}（以各站点活动时间为准）</p>
               </li>
               <li>
                 <div class="title">温馨提示：</div>
-                <p>*西甲嘉年华站点获取积分仅限在获得积分站点兑换使用，不可跨站点累积使用（如在A中心获得西甲嘉年华积分不得在B中心西甲嘉年华积分使用或累积）</p>
-                <p>*玩家游戏积分需当天在积分柜台录入,并在活动小程序个人账户登记,当天未录入视作放弃该积分</p>
+                <p>{{ tips }}</p>
               </li>
           </ul>  
         </swiper-item> 
@@ -56,7 +66,9 @@ export default {
       goleList:[],
       giftPageNum: 1,
       giftHasMore: true,
-      giftList:[]
+      giftList:[],
+      time:'',
+      tips:'',
     }
   },
   components: {
@@ -146,7 +158,9 @@ export default {
           mallId:self.mallId 
         }).then(res => {
       if (res.data.code == '200'){
-        console.log(res)
+        let resData = res.data.result
+        self.time = `${resData.startTime}-${resData.endTime}`
+        self.tips = `${resData.tips}`
       }
     })
       } 
@@ -183,15 +197,17 @@ export default {
     div{  
         font-size: 30rpx;  
         display: inline-block;  
-        width: 33.33%;  
+        width: 25%;  
         color: #2f2f2f;  
-    }  
-    .on{ 
-      span{
+    } 
+    span{
         display: block;
-        width: 180rpx;
+        width: 140rpx;
         height: 86rpx;
         margin:0 auto;
+    } 
+    .on{ 
+      span{
         color: #05a21b;  
         border-bottom: 5rpx solid #05a21b;
       }
@@ -221,14 +237,17 @@ export default {
     height: 100%;
     .list{
       position: relative;
-      padding:40rpx 200rpx 40rpx 70rpx;
+      padding:40rpx 200rpx 40rpx 0;
       line-height: 40rpx;
       border-bottom:#eee solid 1px;
       font-size: 30rpx;
-      background:url(../../../static/iconPoint.png) left center no-repeat;
-      background-size: 54rpx;
       p{
         color:#2f2f2f;
+      }
+      .pt {
+        font-size: 24rpx;
+        line-height: 24rpx;
+        padding-top:4rpx;
       }
       span {
         font-size: 24rpx;
@@ -243,6 +262,11 @@ export default {
         line-height: 80rpx;
         color:#5e5e5e;
       }
+    }
+    .exchange {
+      padding-left:70rpx;
+      background:url(../../../static/iconPoint.png) left center no-repeat;
+      background-size: 54rpx;
     }
   }
   ul.about{

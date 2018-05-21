@@ -46,7 +46,7 @@ export default {
   methods: {
     goToCandidate(){
       wx.navigateTo({
-        url: '/pages/candidate/main',
+        url: '/pages/candidate/main?activityid=' + this.activityid ,
       })
     },
     goToBuy(){
@@ -68,7 +68,7 @@ export default {
         self.activityData = res.data.result[0];
         self.activityData.Time = `${self.$format.formatT(self.activityData.startdate)}-${self.$format.formatT(self.activityData.enddate)}`
         self.activityData.enddate = self.$format.formatT(self.activityData.enddate,1)
-        
+        self.caddieData = res.data.result[0].voteDoList
         wx.setNavigationBarTitle({
           title: self.activityData.activityName + '详情'
         })
@@ -132,6 +132,7 @@ export default {
       img{
         width: 146rpx;
         height:146rpx;
+        border-radius: 50%;
       }
       .ticket-btn {
         margin: 36rpx auto 0;

@@ -74,8 +74,13 @@ export default {
     activityDetail(params) {
         return get('activity/listDetail', params)
     },
+    // 球童候选人列表
     voteList(params) {
         return get('vote/list', params)
+    },
+    // 球童候选人投票
+    voteDo(params) {
+        return get('vote/voteDo', params)
     },
     // 精选活动列表
     activityHomeList(params) {
@@ -117,4 +122,8 @@ export default {
     getShareDescription(params) {
         return get('integralchange/getShareDescription', params)
     },
+    // 更新用户信息
+    updateuser(params) {
+        return get('user/updateuser', params)
+    }
 }
