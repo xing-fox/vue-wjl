@@ -34,7 +34,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 3,
+			"current": 7,
 			"list": [
 				{
 					"id": -1,
@@ -77,6 +77,11 @@
 					"name": "球童候选人",
 					"pathName": "pages/candidate/main",
 					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "赠送积分",
+					"pathName": "pages/shareGift/main"
 				}
 			]
 		}

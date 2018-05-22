@@ -125,5 +125,9 @@ export default {
     // 更新用户信息
     updateuser(params) {
         return get('user/updateuser', params)
+    },
+    // 赠送积分
+    shareGift(params) {
+        return get('integralchange/shareGift', params)
     }
 }

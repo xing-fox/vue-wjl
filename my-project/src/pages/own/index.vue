@@ -17,7 +17,7 @@
         </div>
       </li>
       <li>
-        <div  @click="openEditInfo">
+        <div  @click="openShareGift">
           <i class="icon5"></i>
           赠送积分
         </div>
@@ -66,6 +66,11 @@ export default {
     openEditInfo () {
       wx.navigateTo({
         url: "/pages/editInfo/main"
+      })
+    },
+    openShareGift (){
+      wx.navigateTo({
+        url: "/pages/shareGift/main"
       })
     },
     goToLogin () {
