@@ -1,6 +1,6 @@
 <template>
   <div class="page" style="background-image:url(../../../static/zsjftb.jpg)">
-    <div class="btn" @click="shadowShow = true">分享赠送积分</div>
+    <div class="btn" @click="shadowShow = true">领取积分</div>
     <div class="about">
       <div class="tit">赠送规则</div>
       <ul>
@@ -18,9 +18,18 @@
     <div v-show="shadowShow" class="shadow">
       <div class="box">
         <div class="close" @click="shadowShow = false"></div>
-        <div class="title">温馨提示</div>
-        <input placeholder-class="p-gray" type="number" placeholder="请输入积分" v-model="point"/>
-        <button open-type="share" @click="submit">分享赠送</button>
+        <div class="title">积分领取</div>
+        <ul class="list-input">
+          <li class="phone">
+            <i></i>
+            <input type="number" placeholder-class="p-gray" placeholder="请输入手机号" maxlength="11" v-model="telephone"/>
+          </li>
+          <li class="password">
+            <i></i>
+            <input password placeholder-class="p-gray" placeholder="请输入6-16位密码" v-model="password"/>
+          </li>
+        </ul>
+        <button @click="submit">确认领取</button>
       </div>
     </div>
   </div>
@@ -30,10 +39,10 @@
 export default {
   data () {
     return {
-      mallId:'',
       userId:'',
       shadowShow:false,
-      point:'',
+      telephone:'',
+      password:'',
       giftId:''
     }
   },
@@ -42,52 +51,60 @@ export default {
   methods: {
     submit(){
       let self = this
-      if (!self.point) {
+      if (!self.telephone) {
         return wx.showToast({
-          title: '请输入积分',
+          title: '请输入手机号',
           icon: 'none'
         })
       }
-      self.$http.shareGift({
-        mallId: self.mallId,
-        userId: self.userId,
-        score: self.point,
+      if (!self.password) {
+        return wx.showToast({
+          title: '请输入6-16位密码',
+          icon: 'none'
+        })
+      }
+      self.$http.userLogin({
+        mobile: self.telephone,
+        pwd: self.password
       }).then(res => {
-        if (res.data.code == '200'){
-          self.giftId = res.data.result.id
+        let resD = res.data
+        if(resD.code == '200'){
+          self.userId = resD.result.userId;
+          wx.setStorage({
+            key:"userInfo",
+            data:{userId: resD.result.userId}
+          })
+          self.$http.obtailShareGift({
+            changeId: self.giftId,
+            changeUserId: self.userId
+          }).then(result => {
+            self.shadowShow = false
+            if(result.data.code == '200'){
+              wx.showToast({
+                title: '积分领取成功',
+                icon: 'none'
+              })
+            }else{
+              wx.showToast({
+                title: result.data.message,
+                icon: 'none'
+              })
+            }
+          })
+        } else {
+          wx.showToast({
+            title: resD.message,
+            icon: 'none'
+          })
         }
       })
     }
   },
   created () {
   },
-  onShow () {
+  onLoad (options)  {
     let self = this
-    wx.getStorage({
-      key: 'userInfo',
-      success: function(res) {
-        self.userId = res.data.userId
-      } 
-    })
-    wx.getStorage({
-      key: 'mallId',
-      success: function(res) {
-        self.mallId = res.data
-      } 
-    })
-  },
-  onShareAppMessage: function (res) {
-    let self = this
-    self.shadowShow = false
-    console.log(self.giftId);
-    if (res.from === 'button') {
-      // 来自页面内转发按钮
-      console.log(res.target)
-    }
-    return {
-      title: '赠送积分22',
-      path: '/pages/obtailShareGift/main?id='+ self.giftId
-    }
+    self.giftId = options.id
   }
 }
 </script>
@@ -155,10 +172,10 @@ export default {
       left: 50%;
       top: 50%;
       width: 578rpx;
-      height:418rpx;
+      height:540rpx;
       padding:0 30rpx;
       box-sizing: border-box;
-      margin:-209rpx 0 0 -289rpx;
+      margin:-270rpx 0 0 -289rpx;
       background:#fafafa;
       border-radius: 10rpx;
       text-align: center;
@@ -177,14 +194,41 @@ export default {
         color:#2f2f2f;
         border-bottom:#d2d2d2 solid 1px;
       }
-      input {
-        margin: 50rpx auto;
-        width: 400rpx;
-        height: 82rpx;
-        text-align: center;
-        font-size: 28rpx;
-        border:#d2d2d2 solid 1px;
-        border-radius: 8rpx;
+      .list-input {
+        padding:60rpx 32rpx 0;
+        text-align: left;
+        li {
+          position: relative;
+          border:#dcdcdc solid 1rpx;
+          margin-bottom: 40rpx;
+          border-radius: 6rpx;
+          padding-left: 96rpx;
+          i{
+            position: absolute;
+            left:0;
+            top:0;
+            width: 94rpx;
+            height:88rpx;
+            background-repeat: no-repeat;
+            background-position: center;
+          }
+          input {
+            display: inline-block;
+            vertical-align:top;
+            width: 100%;
+            height: 88rpx;
+            font-size: 26rpx;
+            color:#2f2f2f;
+          }
+        }
+        .phone i{
+          background-image:url(../../../static/phone.png);
+          background-size: 29rpx auto;
+        }
+        .password i{
+          background-image:url(../../../static/pass.png);
+          background-size: 30rpx auto;
+        }
       }
       button {
         width: 290rpx;

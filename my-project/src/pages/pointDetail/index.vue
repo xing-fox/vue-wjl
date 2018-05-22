@@ -12,7 +12,7 @@
           <scroll-view class="point-List" scroll-y @scrolltolower="toLow">
             <div class="list" v-for="(item, index) in goleList" :key="index" >
               <p>{{ item.xijiaActivityName }}</p>
-              <span>{{ item.time }}</span>
+              <span>{{ item.xijiaintegralchangedate }}</span>
               <div class="mark">{{ item.xijiaintegralchangegole }}积分</div>
             </div>
           </scroll-view>
@@ -21,7 +21,7 @@
           <scroll-view class="point-List" scroll-y @scrolltolower="gifttToLow">
             <div class="list" v-for="(item, index) in giftList" :key="index" >
               <p>{{ item.mallName }}</p>
-              <span>{{ item.time }}</span>
+              <span>{{ item.createTime }}</span>
               <div class="mark">{{ item.score }}积分</div>
             </div>
           </scroll-view> 
@@ -95,9 +95,6 @@ export default {
         limit:self.pageSize
       }).then(res => {
         if (res.data.code == '200'){
-          for (let value of res.data.result) {
-              value.time = self.$format.formatT(value.xijiaintegralchangedate,1)
-          }
           self.goleList = self.goleList.concat(res.data.result)
           self.total = self.goleList[0].sumGole 
           if(res.data.result.length == self.pageSize){
@@ -115,9 +112,6 @@ export default {
         limit:self.pageSize
       }).then(res => {
         if (res.data.code == '200'){
-          for (let value of res.data.result) {
-              value.time = self.$format.formatT(value.createTime)
-          }
           self.giftList = self.giftList.concat(res.data.result)
           if(res.data.result.length == self.pageSize){
             self.giftHasMore = true

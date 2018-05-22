@@ -129,5 +129,9 @@ export default {
     // 赠送积分
     shareGift(params) {
         return get('integralchange/shareGift', params)
+    },
+    // 领取积分
+    obtailShareGift(params) {
+        return get('integralchange/obtailShareGift', params)
     }
 }

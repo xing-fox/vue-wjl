@@ -74,21 +74,6 @@ export default {
         })
       }
     })
-    wx.getStorage({
-      key: 'mallId',
-      success: function(res) {
-        self.mallId = res.data
-        self.$http.voteList({
-          acId: self.activityid,
-          mId: self.mallId
-        }).then(res => {
-          if (res.data.code == '200'){
-            self.caddieData = res.data.result
-          }
-        })
-      } 
-    })
-    
   }
 }
 </script>

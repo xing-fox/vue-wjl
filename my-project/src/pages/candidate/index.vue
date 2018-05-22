@@ -46,19 +46,16 @@ export default {
       self.goleHasMore = false
       self.$http.voteList({
         acId: self.activityid,
-        num: self.num,
         start: pageNum,
         limit:self.pageSize
       }).then(res => {
         if (res.data.code == '200'){
-          if(pageNum==1 && !res.data.result.length){
-            self.hasData = false 
-          } else {
             self.playerUr = self.playerUr.concat(res.data.result)
             if(res.data.result.length == self.pageSize){
               self.hasMore = true
             }
-          }
+        } else if(pageNum==1) {
+          self.hasData = false 
         }
       })
     },
@@ -119,8 +116,8 @@ export default {
   },
   onLoad (options) {
     let self = this
-    // self.activityid = options.activityid 
-    self.activityid = 14
+    self.activityid = options.activityid 
+    self.playerUr = []
     self.getList(self.pageNum)
     wx.getStorage({
       key: 'userInfo',
