@@ -3,11 +3,11 @@
       <img class="login-bg" mode='widthFix' src='../../../static/players.png'>
       <div class="login-input phone">
         <img mode='widthFix' src='../../../static/phone.png'>
-        <input placeholder-class="p-gray" placeholder="请输入手机号" v-model="telephone"/>
+        <input placeholder-class="p-gray" placeholder="请输入手机号" maxlength="11" v-model="telephone"/>
       </div>
       <div class="login-input password">
         <img mode='widthFix' src='../../../static/pass.png'>
-        <input placeholder-class="p-gray" placeholder="请输入6-16位密码" v-model="password" />
+        <input password maxlength="16" placeholder-class="p-gray" placeholder="请输入6-16位密码" v-model="password" />
       </div>
       <div>
         <button type="primary" @click="submit">登陆</button>
@@ -23,45 +23,56 @@ export default {
   data() {
     return {
       telephone:'',
-      password:''
+      password:'',
+      passSee:false
     };
   },
   components: {},
   methods: {
     submit(){
-      if (!this.telephone) {
+      let self = this
+      if (!self.telephone) {
         return wx.showToast({
           title: '请输入手机号',
-          icon: 'none',
-          duration: 2000
+          icon: 'none'
         })
       }
-      if (!this.password) {
+      if (!self.password) {
         return wx.showToast({
           title: '请输入6-16位密码',
-          icon: 'none',
-          duration: 2000
+          icon: 'none'
         })
       }
-      this.$http.userLogin({
-        mobile: this.telephone,
-        pwd: this.password
+      self.$http.userLogin({
+        mobile: self.telephone,
+        pwd: self.password
       }).then(res => {
-        let data = {
-          userId: res.data.result.userId,
-          userName: res.data.result.userName,
-          usermobile: res.data.result.usermobile,
-          pic: res.data.result.pic,
-        }
-        wx.setStorage({
-          key:"userInfo",
-          data:data,
-          success:function(){
-            wx.navigateTo({
-              url: "/pages/own/main"
-            })
+        let resD = res.data
+        console.log(res.data)
+        if(resD.code == '200'){
+          let data = {
+            userId: resD.result.userId,
+            userName: resD.result.userName,
+            usermobile: resD.result.usermobile,
+            pic: resD.result.pic,
           }
-        })
+          wx.setStorage({
+            key:"userInfo",
+            data:data,
+            success:function(){
+              self.password = ''
+              wx.switchTab({
+                url: "/pages/own/main"
+              })
+            }
+          })
+        } else {
+          wx.showToast({
+            title: resD.message,
+            icon: 'none'
+          })
+        }
+        
       }).catch((cat) => {
         console.log(cat)
       })

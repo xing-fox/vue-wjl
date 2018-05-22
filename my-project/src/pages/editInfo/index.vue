@@ -1,20 +1,20 @@
 <template>
   <div class="page">
     <div class="top" style="background-image: url('../../../static/bgydl.png')">
-      <img  @click="updataPhoto" src="../../../static/updataPhoto.png">
+      <img src="../../../static/logo.png">
     </div>
     <ul class="list-input">
-      <li class="name">
+      <li class="password">
         <i></i>
-        <input placeholder-class="p-gray" placeholder="请输入姓名" />
+        <input password placeholder-class="p-gray" placeholder="请输入原始密码" v-model="oldPass"/>
       </li>
       <li class="password">
         <i></i>
-        <input placeholder-class="p-gray" placeholder="请输入6-16位密码" />
+        <input password placeholder-class="p-gray" placeholder="请输入6-16位新密码" v-model="newPass"/>
       </li>
     </ul>
     <div class="btn">
-      <button type="primary">确认修改</button>
+      <button @click="submit" type="primary">确认修改</button>
     </div>
   </div>
 </template>
@@ -23,23 +23,60 @@
 export default {
   data () {
     return {
+      userId:'',
+      oldPass: '',
+      newPass: ''
     }
   },
   components: {
   },
   methods: {
-    updataPhoto () {
-      wx.chooseImage({
-        count: 1,
-        sizeType: ['original', 'compressed'],
-        sourceType: ['album', 'camera'],
-        success: (res) => {
-            console.log(res.tempFilePaths);
-        },        
-    });
-    },
+    submit(){
+      let self = this
+      if (!self.oldPass) {
+        return wx.showToast({
+          title: '请输入原始密码',
+          icon: 'none'
+        })
+      }
+      if (!self.newPass) {
+        return wx.showToast({
+          title: '请输入6-16位新密码',
+          icon: 'none'
+        })
+      }
+      self.$http.updateuser({
+        userId: self.userId,
+        oldPass: self.oldPass,
+        newPass: self.newPass
+      }).then(res => {
+        let resD = res.data
+        console.log(res.data)
+        if(resD.code == '200'){
+          
+        } else {
+          wx.showToast({
+            title: resD.message,
+            icon: 'none'
+          })
+        }
+        
+      }).catch((cat) => {
+        console.log(cat)
+      })
+    }
   },
   created () {
+  },
+  onShow () {
+    let self = this
+    wx.getStorage({
+      key: 'userInfo',
+      success: function(res) {
+        console.log(res);
+        self.userId = res.data.userId
+      } 
+    })
   }
 }
 </script>
@@ -52,6 +89,15 @@ export default {
     box-sizing: border-box;
     padding-top:52rpx;
     background-size: 100% 100%;
+    div {
+      margin:0 auto;
+      width: 145rpx;
+      height:145rpx;
+      border-radius:50%;
+      overflow: hidden;
+      background: url(../../../static/updataPhoto.png) no-repeat;
+      background-size: 100% 100%;
+    }
     img {
       width: 145rpx;
       height:145rpx;

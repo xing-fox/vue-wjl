@@ -1,10 +1,12 @@
 import Vue from 'vue'
 import App from './App'
 import http from '@/utils/request'
+import format from '@/utils/index'
 
 require('./reset.css')
 
 Vue.prototype.$http = http
+Vue.prototype.$format = format
 Vue.config.productionTip = false
 App.mpType = 'app'
 

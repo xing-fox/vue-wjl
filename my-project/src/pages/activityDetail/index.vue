@@ -1,30 +1,22 @@
 <template>
   <div class="page">
     <div class="top">
-      <img :src="activityData.activityPic">
+      <img :src="baseUrl+activityData.activityDetailsPic">
     </div>
-    <div class="caddie-list">
-      <div class="title" @click="goToCandidate">
+    <div v-if="caddieShow" class="caddie-list" @click="goToCandidate">
+      <div class="title">
         <div class="cont">球童候选人</div>
       </div>
-      <div class="box">
-        <img src="../../../static/qiutong1.png">
-        <button>投票</button>
-      </div>
-      <div class="box">
-        <img src="../../../static/qiutong1.png">
-        <button>投票</button>
-      </div>
-      <div class="box">
-        <img src="../../../static/qiutong1.png">
-        <button>投票</button>
+      <div class="box" v-for="(item, index) in caddieData" :key="index">
+        <img :src="baseUrl+item.voteImage">
+        <div class="ticket-btn">投票</div>
       </div>
     </div>
     <div class="act-info">
       <div class="title"><span>活动摘要</span></div>
       <div class="list">
-        <p>活动时间：2018-5-30-2018-8-30</p>
-        <p>截止时间：2018-8-30 18:00</p>
+        <p>活动时间：{{ activityData.Time }}</p>
+        <p>截止时间：{{ activityData.enddate}}</p>
         <p>主办方：{{ activityData.zhuban }}</p>
         <p class="tel">客服热线：{{ activityData.kefu }}</p>
       </div>
@@ -41,8 +33,12 @@
 export default {
   data () {
     return {
-      productId: '',
+      activityid: '',
+      mallId:'',
+      caddieShow: false,
+      caddieData:[],
       activityData:{},
+      baseUrl: this.$http.baseURL
     }
   },
   components: {
@@ -50,11 +46,11 @@ export default {
   methods: {
     goToCandidate(){
       wx.navigateTo({
-        url: '/pages/candidate/main',
+        url: '/pages/candidate/main?activityid=' + this.activityid ,
       })
     },
     goToBuy(){
-      wx.navigateTo({
+      wx.switchTab({
         url: '/pages/buyCard/main',
       })
     }
@@ -63,17 +59,36 @@ export default {
   },
   onLoad (options) {
     let self = this
-    self.productId = options.id
+    self.activityid = options.activityid
+    self.caddieShow = options.type == "1" ? true : false
     self.$http.activityDetail({
-      activityId: self.productId
+      activityId: self.activityid
     }).then(res => {
       if (res.data.code == '200'){
         self.activityData = res.data.result[0];
+        self.activityData.Time = `${self.$format.formatT(self.activityData.startdate)}-${self.$format.formatT(self.activityData.enddate)}`
+        self.activityData.enddate = self.$format.formatT(self.activityData.enddate,1)
+        self.caddieData = res.data.result[0].voteDoList
         wx.setNavigationBarTitle({
           title: self.activityData.activityName + '详情'
         })
       }
     })
+    wx.getStorage({
+      key: 'mallId',
+      success: function(res) {
+        self.mallId = res.data
+        self.$http.voteList({
+          acId: self.activityid,
+          mId: self.mallId
+        }).then(res => {
+          if (res.data.code == '200'){
+            self.caddieData = res.data.result
+          }
+        })
+      } 
+    })
+    
   }
 }
 </script>
@@ -82,6 +97,7 @@ export default {
   .top {
     img {
       width: 100%;
+      height:420rpx;
     }
   }
   .caddie-list {
@@ -116,8 +132,9 @@ export default {
       img{
         width: 146rpx;
         height:146rpx;
+        border-radius: 50%;
       }
-      button {
+      .ticket-btn {
         margin: 36rpx auto 0;
         width: 116rpx;
         height: 38rpx;

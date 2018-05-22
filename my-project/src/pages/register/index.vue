@@ -12,8 +12,8 @@
       <div class="register-input code">
         <img mode='widthFix' src='../../../static/code.png'>
         <input placeholder-class="p-gray" placeholder="请输入验证码" v-model="code"/>
-        <button v-if="phoneSure" @click="sendCodeFunc" size='mini'>获取验证码</button>
-        <button v-else>{{ timeLeave }}s后重新发送</button>
+        <div v-if="phoneSure" @click="sendCodeFunc">获取验证码</div>
+        <div v-else class="disable">{{ timeLeave }}s后重新发送</div>
       </div>
       <div class="register-input password">
         <img mode='widthFix' src='../../../static/pass.png'>
@@ -41,78 +41,110 @@ export default {
   components: {
   },
   methods: {
+    changeTime () {
+      this.timeInter = setInterval(() => {
+        if (this.timeLeave === 0) {
+          this.phoneSure = true
+          this.timeLeave = 60
+          clearInterval(this.timeInter)
+          return false
+        }
+        this.timeLeave--
+      }, 1000)
+    },
     submit(){
-      if (!this.userName) {
+      let self = this
+      if (!self.userName) {
         return wx.showToast({
           title: '请输入姓名',
-          icon: 'none',
-          duration: 2000
+          icon: 'none'
         })
       }
-      if (!this.telephone) {
+      if (!self.telephone) {
         return wx.showToast({
           title: '请输入手机号',
-          icon: 'none',
-          duration: 2000
+          icon: 'none'
         })
       }
-      if (!this.code) {
+      if (!self.code) {
         return wx.showToast({
           title: '请输入验证码',
-          icon: 'none',
-          duration: 2000
+          icon: 'none'
         })
       }
-      if (!this.password) {
+      if (!self.password) {
         return wx.showToast({
           title: '请输入6-16位密码',
-          icon: 'none',
-          duration: 2000
+          icon: 'none'
         })
       }
-      this.$http.saveUser({
-        name: this.userName,
-        mobile: this.telephone,
-        smsCode: this.code,
-        pwd: this.password,
-        pic: this.pic
+      self.$http.saveUser({
+        name: self.userName,
+        mobile: self.telephone,
+        smsCode: self.code,
+        pwd: self.password,
+        pic: self.pic
       }).then(res => {
-        console.log(res)
+        let resD = res.data
+        if(resD.code == '200'){
+          let data = {
+            userId: resD.result.userId,
+            userName: resD.result.userName,
+            usermobile: resD.result.usermobile,
+            pic: resD.result.pic,
+          }
+          wx.setStorage({
+            key:"userInfo",
+            data:data,
+            success:function(){
+              self.userName = ''
+              self.telephone = ''
+              self.password = ''
+              self.code = ''
+              wx.switchTab({
+                url: "/pages/own/main"
+              })
+            }
+          })
+        } else {
+          wx.showToast({
+            title: resD.message,
+            icon: 'none'
+          })
+        }
       }).catch((cat) => {
         console.log(cat)
       })
     },
     sendCodeFunc () {
-      if (!this.telephone) {
+      let self = this
+      if (!self.telephone) {
         return wx.showToast({
           title: '请输入手机号',
-          icon: 'none',
-          duration: 2000
+          icon: 'none'
         })
       }
-      if (!(/^1[3|4|5|7|8|9][0-9]\d{4,8}$/.test(this.telephone))) {
+      if (!(/^1[3|4|5|7|8|9][0-9]\d{4,8}$/.test(self.telephone))) {
         return wx.showToast({
           title: '手机号输入有误,请重新输入',
-          icon: 'none',
-          duration: 2000
+          icon: 'none'
         })
       }
-      this.$http.getIdentifyCode({
-        'phone': this.telephone
+      this.$http.getCode({
+        'mobile': this.telephone
       }).then(res => {
-        if (res.code === 'E00000') {
+        console.log(res);
+        if (res.data.code === '200') {
           wx.showToast({
             title: '发送成功',
-            icon: 'none',
-            duration: 2000
+            icon: 'none'
           })
-          this.phoneSure = false
-          this.changeTime()
+          self.phoneSure = false
+          self.changeTime()
         } else {
           wx.showToast({
             title: '发送失败，请稍后重试',
-            icon: 'none',
-            duration: 2000
+            icon: 'none'
           })
         }
       })
@@ -174,17 +206,21 @@ button {
 .register .code {
   padding-right: 200rpx;
 }
-.register .code button {
+.register .code div {
   position: absolute;
   right: 0;
-  top:12rpx;
+  top:0;
+  width: 200rpx;
+  height: 88rpx;
+  line-height: 88rpx;
+  font-size: 30rpx;
+  text-align: center;
   color:#05a21b;
-  border-color:#fff;
-  background: none;
 }
-.register .code button::after {
-  border: 0;
-} 
+.register .code .disable {
+  color:#999;
+}
+
 .register-input input {
   display: inline-block;
   vertical-align:top;

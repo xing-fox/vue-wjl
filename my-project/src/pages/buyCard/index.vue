@@ -2,13 +2,13 @@
   <div class="page">
     <ul>
       <li v-for="(item, index) in dataList" :key="index">
-        <img :src="item.img">
+        <img :src="baseUrl + item.imgUrl">
         <div class="listIntro">
-          <p class="introName">{{ item.name }}</p>
-          <p class="introValidata">有效期：{{ item.validata }}</p>
-          <p class="introUse">可用时间：{{ item.usetime }}</p>
-          <p class="introPrice">¥{{ item.price }}</p>
-          <div class="introAdd" @click="addFunc(index, item.id)"><i></i></div>
+          <p class="introName">{{ item.ticketContent }}</p>
+          <p class="introValidata">有效期:{{ item.startTime }}-{{ item.endTime }}</p>
+          <p class="introUse">可用时间:{{ item.useStartTime }}-{{ item.useEndTime }}</p>
+          <p class="introPrice">¥{{ item.ticketPrice }}</p>
+          <div class="introAdd" @click="addFunc(index, item.ticketId)"><i></i></div>
         </div>
       </li>
     </ul>
@@ -45,8 +45,8 @@
         </div>
         <ul class="listContent">
           <li v-for="(item, index) in choiseList" :key="index">
-            <span class="listName">{{ item.name }}</span>
-            <span class="listPrice">¥{{ item.price }}</span>
+            <span class="listName">{{ item.ticketContent }}</span>
+            <span class="listPrice">¥{{ item.ticketPrice }}</span>
             <span class="listCount">
               <i class="minus icon" @click="minusFunc(index)"></i><span class="count">{{ item.num }}</span><i class="plus icon" @click="plusFunc(index)"></i>
             </span>
@@ -66,6 +66,8 @@
 export default {
   data () {
     return {
+      mallId:'',
+      baseUrl: this.$http.baseURL,
       dataList: [
         {
           img: 'http://img02.tooopen.com/images/20150928/tooopen_sy_143912755726.jpg',
@@ -75,22 +77,6 @@ export default {
           price: '120',
           num: 1,
           id: 10
-        },{
-          img: 'http://img02.tooopen.com/images/20150928/tooopen_sy_143912755726.jpg',
-          name: '私人影院（二大一小)',
-          validata: '2018-1-1',
-          usetime: '10:00 - 19:00',
-          price: '90',
-          num: 1,
-          id: 20
-        },{
-          img: 'http://img02.tooopen.com/images/20150928/tooopen_sy_143912755726.jpg',
-          name: '欢乐颂（二大一小)',
-          validata: '2018-1-1',
-          usetime: '10:00 - 19:00',
-          price: '100',
-          num: 1,
-          id: 30
         }
       ],
       shopCartNum: 0,
@@ -108,7 +94,7 @@ export default {
       this.cartState = true
       let _id = -1
       this.choiseList.map((item) => {
-        if (item.id === id) {
+        if (item.ticketId === id) {
           _id = 1
         }
       })
@@ -121,7 +107,7 @@ export default {
       [this.shopCartNum, this.totalMoney]= [0, 0]
       this.choiseList.map((item) => {
         this.shopCartNum += item.num
-        this.totalMoney += item.num*parseFloat(item.price)
+        this.totalMoney += item.num*parseFloat(item.ticketPrice)
       })
     },
     minusFunc (index) {
@@ -156,6 +142,26 @@ export default {
     }
   },
   created () {
+  },
+  onShow () {
+    let self = this
+    wx.getStorage({
+      key: 'mallId',
+      success: function(res) {
+        self.mallId = res.data
+        self.$http.ticketList({
+          cid: '1'
+        }).then(res => {
+          if (res.data.code == '200'){
+            self.dataList = res.data.result;
+            for (let value of self.dataList) {
+              value.num = 1
+            }
+            console.log(self.dataList)
+          }
+        })
+      } 
+    })
   }
 }
 </script>
@@ -168,6 +174,7 @@ page{
 
 <style lang="less" scoped>
   .page{
+    padding-bottom: 82rpx;
     ul{
       li{
         width: 100%;
@@ -178,7 +185,7 @@ page{
         img{
           width: 230rpx;
           height: 190rpx;
-          margin: 40rpx 50rpx;
+          margin: 40rpx 20rpx 40rpx 30rpx;
         }
         .listIntro{
           flex: 1;
@@ -186,23 +193,23 @@ page{
           position: relative;
           .introName{
             color: #333;
-            font-size: 32rpx;
+            font-size: 28rpx;
           }
           .introValidata{
             color: #999;
-            font-size: 28rpx;
+            font-size: 24rpx;
             line-height: 34rpx;
             margin: 10rpx 0 0 0;
           }
           .introUse{
             color: #999;
-            font-size: 28rpx;
+            font-size: 24rpx;
             line-height: 34rpx;
             margin: 10rpx 0 0 0;
           }
           .introPrice{
             color: #e02105;
-            font-size: 34rpx;
+            font-size: 26rpx;
             margin: 20rpx 0 0 0;
           }
           .introAdd{
@@ -394,6 +401,9 @@ page{
               color: #666;
               font-size: 26rpx;
               width: 300rpx;
+              overflow: hidden;
+              white-space: nowrap;
+              text-overflow: ellipsis;
             }
             .listPrice{
               color: #fd2322;

@@ -34,14 +34,8 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": -1,
+			"current": 3,
 			"list": [
-				{
-					"id": 0,
-					"name": "pages/index/main",
-					"pathName": "pages/index/main",
-					"query": ""
-				},
 				{
 					"id": -1,
 					"name": "注册",
@@ -55,21 +49,33 @@
 					"query": ""
 				},
 				{
-					"id": -1,
-					"name": "pages/buyCard/main",
+					"id": 2,
+					"name": "购票",
 					"pathName": "pages/buyCard/main",
-					"query": ""
-				},
-				{
-					"id": -1,
-					"name": "pages/login/main",
-					"pathName": "pages/login/main",
 					"query": ""
 				},
 				{
 					"id": -1,
 					"name": "我的",
 					"pathName": "pages/own/main",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "我的门票",
+					"pathName": "pages/myTicket/main",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "积分明细",
+					"pathName": "pages/pointDetail/main",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "球童候选人",
+					"pathName": "pages/candidate/main",
 					"query": ""
 				}
 			]
