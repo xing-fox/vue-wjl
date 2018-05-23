@@ -12,18 +12,31 @@
           </div>  
         </swiper-item>  
         <swiper-item>  
-          <ul class="ticket-List">
+          <div class="order-info">
+            <p class="mall">合肥市(国购广场)</p>
+            <p class="title">订单信息</p>
+            <ul class="order-list">
+              <li><span>订单编号：</span>DSGH00000542</li>
+              <li><span>下单时间：</span>2018-07-21 17:00:10:10</li>
+              <li><span>订单状态：</span>待消费</li>
+            </ul>
+            <p class="title">售票类型</p>
+          </div>
+          <ul class="goods-list">
             <li>
-              <p>家庭套票（二大一小）</p>
-              <span>2018-5-30</span>
-              <div class="ticket-no">1张</div>
+              <div class="ticketName">成人票</div>
+              <div class="price">单价：￥30<span>X5</span></div>
+              <div class="num">数量：5张</div>
+              <p>合计：￥320</p>
             </li>
             <li>
-              <p>标准（成人）</p>
-              <span>2018-5-30</span>
-              <div class="ticket-no">1张</div>
+              <div class="ticketName">儿童票</div>
+              <div class="price">单价：￥30<span>X5</span></div>
+              <div class="num">数量：5张</div>
+              <p>合计：￥320</p>
             </li>
-          </ul>  
+          </ul>
+          <div class="total">商品总价：<span>￥352</span></div>
         </swiper-item>
     </swiper>  
   </div>
@@ -118,30 +131,64 @@ export default {
       height:300rpx;
     }
   }
-  ul{
-    padding:0 30rpx;
+  .order-info {
+    padding:30rpx 30rpx 0;
+    color:#2f2f2f;
+    .mall {
+      font-size: 34rpx;
+      padding:20rpx 0;
+    }
+    .title {
+      font-size: 28rpx;
+      line-height: 72rpx;
+      border-bottom:#bfbfbf solid 1rpx;
+    }
+    .order-list {
+      font-size: 28rpx;
+      line-height: 44rpx;
+      padding:30rpx 0; 
+      span{
+        color:#929292;
+      }
+    }
+  }
+  .goods-list {
+    font-size: 24rpx;
+    line-height: 36rpx;
     li{
-      position: relative;
-      padding:40rpx 100rpx 40rpx 0;
-      line-height: 40rpx;
-      border-bottom:#eee solid 1px;
-      font-size: 30rpx;
+      padding:30rpx;
+      border-bottom:#f9f9f9 solid 16rpx;
+      .ticketName{
+        font-size: 26rpx;
+        line-height: 46rpx;
+      }
+      .price {
+        span{
+          color:#ca0202;
+          float: right;
+          font-size: 28rpx;
+        }
+      }
       p{
-        color:#2f2f2f;
+        margin-top:40rpx;
+        color:#ca0202;
+        line-height: 50rpx;
+        border-top:#bfbfbf dashed 1rpx;
+        border-bottom:#bfbfbf solid 1rpx;
       }
-      span {
-        font-size: 24rpx;
-        color:#b5b4b4;
-      }
-      .ticket-no {
-        position: absolute;
-        right: 0;
-        top:40rpx;
-        text-align: right;
-        width: 100rpx;
-        line-height: 80rpx;
-        color:#5e5e5e;
-      }
+    }
+    li:last-child {
+      border-bottom: 0;
+    }
+  }
+  .total {
+    padding:0 30rpx;
+    text-align: right;
+    color:#2f2f2f;
+    font-size: 28rpx;
+    line-height: 70rpx;
+    span{
+      color:#ca0202;
     }
   }
 } 

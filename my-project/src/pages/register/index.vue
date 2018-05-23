@@ -244,16 +244,17 @@ button {
   padding:8px;
 }
 .register button[type=primary] {
-  margin-top:168rpx;
+  margin-top:38rpx;
 }
 .register .agreement{
+  padding-top:110rpx;
   color:#666;
   font-size:28rpx;
   text-align:center;
-  span {
+}
+.register .agreement span {
     color:#1a87ff;
   }
-}
 .register-input span {
   position:absolute;
   top:0;

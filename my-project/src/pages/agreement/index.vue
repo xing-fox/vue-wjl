@@ -20,7 +20,16 @@ export default {
 }
 </script>
 
-<style>
-
+<style lang="less" scoped>
+.page {
+  color:#666;
+  font-size: 28rpx;
+  line-height: 42rpx;
+  padding:20rpx 40rpx;
+  p{
+    text-indent: 56rpx;
+    padding: 30rpx 0;
+  }
+}
 </style>
 
