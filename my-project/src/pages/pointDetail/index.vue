@@ -9,32 +9,35 @@
     </div>  
     <swiper :current="currentTab" class="swiper-box" duration="300" @change="bindChange">
         <swiper-item>  
-          <scroll-view class="point-List" scroll-y @scrolltolower="toLow">
+          <scroll-view v-if="goleList.length" class="point-List" scroll-y @scrolltolower="toLow">
             <div class="list" v-for="(item, index) in goleList" :key="index" >
               <p>{{ item.xijiaActivityName }}</p>
               <span>{{ item.xijiaintegralchangedate }}</span>
               <div class="mark">{{ item.xijiaintegralchangegole }}积分</div>
             </div>
           </scroll-view>
+          <div v-else class="noData">暂无数据</div>
         </swiper-item>
         <swiper-item>  
-          <scroll-view class="point-List" scroll-y @scrolltolower="gifttToLow">
+          <scroll-view v-if="giftList.length" class="point-List" scroll-y @scrolltolower="giftToLow">
             <div class="list" v-for="(item, index) in giftList" :key="index" >
               <p>{{ item.mallName }}</p>
               <span>{{ item.createTime }}</span>
               <div class="mark">{{ item.score }}积分</div>
             </div>
-          </scroll-view> 
+          </scroll-view>
+          <div v-else class="noData">暂无数据</div> 
         </swiper-item>
         <swiper-item>  
-          <scroll-view class="point-List" scroll-y @scrolltolower="gifttToLow">
-            <div class="list exchange" v-for="(item, index) in giftList" :key="index" >
+          <scroll-view v-if="DHList.length" class="point-List" scroll-y @scrolltolower="DHToLow">
+            <div class="list exchange" v-for="(item, index) in DHList" :key="index" >
               <p>{{ item.mallName }}</p>
               <p class="pt">200积分</p>
               <span>{{ item.time }}</span>
               <div class="mark">{{ item.score }}游戏币</div>
             </div>
-          </scroll-view> 
+          </scroll-view>
+          <div v-else class="noData">暂无数据</div> 
         </swiper-item>
         <swiper-item>  
           <ul class="about">
@@ -67,6 +70,9 @@ export default {
       giftPageNum: 1,
       giftHasMore: true,
       giftList:[],
+      DHPageNum: 1,
+      DHHasMore: true,
+      DHList:[],
       time:'',
       tips:'',
     }
@@ -119,16 +125,39 @@ export default {
         }
       })
     },
+    getDHList(pageNum){
+      let self = this
+      self.DHHasMore = false
+      self.$http.userIntegral({
+        userId: self.userId,
+        start: pageNum,
+        limit:self.pageSize,
+        mallId:self.mallId
+      }).then(res => {
+        if (res.data.code == '200'){
+          self.DHList = self.DHList.concat(res.data.result)
+          if(res.data.result.length == self.pageSize){
+            self.DHHasMore = true
+          }
+        }
+      })
+    },
     toLow() {
         if(this.goleHasMore){
           this.golePageNum++;
           this.getGoleList(this.golePageNum)
         }
     },
-    gifttToLow(){
+    giftToLow(){
         if(this.giftHasMore){
           this.giftPageNum++;
           this.getGiftList(this.giftPageNum)
+        }
+    },
+    DHToLow(){
+        if(this.DHHasMore){
+          this.DHPageNum++;
+          this.getDHList(this.DHPageNum)
         }
     }
   },
@@ -148,15 +177,16 @@ export default {
       key: 'mallId',
       success: function(res) {
         self.mallId = res.data
+        self.getDHList(self.DHPageNum)
         self.$http.getShareDescription({
           mallId:self.mallId 
         }).then(res => {
-      if (res.data.code == '200'){
-        let resData = res.data.result
-        self.time = `${resData.startTime}-${resData.endTime}`
-        self.tips = `${resData.tips}`
-      }
-    })
+          if (res.data.code == '200'){
+            let resData = res.data.result
+            self.time = `${resData.startTime}-${resData.endTime}`
+            self.tips = `${resData.tips}`
+          }
+        })
       } 
     })
   }

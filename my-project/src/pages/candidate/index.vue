@@ -4,7 +4,7 @@
       <input type="number" placeholder-class="p-gray" placeholder="请输入编号" v-model="numT" auto-focus/>
       <span @click="search">搜索</span>
     </div>
-    <scroll-view v-if="hasData" class="player_tab" scroll-y @scrolltolower="toLow">
+    <scroll-view v-if="playerUr.length" class="player_tab" scroll-y @scrolltolower="toLow">
       <div class="player-li" v-for="(item,index) in playerUr" :key="index">
         <img :src="baseUrl+item.voteImage">
         <div class="tab_name">
@@ -17,8 +17,8 @@
         </div>
       </div>
     </scroll-view>
+    <div v-else class="noData">暂无数据</div>
   </div>
-  <div v-else>目前还没有人参与此活动哦</div>
 </template>
 
 <script>
@@ -82,6 +82,8 @@ export default {
             if(res.data.result.length == self.pageSize){
               self.hasMore = true
             }
+          }else{
+            self.playerUr = [];
           }
         })
       } else {

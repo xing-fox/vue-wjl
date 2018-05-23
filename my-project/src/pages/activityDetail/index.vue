@@ -1,6 +1,6 @@
 <template>
   <div class="page">
-    <div class="top">
+    <div v-if="activityData.activityDetailsPic" class="top">
       <img :src="baseUrl+activityData.activityDetailsPic">
     </div>
     <div v-if="caddieShow" class="caddie-list" @click="goToCandidate">
@@ -20,8 +20,10 @@
         <p>主办方：{{ activityData.zhuban }}</p>
         <p class="tel">客服热线：{{ activityData.kefu }}</p>
       </div>
-      <div class="title"><span>活动须知</span></div>
-      <div class="cont">{{ activityData.activityDetails }}</div>
+      <div v-if="activityData.activityDetails">
+        <div class="title"><span>活动须知</span></div>
+        <div class="cont">{{ activityData.activityDetails }}</div>
+      </div>
     </div>
     <div class="btn" @click="goToBuy">
       <button type="primary">立即购票参与活动</button>
@@ -65,10 +67,11 @@ export default {
       activityId: self.activityid
     }).then(res => {
       if (res.data.code == '200'){
-        self.activityData = res.data.result[0];
+        self.activityData = res.data.result[0]
         self.activityData.Time = `${self.$format.formatT(self.activityData.startdate)}-${self.$format.formatT(self.activityData.enddate)}`
         self.activityData.enddate = self.$format.formatT(self.activityData.enddate,1)
         self.caddieData = res.data.result[0].voteDoList
+        self.caddieShow = self.caddieData.length ? true : false
         wx.setNavigationBarTitle({
           title: self.activityData.activityName + '详情'
         })

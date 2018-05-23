@@ -79,14 +79,10 @@ export default {
   onShareAppMessage: function (res) {
     let self = this
     self.shadowShow = false
-    console.log(self.giftId);
-    if (res.from === 'button') {
-      // 来自页面内转发按钮
-      console.log(res.target)
-    }
+    console.log(self.userId);
     return {
-      title: '赠送积分22',
-      path: '/pages/obtailShareGift/main?id='+ self.giftId
+      title: '赠送积分',
+      path: '/pages/obtailShareGift/main?id='+ self.userId
     }
   }
 }

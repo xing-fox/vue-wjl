@@ -51,7 +51,14 @@ button[type=primary] {
 .p-gray {
   color: #d7d7d7;
 }
-
+.noData {
+  text-align: center;
+  font-size: 26rpx;
+  color:#494949;
+  padding:310rpx 30rpx 140rpx;
+  background: url(../static/wsjicon.png) center 100rpx no-repeat;
+  background-size: 218rpx auto;
+}
 .animated {
   -webkit-animation-duration: .6s;
   animation-duration: .6s;

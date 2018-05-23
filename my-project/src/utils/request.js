@@ -118,6 +118,10 @@ export default {
     getShareGift(params) {
         return get('integralchange/getShareGift', params)
     },
+    // 兑换记录
+    getDuihuan(params) {
+        return get('integralchange/getDuihuan', params)
+    },
     // 关于兑换
     getShareDescription(params) {
         return get('integralchange/getShareDescription', params)

@@ -36,7 +36,7 @@
       <div class="tab2_title bor-1px-b">
         <span>专属活动</span>
       </div>
-      <ul class="tab2_content">
+      <ul v-if="imgUrls1.length" class="tab2_content">
         <li v-for="(item, index) in imgUrls1" :key="index">
           <img :src="baseUrl+item.activityPic" @click="goToActivity(item.activityId,item.type)">
           <div class="tab2_content_name">
@@ -45,6 +45,7 @@
           <div v-if="!item.status" class="mask">敬请期待</div>
         </li>
       </ul>
+      <div v-else class="noData">暂无数据</div> 
     </div>
   </div>
 </template>
@@ -153,6 +154,8 @@ export default {
       }).then(res => {
         if (res.data.code == '200'){
           self.imgUrls1 = res.data.result;
+        } else {
+          self.imgUrls1 = []
         }
       })
     },

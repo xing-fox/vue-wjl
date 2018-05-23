@@ -1,13 +1,16 @@
 <template>
   <div class="page">
-    <div class="top">
-      <img :src="baseUrl+activityData.activityDetailsPic">
+    <div v-if="activityData.activityDetails || activityData.activityDetailsPic">
+      <div v-if="activityData.activityDetailsPic" class="top">
+        <img :src="baseUrl+activityData.activityDetailsPic">
+      </div>
+      
+      <div class="act-info" v-if="activityData.activityDetails">
+        <div class="title"><span>规则说明</span></div>
+        <div class="cont">{{ activityData.activityDetails }}</div>
+      </div>
     </div>
-    
-    <div class="act-info">
-      <div class="title"><span>规则说明</span></div>
-      <div class="cont">{{ activityData.activityDetails }}</div>
-    </div>
+    <div v-else class="noData">暂无数据</div> 
   </div>
 </template>
 
