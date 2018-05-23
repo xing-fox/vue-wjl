@@ -6,11 +6,13 @@
     <ul class="list-input">
       <li class="password">
         <i></i>
-        <input password placeholder-class="p-gray" placeholder="请输入原始密码" v-model="oldPass"/>
+        <input :password="oldPassShow" placeholder-class="p-gray" placeholder="请输入原始密码"  maxlength="16" v-model="oldPass"/>
+        <span :class="{'see' : !oldPassShow}" @click="oldPassShow = !oldPassShow"></span>
       </li>
       <li class="password">
         <i></i>
-        <input password placeholder-class="p-gray" placeholder="请输入6-16位新密码" v-model="newPass"/>
+        <input :password="newPassShow" placeholder-class="p-gray" placeholder="请输入6-16位新密码"  maxlength="16" v-model="newPass"/>
+        <span :class="{'see' : !newPassShow}" @click="newPassShow = !newPassShow"></span>
       </li>
     </ul>
     <div class="btn">
@@ -25,12 +27,18 @@ export default {
     return {
       userId:'',
       oldPass: '',
-      newPass: ''
+      newPass: '',
+      oldPassShow:true,
+      newPassShow:true
     }
   },
   components: {
   },
   methods: {
+    newSee(){
+      newPassShow:false
+      this.newPassShow = !this.newPassShow
+    },
     submit(){
       let self = this
       if (!self.oldPass) {
@@ -39,30 +47,30 @@ export default {
           icon: 'none'
         })
       }
-      if (!self.newPass) {
+      if (!self.newPass || (self.newPass.length < 6)) {
         return wx.showToast({
           title: '请输入6-16位新密码',
           icon: 'none'
         })
       }
       self.$http.updateuser({
-        userId: self.userId,
-        oldPass: self.oldPass,
-        newPass: self.newPass
+        id : self.userId,
+        pwd : self.oldPass,
+        newPwd : self.newPass
       }).then(res => {
         let resD = res.data
         console.log(res.data)
         if(resD.code == '200'){
-          
+          wx.showToast({
+            title: '密码修改成功',
+            icon: 'none'
+          })
         } else {
           wx.showToast({
             title: resD.message,
             icon: 'none'
           })
         }
-        
-      }).catch((cat) => {
-        console.log(cat)
       })
     }
   },
@@ -70,6 +78,8 @@ export default {
   },
   onShow () {
     let self = this
+    self.oldPass = ''
+    self.newPass = ''
     wx.getStorage({
       key: 'userInfo',
       success: function(res) {
@@ -111,7 +121,7 @@ export default {
       border:#dcdcdc solid 1rpx;
       margin-bottom: 40rpx;
       border-radius: 6rpx;
-      padding-left: 96rpx;
+      padding:0 88rpx 0 96rpx;
       i{
         position: absolute;
         left:0;
@@ -128,6 +138,20 @@ export default {
         height: 88rpx;
         font-size: 26rpx;
         color:#2f2f2f;
+        background:#fff;
+      }
+      span {
+        position:absolute;
+        top:0;
+        right:0;
+        width:88rpx;
+        height:88rpx;
+        background:url("../../../static/eye1.png") center no-repeat;
+        background-size:44rpx auto;
+        z-index:1;
+      }
+      .see {
+        background-image:url("../../../static/eye2.png");
       }
     }
     .name i{

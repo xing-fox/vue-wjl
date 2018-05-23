@@ -26,7 +26,8 @@
           </li>
           <li class="password">
             <i></i>
-            <input password placeholder-class="p-gray" placeholder="请输入6-16位密码" v-model="password"/>
+            <input :password="passShow" placeholder-class="p-gray" placeholder="请输入6-16位密码" maxlength="16" v-model="password"/>
+            <span :class="{'see' : !passShow}" @click="passShow = !passShow"></span>
           </li>
         </ul>
         <button @click="submit">确认领取</button>
@@ -43,7 +44,8 @@ export default {
       shadowShow:false,
       telephone:'',
       password:'',
-      giftId:''
+      giftId:'',
+      passShow:true
     }
   },
   components: {
@@ -57,7 +59,13 @@ export default {
           icon: 'none'
         })
       }
-      if (!self.password) {
+      if (!(/^1[3|4|5|7|8|9][0-9]\d{4,8}$/.test(self.telephone))) {
+        return wx.showToast({
+          title: '请输入正确的手机号',
+          icon: 'none'
+        })
+      }
+      if (!self.password || (self.password.length < 6)) {
         return wx.showToast({
           title: '请输入6-16位密码',
           icon: 'none'
@@ -220,14 +228,30 @@ export default {
             font-size: 26rpx;
             color:#2f2f2f;
           }
+          span {
+            position:absolute;
+            top:0;
+            right:0;
+            width:88rpx;
+            height:88rpx;
+            background:url("../../../static/eye1.png") center no-repeat;
+            background-size:44rpx auto;
+            z-index:1;
+          }
+          .see {
+            background-image:url("../../../static/eye2.png");
+          }
         }
         .phone i{
           background-image:url(../../../static/phone.png);
           background-size: 29rpx auto;
         }
-        .password i{
-          background-image:url(../../../static/pass.png);
-          background-size: 30rpx auto;
+        .password {
+          padding-right:88rpx;
+          i{
+            background-image:url(../../../static/pass.png);
+            background-size: 30rpx auto;
+          }
         }
       }
       button {

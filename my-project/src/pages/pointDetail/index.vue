@@ -32,9 +32,9 @@
           <scroll-view v-if="DHList.length" class="point-List" scroll-y @scrolltolower="DHToLow">
             <div class="list exchange" v-for="(item, index) in DHList" :key="index" >
               <p>{{ item.mallName }}</p>
-              <p class="pt">200积分</p>
-              <span>{{ item.time }}</span>
-              <div class="mark">{{ item.score }}游戏币</div>
+              <p class="pt">{{ item.score }}积分</p>
+              <span>{{ item.createTime }}</span>
+              <div class="mark">{{ item.goodsNum }}游戏币</div>
             </div>
           </scroll-view>
           <div v-else class="noData">暂无数据</div> 
@@ -128,7 +128,7 @@ export default {
     getDHList(pageNum){
       let self = this
       self.DHHasMore = false
-      self.$http.userIntegral({
+      self.$http.getDuihuan({
         userId: self.userId,
         start: pageNum,
         limit:self.pageSize,

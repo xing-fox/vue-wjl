@@ -3,11 +3,12 @@
       <img class="login-bg" mode='widthFix' src='../../../static/players.png'>
       <div class="login-input phone">
         <img mode='widthFix' src='../../../static/phone.png'>
-        <input  type="number" placeholder-class="p-gray" placeholder="请输入手机号" maxlength="11" v-model="telephone"/>
+        <input type="number" placeholder-class="p-gray" placeholder="请输入手机号" maxlength="11" v-model="telephone"/>
       </div>
       <div class="login-input password">
         <img mode='widthFix' src='../../../static/pass.png'>
-        <input password maxlength="16" placeholder-class="p-gray" placeholder="请输入6-16位密码" v-model="password" />
+        <input :password="passShow" placeholder-class="p-gray" placeholder="请输入6-16位密码" maxlength="16" v-model="password" />
+        <span :class="{'see' : !passShow}" @click="passShow = !passShow"></span>
       </div>
       <div>
         <button type="primary" @click="submit">登陆</button>
@@ -24,7 +25,7 @@ export default {
     return {
       telephone:'',
       password:'',
-      passSee:false
+      passShow:true
     };
   },
   components: {},
@@ -37,7 +38,13 @@ export default {
           icon: 'none'
         })
       }
-      if (!self.password) {
+      if (!(/^1[3|4|5|7|8|9][0-9]\d{4,8}$/.test(self.telephone))) {
+        return wx.showToast({
+          title: '请输入正确的手机号',
+          icon: 'none'
+        })
+      }
+      if (!self.password || (self.password.length < 6)) {
         return wx.showToast({
           title: '请输入6-16位密码',
           icon: 'none'
@@ -50,15 +57,9 @@ export default {
         let resD = res.data
         console.log(res.data)
         if(resD.code == '200'){
-          let data = {
-            userId: resD.result.userId,
-            userName: resD.result.userName,
-            usermobile: resD.result.usermobile,
-            pic: resD.result.pic,
-          }
           wx.setStorage({
             key:"userInfo",
-            data:data,
+            data:{userId: resD.result.userId},
             success:function(){
               self.password = ''
               wx.switchTab({
@@ -83,7 +84,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-page{
+
   button {
     height: 88rpx;
     font-size: 32rpx;
@@ -124,6 +125,9 @@ page{
     top:24rpx;
     width: 30rpx;
   }
+  .login .password {
+    padding-right: 88rpx;
+  }
   .login-input input {
     display: inline-block;
     vertical-align: top;
@@ -146,6 +150,19 @@ page{
     position: static;
     width: 154rpx;
   }
+  .login-input span {
+  position:absolute;
+  top:0;
+  right:0;
+  width:88rpx;
+  height:88rpx;
+  background:url("../../../static/eye1.png") center no-repeat;
+  background-size:44rpx auto;
+  z-index:1;
 }
+.login-input .see {
+  background-image:url("../../../static/eye2.png");
+}
+
 </style>
 

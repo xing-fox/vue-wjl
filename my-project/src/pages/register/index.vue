@@ -7,18 +7,20 @@
       </div>
       <div class="register-input phone">
         <img mode='widthFix' src='../../../static/phone.png'>
-        <input placeholder-class="p-gray" placeholder="请输入手机号" v-model="telephone"/>
+        <input type="number" placeholder-class="p-gray" placeholder="请输入手机号" v-model="telephone" maxlength="11"/>
       </div>
       <div class="register-input code">
         <img mode='widthFix' src='../../../static/code.png'>
-        <input placeholder-class="p-gray" placeholder="请输入验证码" v-model="code"/>
+        <input type="number" placeholder-class="p-gray" placeholder="请输入验证码" v-model="code"/>
         <div v-if="phoneSure" @click="sendCodeFunc">获取验证码</div>
         <div v-else class="disable">{{ timeLeave }}s后重新发送</div>
       </div>
       <div class="register-input password">
         <img mode='widthFix' src='../../../static/pass.png'>
-        <input placeholder-class="p-gray" placeholder="请输入6-16位密码" v-model="password"/>
+        <input :password="passShow" placeholder-class="p-gray" placeholder="请输入6-16位密码" v-model="password" maxlength="16"/>
+        <span :class="{'see' : !passShow}" @click="passShow = !passShow"></span>
       </div>
+      <div class="agreement">立即注册表示同意<span @click="goAgreement">《用户协议》</span></div>
       <button type="primary" @click="submit">立即注册</button>
     </div>
   </div>
@@ -35,7 +37,8 @@ export default {
       pic:'',
       timeLeave: 60,
       timeInter: '',
-      phoneSure: true
+      phoneSure: true,
+      passShow:true
     }
   },
   components: {
@@ -51,6 +54,11 @@ export default {
         }
         this.timeLeave--
       }, 1000)
+    },
+    goAgreement(){
+      wx.navigateTo({
+        url: "/pages/agreement/main"
+      })
     },
     submit(){
       let self = this
@@ -72,7 +80,7 @@ export default {
           icon: 'none'
         })
       }
-      if (!self.password) {
+      if (!self.password || (self.password.length < 6)) {
         return wx.showToast({
           title: '请输入6-16位密码',
           icon: 'none'
@@ -126,12 +134,12 @@ export default {
       }
       if (!(/^1[3|4|5|7|8|9][0-9]\d{4,8}$/.test(self.telephone))) {
         return wx.showToast({
-          title: '手机号输入有误,请重新输入',
+          title: '请输入正确的手机号',
           icon: 'none'
         })
       }
-      this.$http.getCode({
-        'mobile': this.telephone
+      self.$http.getCode({
+        'mobile': self.telephone
       }).then(res => {
         console.log(res);
         if (res.data.code === '200') {
@@ -206,6 +214,9 @@ button {
 .register .code {
   padding-right: 200rpx;
 }
+.register .password {
+  padding-right: 88rpx;
+}
 .register .code div {
   position: absolute;
   right: 0;
@@ -234,6 +245,27 @@ button {
 }
 .register button[type=primary] {
   margin-top:168rpx;
+}
+.register .agreement{
+  color:#666;
+  font-size:28rpx;
+  text-align:center;
+  span {
+    color:#1a87ff;
+  }
+}
+.register-input span {
+  position:absolute;
+  top:0;
+  right:0;
+  width:88rpx;
+  height:88rpx;
+  background:url("../../../static/eye1.png") center no-repeat;
+  background-size:44rpx auto;
+  z-index:1;
+}
+.register-input .see {
+  background-image:url("../../../static/eye2.png");
 }
 </style>
 
