@@ -94,23 +94,40 @@ export default {
     },
     vote(index,voteId){
       let self = this
-      self.$http.voteDo({
-        voteId: voteId,
-        userId: self.userId
-      }).then(res => {
-        if (res.data.code == '200'){
-          self.playerUr[index].sumVote ++
-          wx.showToast({
-            title: '投票成功',
-            icon: 'none'
-          })
-        } else {
-          wx.showToast({
-            title: res.data.message,
-            icon: 'none'
-          })
-        }
-      })
+      if(!self.userId){
+        wx.showToast({
+          title: '请先登陆',
+          icon: 'none',
+          duration:2000,
+          success:function(){
+            setTimeout(() => {
+              wx.switchTab({
+                url: "/pages/own/main"
+              })
+            },1500)
+            
+          }
+        })
+      } else {
+        self.$http.voteDo({
+          voteId: voteId,
+          userId: self.userId
+        }).then(res => {
+          if (res.data.code == '200'){
+            self.playerUr[index].sumVote ++
+            wx.showToast({
+              title: '投票成功',
+              icon: 'none'
+            })
+          } else {
+            wx.showToast({
+              title: res.data.message,
+              icon: 'none'
+            })
+          }
+        })
+      }
+      
     }
   },
   created () {

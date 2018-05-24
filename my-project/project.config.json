@@ -9,8 +9,8 @@
 	},
 	"miniprogramRoot": "./dist/",
 	"compileType": "miniprogram",
-	"appid": "wxb8dfe22044dd1160",
-	"projectname": "wjl-xcc",
+	"appid": "wx363276cdbc856a61",
+	"projectname": "xj",
 	"scripts": {
 		"beforeCompile": "",
 		"beforePreview": "",
@@ -34,7 +34,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 2,
+			"current": -1,
 			"list": [
 				{
 					"id": -1,
@@ -98,9 +98,9 @@
 				},
 				{
 					"id": -1,
-					"name": "编辑资料",
-					"pathName": "pages/editInfo/main",
-					"query": ""
+					"name": "确认订单",
+					"pathName": "pages/confirmPay/main",
+					"query": "id=17"
 				}
 			]
 		}

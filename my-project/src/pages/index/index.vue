@@ -102,24 +102,32 @@ export default {
             if (res.data.code == '200'){
               self.Address = `${res.data.result[0].cityName}`
               self.cityId = res.data.result[0].cityId
-              let cityInfo = {
-                cityId:self.cityId,
-                Address:self.Address
-              }
-              wx.setStorage({
-                key:"cityInfo",
-                data: cityInfo
-              })
             }else {
               wx.showToast({
                 title: '当前城市暂无活动，尽情期待～',
                 icon: 'none',
               })
             }
+            let cityInfo = {
+              cityId:self.cityId,
+              Address:self.Address
+            }
+            wx.setStorage({
+              key:"cityInfo",
+              data: cityInfo
+            })
             self.getMallData()
           })
         },
         fail:function(){
+          let cityInfo = {
+            cityId:self.cityId,
+            Address:self.Address
+          }
+          wx.setStorage({
+            key:"cityInfo",
+            data: cityInfo
+          })
           wx.showToast({
             title: '定位失败，您可手动切换城市参与活动～',
             icon: 'none',

@@ -137,5 +137,10 @@ export default {
     // 领取积分
     obtailShareGift(params) {
         return get('integralchange/obtailShareGift', params)
+    },
+    // 生成订单
+    getPayInfo(params) {
+        return get('wxpay/getPayInfo', params)
     }
+
 }

@@ -162,9 +162,31 @@ export default {
   },
   onLoad () {
     let self = this
-    wx.getUserInfo({
-      success: function(res) {
-        self.pic = res.userInfo.avatarUrl;
+    wx.getSetting({
+      success(res) {
+        if (!res.authSetting['scope.userInfo']) {
+          wx.authorize({
+            scope: 'scope.userInfo',
+            success() {
+              wx.getUserInfo({
+                success: function(res) {
+                  console.log(res.userInfo.avatarUrl)
+                  self.pic = res.userInfo.avatarUrl;
+                }
+              })
+            },
+            fail(ss){
+              console.log(ss);
+            }
+          })
+        }else{
+          wx.getUserInfo({
+            success: function(res) {
+              console.log(res.userInfo.avatarUrl)
+              self.pic = res.userInfo.avatarUrl;
+            }
+          })
+        }
       }
     })
   }

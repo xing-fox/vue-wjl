@@ -4,7 +4,7 @@
       <li v-for="(item, index) in dataList" :key="index">
         <img :src="baseUrl + item.imgUrl">
         <div class="listIntro">
-          <p class="introName">{{ item.ticketContent }}</p>
+          <p class="introName">{{ item.ticketName }}</p>
           <p class="introValidata">有效期:{{ item.startTime }}-{{ item.endTime }}</p>
           <p class="introUse">可用时间:{{ item.useStartTime }}-{{ item.useEndTime }}</p>
           <p class="introPrice">¥{{ item.ticketPrice }}</p>
@@ -18,7 +18,7 @@
         <i></i>
         <span>购物车是空的哦</span>
       </div>
-      <div class="payMoney" v-else>
+      <div class="payMoney" v-else @click="cartState = true">
         总计: {{totalMoney}}
       </div>
       <div :class="{paySure: shopCartNum == 0, paySureColor: shopCartNum != 0}">
@@ -37,7 +37,7 @@
         </div>
         <div class="cartList">
           <div class="listTitle">
-            <span class="titleName">购物车</span>
+            <span class="titleName" @click="cartState = false">购物车</span>
             <div class="clearBuy" @click="clearFunc">
               <i></i>
               <span>清空</span>
@@ -55,7 +55,7 @@
         </ul>
         <div class="cartBuy">
           <span class="total">合计：<span class="price">¥<span>{{ totalMoney }}</span></span></span>
-          <div class="payTotal">确认付款</div>
+          <div class="payTotal" @click="payment">确认付款</div>
         </div>
       </div>
       <div class="zzc" @click="zzcFunc"></div>
@@ -67,6 +67,7 @@
 export default {
   data () {
     return {
+      userId:'',
       mallId:'',
       cityId:'',
       baseUrl: this.$http.baseURL,
@@ -83,17 +84,33 @@ export default {
   },
   methods: {
     addFunc (index, id) {
-      this.cartState = true
-      let _id = -1
-      this.choiseList.map((item) => {
-        if (item.ticketId === id) {
-          _id = 1
+      if(this.userId){
+        this.cartState = true
+        let _id = -1
+        this.choiseList.map((item) => {
+          if (item.ticketId === id) {
+            _id = 1
+          }
+        })
+        if (_id === -1) {
+          this.choiseList.push(this.dataList[index])
         }
-      })
-      if (_id === -1) {
-        this.choiseList.push(this.dataList[index])
+        this.totalComputed()
+      } else {
+        wx.showToast({
+          title: '请先登陆',
+          icon: 'none',
+          duration:2000,
+          success:function(){
+            setTimeout(() => {
+              wx.switchTab({
+                url: "/pages/own/main"
+              })
+            },1500)
+            
+          }
+        })
       }
-      this.totalComputed()
     },
     totalComputed () {
       [this.shopCartNum, this.totalMoney]= [0, 0]
@@ -131,6 +148,23 @@ export default {
         this.fadeInState = true
         this.fadeOutState = false
       }, 300)
+    },
+    payment(){
+      let self = this
+      let payment = {
+        choiseList:self.choiseList,
+        totalMoney:self.totalMoney
+      }
+      wx.setStorage({
+        key:"mallId"+self.mallId,
+        data: payment,
+        success:function(){
+          wx.navigateTo({
+            url: '/pages/confirmPay/main',
+          })
+        }
+      })
+
     }
   },
   created () {
@@ -160,6 +194,13 @@ export default {
       success: function(res) {
         self.mallId = res.data.mallId
         console.log(self.mallId);
+      } 
+    })
+    wx.getStorage({
+      key: 'userInfo',
+      success: function(res) {
+        self.userId = res.data.userId
+        console.log(self.userId);
       } 
     })
   }
@@ -359,7 +400,7 @@ page{
             font-size: 26rpx;
             width: 100%;
             .titleName{
-              flex: 1;
+              flex: 5;
               margin: 0 0 0 20rpx;
             }
             .clearBuy{
