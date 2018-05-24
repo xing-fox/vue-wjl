@@ -27,7 +27,6 @@ export default {
     return {
       activityid: '',
       userId:'',
-      mallId:'',
       num:'',
       numT:'',
       baseUrl: this.$http.baseURL,

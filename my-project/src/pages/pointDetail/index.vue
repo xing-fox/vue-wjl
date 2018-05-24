@@ -174,9 +174,9 @@ export default {
       } 
     })
     wx.getStorage({
-      key: 'mallId',
+      key: 'mallInfo',
       success: function(res) {
-        self.mallId = res.data
+        self.mallId = res.data.mallId
         self.getDHList(self.DHPageNum)
         self.$http.getShareDescription({
           mallId:self.mallId 

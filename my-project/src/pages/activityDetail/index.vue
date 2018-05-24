@@ -36,7 +36,6 @@ export default {
   data () {
     return {
       activityid: '',
-      mallId:'',
       caddieShow: false,
       caddieData:[],
       activityData:{},

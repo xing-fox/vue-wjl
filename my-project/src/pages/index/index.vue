@@ -146,8 +146,8 @@ export default {
     getActivityList(){
       let self = this
       wx.setStorage({
-        key:"mallId",
-        data:self.mallId
+        key:"mallInfo",
+        data:{mallId:self.mallId,mallName:self.choiseSquareValue}
       })
       self.$http.activityList({
         mId: self.mallId

@@ -93,7 +93,7 @@ export default {
   }
   .login {
     background-size: 100% 100%; 
-    padding: 440rpx 30rpx 0;
+    padding: 490rpx 30rpx 0;
     width: 100%;
     height: 100%;
     box-sizing: border-box;

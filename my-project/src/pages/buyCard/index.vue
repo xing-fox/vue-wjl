@@ -1,6 +1,6 @@
 <template>
   <div class="page">
-    <ul>
+    <ul v-if="dataList.length" >
       <li v-for="(item, index) in dataList" :key="index">
         <img :src="baseUrl + item.imgUrl">
         <div class="listIntro">
@@ -12,6 +12,7 @@
         </div>
       </li>
     </ul>
+    <div v-else class="noData">暂无数据</div>
     <div class="payMent">
       <div class="payNull" v-if="shopCartNum == 0">
         <i></i>
@@ -67,18 +68,9 @@ export default {
   data () {
     return {
       mallId:'',
+      cityId:'',
       baseUrl: this.$http.baseURL,
-      dataList: [
-        {
-          img: 'http://img02.tooopen.com/images/20150928/tooopen_sy_143912755726.jpg',
-          name: '家庭套票（二大一小)',
-          validata: '2018-1-1',
-          usetime: '10:00 - 19:00',
-          price: '120',
-          num: 1,
-          id: 10
-        }
-      ],
+      dataList: [],
       shopCartNum: 0,
       choiseList: [],
       cartState: false,
@@ -146,20 +138,28 @@ export default {
   onShow () {
     let self = this
     wx.getStorage({
-      key: 'mallId',
+      key: 'cityInfo',
       success: function(res) {
-        self.mallId = res.data
+        self.cityId = res.data.cityId
         self.$http.ticketList({
-          cid: '1'
+          cid: self.cityId
         }).then(res => {
           if (res.data.code == '200'){
             self.dataList = res.data.result;
             for (let value of self.dataList) {
               value.num = 1
             }
-            console.log(self.dataList)
+          } else {
+            self.dataList = [];
           }
         })
+      } 
+    })
+    wx.getStorage({
+      key: 'mallInfo',
+      success: function(res) {
+        self.mallId = res.data.mallId
+        console.log(self.mallId);
       } 
     })
   }
