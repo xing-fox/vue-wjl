@@ -52,18 +52,28 @@ export default {
           body: body
         }).then(result => {
           if (result.data.code == '200'){
+            wx.removeStorage({
+              key:"mallId"+self.mallId
+            })
             let resD = JSON.parse(result.data.result);
-            console.log(JSON.parse(result.data.result));
+            console.log({
+              'timeStamp': resD.timeStamp,
+              'nonceStr': resD.nonceStr,
+              'package': 'prepay_id='+resD.prepay_id,
+              'signType': 'MD5',
+              'paySign': resD.paySign});
             wx.requestPayment({
               'timeStamp': resD.timeStamp,
               'nonceStr': resD.nonceStr,
-              'package': resD.package,
+              'package': 'prepay_id='+resD.prepay_id,
               'signType': 'MD5',
               'paySign': resD.paySign,
               'success':function(res){
+                console.log(222);
                 console.log(res)
               },
               'fail':function(res){
+                console.log(111);
                 console.log(res)
               }
             })

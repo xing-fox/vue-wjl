@@ -21,7 +21,7 @@
       <div class="payMoney" v-else @click="cartState = true">
         总计: {{totalMoney}}
       </div>
-      <div :class="{paySure: shopCartNum == 0, paySureColor: shopCartNum != 0}">
+      <div :class="{paySure: shopCartNum == 0, paySureColor: shopCartNum != 0}" @click="payment">
         <span>确认付款</span>
       </div>
     </div>
@@ -118,11 +118,12 @@ export default {
         this.shopCartNum += item.num
         this.totalMoney += item.num*parseFloat(item.ticketPrice)
       })
+      this.saveCardNum()
     },
     minusFunc (index) {
       if (this.choiseList[index].num === 1) {
         wx.showToast({
-          title: '数量不能小于1',
+          title: '票数不能小于1',
           icon: 'none',
           duration: 1000
         })
@@ -135,6 +136,7 @@ export default {
       this.choiseList = []
       this.shopCartNum = 0
       this.totalMoney = 0
+      this.saveCardNum()
       this.zzcFunc()
     },
     plusFunc (index) {
@@ -150,21 +152,28 @@ export default {
       }, 300)
     },
     payment(){
+      if(this.shopCartNum){
+        wx.navigateTo({
+          url: '/pages/confirmPay/main',
+        })
+      } else {
+        wx.showToast({
+          title: '购物车是空的哦',
+          icon: 'none'
+        })
+      }
+    },
+    saveCardNum (){
       let self = this
       let payment = {
         choiseList:self.choiseList,
-        totalMoney:self.totalMoney
+        totalMoney:self.totalMoney,
+        shopCartNum:self.shopCartNum
       }
       wx.setStorage({
         key:"mallId"+self.mallId,
-        data: payment,
-        success:function(){
-          wx.navigateTo({
-            url: '/pages/confirmPay/main',
-          })
-        }
+        data: payment
       })
-
     }
   },
   created () {
@@ -193,7 +202,14 @@ export default {
       key: 'mallInfo',
       success: function(res) {
         self.mallId = res.data.mallId
-        console.log(self.mallId);
+        wx.getStorage({
+          key: 'mallId'+self.mallId,
+          success: function(res) {
+            self.choiseList = res.data.choiseList
+            self.totalMoney =  res.data.totalMoney
+            self.shopCartNum = res.data.shopCartNum
+          } 
+        })
       } 
     })
     wx.getStorage({
