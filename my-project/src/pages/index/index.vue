@@ -102,7 +102,7 @@ export default {
             if (res.data.code == '200'){
               self.Address = `${res.data.result[0].cityName}`
               self.cityId = res.data.result[0].cityId
-            }else {
+            } else {
               wx.showToast({
                 title: '当前城市暂无活动，尽情期待～',
                 icon: 'none',
@@ -132,7 +132,9 @@ export default {
             title: '定位失败，您可手动切换城市参与活动～',
             icon: 'none',
             complete:function(){
-              self.getMallData()
+              setTimeout(() => {
+                self.getMallData()
+              },1500)
             }
           })
         }

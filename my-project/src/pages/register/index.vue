@@ -138,6 +138,8 @@ export default {
           icon: 'none'
         })
       }
+
+      self.phoneSure = false
       self.$http.getCode({
         'mobile': self.telephone
       }).then(res => {
@@ -147,9 +149,9 @@ export default {
             title: '发送成功',
             icon: 'none'
           })
-          self.phoneSure = false
           self.changeTime()
         } else {
+          self.phoneSure = true
           wx.showToast({
             title: '发送失败，请稍后重试',
             icon: 'none'
@@ -246,7 +248,7 @@ button {
   width: 200rpx;
   height: 88rpx;
   line-height: 88rpx;
-  font-size: 30rpx;
+  font-size: 26rpx;
   text-align: center;
   color:#05a21b;
 }

@@ -2,7 +2,7 @@ import Fly from 'flyio/dist/npm/wx'
 const fly = new Fly
 
 fly.interceptors.request.use((config, promise) => {
-    // wx.showLoading({ title: '正在加载中...' })
+    wx.showLoading({ title: '正在加载中...' })
     config.headers["X-Tag"] = "flyio"
     return config
 })
@@ -45,8 +45,8 @@ export function post(url, params) {
 
 const env = process.env.NODE_ENV
 if (env === 'development') {
-    // fly.config.baseURL = 'http://61.190.254.82:8080/xijia/'
-    fly.config.baseURL = 'https://83031202.xiaoqibuz.com/xijia'
+    fly.config.baseURL = 'http://61.190.254.82:8080/xijia/'
+        // fly.config.baseURL = 'https://83031202.xiaoqibuz.com/xijia'
 
 }
 
@@ -143,6 +143,9 @@ export default {
     // 生成订单
     getPayInfo(params) {
         return get('wxpay/getPayInfo', params)
+    },
+    // 保存订单记录
+    saveOrder(params) {
+        return get('wxpay/saveOrder', params)
     }
-
 }

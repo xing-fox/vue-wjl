@@ -15,7 +15,14 @@
       <div class="total">商品总价：<span>￥{{totalMoney}}</span></div>
       <div class="payTotal" @click="payment">确认付款</div>
     </div>
-    
+    <div v-if="resShow" class="result">
+      <div v-if="resStatus" class="success">支付成功！</div>
+      <div v-else class="fail">支付失败！</div>
+      <div class="result-btn">
+        <span @click="goHome">返回首页</span>
+        <span @click="goTicket">购票纪录</span>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -29,67 +36,97 @@ export default {
       mallId:'',
       mallName:'',
       dataList:[],
-      totalMoney:0
+      totalMoney:0,
+      body:'',
+      resShow:false,
+      resStatus:true
     }
   },
   components: {
   },
   methods: {
+    goHome(){
+      wx.switchTab({
+        url: "/pages/index/main"
+      })
+    },
+    goTicket(){
+      wx.redirectTo({
+        url: "/pages/myTicket/main?tab=1"
+      })
+    },
     payment(){
       let self = this
       wx.login({
-      success: function(res) {
-        console.log(res)
-        let body = ''
-        self.dataList.map((item) => {
-          body += item.ticketId + '/' + item.num + ','
-        })
-        console.log(body);
-        self.$http.getPayInfo({
-          code: res.code,
-          userId: self.userId,
-          totalFee: self.totalMoney,
-          body: body
-        }).then(result => {
-          if (result.data.code == '200'){
-            wx.removeStorage({
-              key:"mallId"+self.mallId
-            })
-            let resD = JSON.parse(result.data.result);
-            console.log({
-              'timeStamp': resD.timeStamp,
-              'nonceStr': resD.nonceStr,
-              'package': 'prepay_id='+resD.prepay_id,
-              'signType': 'MD5',
-              'paySign': resD.paySign});
-            wx.requestPayment({
-              'timeStamp': resD.timeStamp,
-              'nonceStr': resD.nonceStr,
-              'package': 'prepay_id='+resD.prepay_id,
-              'signType': 'MD5',
-              'paySign': resD.paySign,
-              'success':function(res){
-                console.log(222);
-                console.log(res)
-              },
-              'fail':function(res){
-                console.log(111);
-                console.log(res)
-              }
-            })
-          } else {
-            self.imgUrls1 = []
-          }
-          
-        })
-      }
-    });
+        success: function(res) {
+          self.body = ''
+          self.dataList.map((item) => {
+            self.body += item.ticketId + '/' + item.num + ','
+          })
+          self.getPayInfo(res.code)
+        }
+      });
+    },
+    getPayInfo (code){
+      let self = this
+      self.$http.getPayInfo({
+        code: code,
+        userId: self.userId,
+        totalFee: self.totalMoney,
+        body: self.body
+      }).then(result => {
+        if (result.data.code == '200'){
+          wx.removeStorage({
+            key:"mallId"+self.mallId
+          })
+          self.wxPayment(JSON.parse(result.data.result))
+        } else {
+          wx.showToast({
+            title: result.data.message,
+            icon: 'none'
+          })
+        }
+      })
+    },
+    wxPayment(data){
+      let self = this
+      wx.requestPayment({
+        'timeStamp': data.timeStamp,
+        'nonceStr': data.nonceStr,
+        'package': 'prepay_id='+data.prepay_id,
+        'signType': 'MD5',
+        'paySign': data.paySign,
+        'success':function(res){
+          self.saveOrder(data.orderSeq);
+          console.log(res)
+        },
+        'fail':function(res){
+          self.resShow = true
+          self.resStatus = false
+          console.log(res)
+        }
+      })
+    },
+    saveOrder (order){
+      let self = this
+      self.$http.saveOrder({
+        orderSeq: order,
+        userId: self.userId,
+        totalFee: self.totalMoney,
+        body: self.body,
+        cityId:self.cityId,
+        malld:self.mallId
+      }).then(result => {
+        self.resShow = true
+        self.resStatus = true
+      })
     }
   },
   created () {
   },
   onShow () {
     let self = this
+    self.resShow = false
     wx.getStorage({
       key: 'cityInfo',
       success: function(res) {
@@ -188,6 +225,38 @@ export default {
       text-align: center;
     }
   }
-
+.result {
+  position: fixed;
+  left:0;
+  top:0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  background:#fff;
+  .success,.fail {
+    font-size: 34rpx;
+    color:#2f2f2f;
+    padding-top: 390rpx;
+    text-align: center;
+    background-repeat: no-repeat;
+    background-position: center 120rpx;
+    background-size: 220rpx;
+    background-image: url("../../../static/result-success.jpg");
+  }
+  .result-btn {
+    padding-top:100rpx;
+    text-align: center;
+    span {
+      display: inline-block;
+      width:180rpx;
+      height: 60rpx;
+      font-size: 26rpx;
+      margin:0 40rpx;
+      line-height: 60rpx;
+      border:#52b960 solid 1px;
+      border-radius: 8rpx;
+    }
+  }
+}
 </style>
 

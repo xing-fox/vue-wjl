@@ -70,14 +70,17 @@ export default {
   },
   created () {
   },
-  onShow () {
+  onLoad(options){
     let self = this
+    self.currentTab = options.tab ? options.tab : 0;
     wx.getStorage({
       key: 'userInfo',
       success: function(res) {
         self.userId = res.data.userId
         self.$http.myTicket({
-          userId: self.userId
+          userId: self.userId,
+          start:1,
+          limit:10
         }).then(res => {
           if (res.data.code == '200'){
             self.dataList = res.data.result

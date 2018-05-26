@@ -208,6 +208,12 @@ export default {
             self.choiseList = res.data.choiseList
             self.totalMoney =  res.data.totalMoney
             self.shopCartNum = res.data.shopCartNum
+          },
+          fail:function(){
+            self.choiseList = []
+            self.totalMoney =  0
+            self.shopCartNum = 0
+            self.cartState = false
           } 
         })
       } 
