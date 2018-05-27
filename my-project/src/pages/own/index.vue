@@ -7,7 +7,7 @@
       <li>
         <div @click="openTicket">
           <i class="icon1"></i>
-          我的门票
+          购票记录
         </div>
       </li>
       <li>

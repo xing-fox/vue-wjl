@@ -52,7 +52,7 @@ export default {
     },
     goTicket(){
       wx.redirectTo({
-        url: "/pages/myTicket/main?tab=1"
+        url: "/pages/myTicket/main"
       })
     },
     payment(){

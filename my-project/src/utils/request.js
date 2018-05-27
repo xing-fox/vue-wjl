@@ -100,7 +100,7 @@ export default {
     getCode(params) {
         return get('user/sendSms', params)
     },
-    // 登陆
+    // 登录
     userLogin(params) {
         return get('user/userlogin', params)
     },

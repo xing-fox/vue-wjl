@@ -6,6 +6,6 @@ app.$mount()
 
 export default {
     config: {
-        navigationBarTitleText: '登陆'
+        navigationBarTitleText: '登录'
     }
 }

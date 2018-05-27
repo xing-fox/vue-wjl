@@ -96,7 +96,7 @@ export default {
       let self = this
       if(!self.userId){
         wx.showToast({
-          title: '请先登陆',
+          title: '请先登录',
           icon: 'none',
           duration:2000,
           success:function(){

@@ -6,12 +6,11 @@
       <ul>
         <li>
           <div class="title">兑换时间：</div>
-          <p>*兑换时间为2018年6月1日-2018年8月1日（以各站点活动时间为准）</p>
+          <p>*兑换时间为{{ time }}（以各站点活动时间为准）</p>
         </li>
         <li>
           <div class="title">温馨提示：</div>
-          <p>*西甲嘉年华站点获取积分仅限在获得积分站点兑换使用，不可跨站点累积使用（如在A中心获得西甲嘉年华积分不得在B中心西甲嘉年华积分使用或累积）</p>
-          <p>*玩家游戏积分需当天在积分柜台录入,并在活动小程序个人账户登记,当天未录入视作放弃该积分。</p>
+          <p>{{ tips }}</p>
         </li>
       </ul>
     </div>
@@ -41,11 +40,14 @@ export default {
   data () {
     return {
       userId:'',
+      mallId:'',
       shadowShow:false,
       telephone:'',
       password:'',
       giftId:'',
-      passShow:true
+      passShow:true,
+      time:'',
+      tips:''
     }
   },
   components: {
@@ -113,6 +115,21 @@ export default {
   onLoad (options)  {
     let self = this
     self.giftId = options.id
+    wx.getStorage({
+      key: 'mallInfo',
+      success: function(res) {
+        self.mallId = res.data.mallId
+        self.$http.getShareDescription({
+          mallId:self.mallId 
+        }).then(res => {
+          if (res.data.code == '200'){
+            let resData = res.data.result
+            self.time = `${resData.startTime}-${resData.endTime}`
+            self.tips = `${resData.tips}`
+          }
+        })
+      } 
+    })
   }
 }
 </script>

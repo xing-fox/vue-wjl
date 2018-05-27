@@ -6,6 +6,6 @@ app.$mount()
 
 export default {
     config: {
-        navigationBarTitleText: '我的门票'
+        navigationBarTitleText: '购票记录'
     }
 }

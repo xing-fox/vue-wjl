@@ -11,7 +11,7 @@
         <span :class="{'see' : !passShow}" @click="passShow = !passShow"></span>
       </div>
       <div>
-        <button type="primary" @click="submit">登陆</button>
+        <button type="primary" @click="submit">登录</button>
       </div>
       <div class="logo">
         <img mode='widthFix' src='../../../static/logo.png'>

@@ -1,44 +1,29 @@
 <template>
   <div class="page">
-    <div class="swiper-tab">  
-        <div :class="{'on' : currentTab==0}" @click="swichNav(0)">购票二维码</div>  
-        <div :class="{'on' : currentTab==1}" @click="swichNav(1)">购票记录</div>
-    </div>  
-      
-    <swiper :current="currentTab" class="swiper-box" duration="300" @change="bindChange">
-        <swiper-item>  
-          <div class="code">
-              <img src="../../../static/wxcode.png">
-          </div>  
-        </swiper-item>  
-        <swiper-item>  
-          <div class="order-info">
-            <p class="mall">合肥市(国购广场)</p>
-            <p class="title">订单信息</p>
-            <ul class="order-list">
-              <li><span>订单编号：</span>DSGH00000542</li>
-              <li><span>下单时间：</span>2018-07-21 17:00:10:10</li>
-              <li><span>订单状态：</span>待消费</li>
-            </ul>
-            <p class="title">售票类型</p>
-          </div>
-          <ul class="goods-list">
-            <li>
-              <div class="ticketName">成人票</div>
-              <div class="price">单价：￥30<span>X5</span></div>
-              <div class="num">数量：5张</div>
-              <p>合计：￥320</p>
-            </li>
-            <li>
-              <div class="ticketName">儿童票</div>
-              <div class="price">单价：￥30<span>X5</span></div>
-              <div class="num">数量：5张</div>
-              <p>合计：￥320</p>
-            </li>
+      <scroll-view class="swiper-box" v-if="dataList.length" scroll-y @scrolltolower="toLow">
+        <div class="order-info" v-for="(item, index) in dataList" :key="index">
+          <p class="title">订单信息 <span class="mall">{{ item.cityName }}({{ item.mallName }})</span></p>
+          <ul class="order-list">
+            <li><span>订单编号：</span>{{ item.orderSeq }}</li>
+            <li><span>下单时间：</span>{{ item.time }}</li>
+            <li><span>订单状态：</span><span class="red">{{ item.oStatus }}</span></li>
           </ul>
-          <div class="total">商品总价：<span>￥352</span></div>
-        </swiper-item>
-    </swiper>  
+          <div v-if="!item.detailShow" @click="item.detailShow=true" class="show"><span>展开</span></div>
+          <div v-else @click="item.detailShow=false" class="show"><span>收起</span></div>
+          <div v-if="item.detailShow">
+            <ul class="goods-list">
+              <li v-for="(item2, index2) in item.list" :key="index2">
+                <div class="ticketName">{{ item2.ticketName }}</div>
+                <div class="price">单价：￥{{ item2.unitTicketPrice }}<span>X5</span></div>
+                <div class="num">数量：5张</div>
+                <p>合计：￥320</p>
+              </li>
+            </ul>
+            <div class="total">商品总价：<span>￥352</span></div>
+          </div>
+        </div>
+      </scroll-view>
+      <div v-else class="noData">暂无数据</div> 
   </div>
 </template>
 
@@ -48,74 +33,60 @@ export default {
     return {
       currentTab: 0,
       userId:'',
+      pageSize:6,
+      pageNum: 1,
+      hasMore: true,
       dataList:[]
     }
   },
   components: {
   },
   methods: {
-    bindChange( e ) {  
-      var that = this;
-      that.currentTab = e.mp.detail.current;  
-    },  
-    swichNav(tab) {  
-      var that = this;  
-      if( that.currentTab === tab) {  
-        return false;  
-      } else {  
-        that.currentTab = tab 
-        
+    getList(pageNum){
+      let self = this
+      self.hasMore = false
+      self.$http.myTicket({
+        userId: self.userId,
+        start:pageNum,
+        limit:self.pageSize
+      }).then(res => {
+        if (res.data.code == '200'){
+          res.data.result.map((item) => {
+            item.detailShow = false
+            item.time = item.createTime ? self.$format.formatT(item.createTime,1) : '--'
+            item.oStatus = item.orderStatus === 2 ? '已消费' : (item.orderStatus === 1 ? '已支付' : '未支付')
+          })
+          self.dataList = self.dataList.concat(res.data.result)
+          console.log(self.dataList)
+          if(res.data.result.length == self.pageSize){
+            self.hasMore = true
+          }
+        }
+      })
+    },
+    toLow(){
+      if(this.hasMore){
+        this.pageNum++;
+        this.getList(this.pageNum)
       }
     }
   },
   created () {
   },
-  onLoad(options){
+  onLoad(){
     let self = this
-    self.currentTab = options.tab ? options.tab : 0;
     wx.getStorage({
       key: 'userInfo',
       success: function(res) {
         self.userId = res.data.userId
-        self.$http.myTicket({
-          userId: self.userId,
-          start:1,
-          limit:10
-        }).then(res => {
-          if (res.data.code == '200'){
-            self.dataList = res.data.result
-            console.log(self.dataList)
-          }
-        })
+        self.getList(self.pageNum)
       } 
     })
   }
 }
 </script>
-
 <style lang="less" scoped>
-.swiper-tab{  
-    position: fixed;
-    left:0;
-    top:0;
-    width: 100%;  
-    height:90rpx;
-    border-bottom: 1rpx solid #f3f3f3;  
-    text-align: center;  
-    line-height: 90rpx;
-    font-size: 28rpx;
-    z-index: 1;
-    div{  
-        font-size: 30rpx;  
-        display: inline-block;  
-        width: 33.33%;  
-        color: #2f2f2f;  
-    }  
-    .on{ 
-      color: #05a21b;  
-      border-bottom: 5rpx solid #05a21b;
-    } 
-} 
+
 .swiper-box{ 
   position:absolute;
   display: block;
@@ -123,35 +94,44 @@ export default {
   left:0;
   height:100%; 
   width: 100%; 
-  overflow: hidden;
-  padding-top:90rpx;
+  background:#f9f9f9;
   box-sizing: border-box;
-  .code {
-    text-align: center;
-    padding-top:240rpx;
-    img {
-      width: 300rpx;
-      height:300rpx;
-    }
-  }
   .order-info {
-    padding:30rpx 30rpx 0;
     color:#2f2f2f;
+    margin-bottom:10rpx;
+    background:#fff;
     .mall {
-      font-size: 34rpx;
-      padding:20rpx 0;
+      font-size: 26rpx;
+      float: right;
     }
     .title {
-      font-size: 28rpx;
-      line-height: 72rpx;
+      margin:0 30rpx;
+      font-size: 34rpx;
+      line-height: 100rpx;
       border-bottom:#bfbfbf solid 1rpx;
     }
     .order-list {
       font-size: 28rpx;
       line-height: 44rpx;
-      padding:30rpx 0; 
+      padding:30rpx 30rpx 0; 
       span{
         color:#929292;
+      }
+      .red {
+        color:#ca0202;
+      }
+    }
+    .show{
+      margin:0 30rpx;
+      text-align: right;
+      color:#929292;
+      font-size: 24rpx;
+      padding-bottom: 20rpx;
+      span {
+        display: inline-block;
+        padding-top:24rpx;
+        background:url("../../../static/arrow-up.jpg") center 0 no-repeat;
+        background-size: 36rpx;
       }
     }
   }
@@ -160,7 +140,7 @@ export default {
     line-height: 36rpx;
     li{
       padding:30rpx;
-      border-bottom:#f9f9f9 solid 16rpx;
+      border-bottom:#f9f9f9 solid 10rpx;
       .ticketName{
         font-size: 26rpx;
         line-height: 46rpx;
