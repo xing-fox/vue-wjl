@@ -36,12 +36,10 @@
       <button type="primary" @click="goToLogin">登录</button>
       <button type="primary" @click="goToRegister">立即注册</button>
     </div>
-    <editInfo v-if="editInfo"></editInfo>
   </div>
 </template>
 
 <script>
-import editInfo from "@/components/editInfo"
 export default {
   data() {
     return {
@@ -50,7 +48,6 @@ export default {
     }
   },
   components: {
-    editInfo
   },
   methods: {
     openTicket (){

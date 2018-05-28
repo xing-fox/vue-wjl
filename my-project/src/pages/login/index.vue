@@ -1,6 +1,5 @@
 <template>
     <div class="login" style="background-image: url('../../../static/bg.jpg')">
-      <img class="login-bg" mode='widthFix' src='../../../static/players.png'>
       <div class="login-input phone">
         <img mode='widthFix' src='../../../static/phone.png'>
         <input type="number" placeholder-class="p-gray" placeholder="请输入手机号" maxlength="11" v-model="telephone"/>

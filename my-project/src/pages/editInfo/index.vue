@@ -99,15 +99,6 @@ export default {
     box-sizing: border-box;
     padding-top:52rpx;
     background-size: 100% 100%;
-    div {
-      margin:0 auto;
-      width: 145rpx;
-      height:145rpx;
-      border-radius:50%;
-      overflow: hidden;
-      background: url(../../../static/updataPhoto.png) no-repeat;
-      background-size: 100% 100%;
-    }
     img {
       width: 145rpx;
       height:145rpx;
