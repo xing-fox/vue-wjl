@@ -290,7 +290,8 @@ page{
               width: 30rpx;
               height: 30rpx;
               background-image: url('../../../static/plus.png');
-              background-size: 100% 100%;
+              background-size: auto 100%;
+              background-position:center;
               background-repeat: no-repeat;
             }
           }
