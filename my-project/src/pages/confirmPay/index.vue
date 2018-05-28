@@ -243,6 +243,9 @@ export default {
     background-size: 220rpx;
     background-image: url("../../../static/result-success.jpg");
   }
+  .fail {
+    background-image: url("../../../static/fail.png");
+  }
   .result-btn {
     padding-top:100rpx;
     text-align: center;

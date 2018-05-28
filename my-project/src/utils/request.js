@@ -45,8 +45,8 @@ export function post(url, params) {
 
 const env = process.env.NODE_ENV
 if (env === 'development') {
-    fly.config.baseURL = 'http://61.190.254.82:8080/xijia/'
-        // fly.config.baseURL = 'https://83031202.xiaoqibuz.com/xijia'
+    // fly.config.baseURL = 'http://61.190.254.82:8080/xijia/'
+    fly.config.baseURL = 'https://83031202.xiaoqibuz.com/xijia'
 
 }
 
