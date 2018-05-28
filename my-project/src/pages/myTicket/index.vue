@@ -14,12 +14,12 @@
             <ul class="goods-list">
               <li v-for="(item2, index2) in item.list" :key="index2">
                 <div class="ticketName">{{ item2.ticketName }}</div>
-                <div class="price">单价：￥{{ item2.unitTicketPrice }}<span>X5</span></div>
-                <div class="num">数量：5张</div>
-                <p>合计：￥320</p>
+                <div class="price">单价：￥{{ item2.unitTicketPrice }}<span>X{{ item2.orderNum }}</span></div>
+                <div class="num">数量：{{ item2.orderNum }}张</div>
+                <p>合计：￥{{ item2.orderPrice }}</p>
               </li>
             </ul>
-            <div class="total">商品总价：<span>￥352</span></div>
+            <div class="total">商品总价：<span>￥{{ item.orderPrice }}</span></div>
           </div>
         </div>
       </scroll-view>

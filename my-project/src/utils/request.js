@@ -44,108 +44,108 @@ export function post(url, params) {
 }
 
 const env = process.env.NODE_ENV
+const BaseURL = 'http://61.190.254.82:8080/xijia/'
+// const BaseURL = 'https://83031202.xiaoqibuz.com/xijia/'
 if (env === 'development') {
-    // fly.config.baseURL = 'http://61.190.254.82:8080/xijia/'
-    fly.config.baseURL = 'https://83031202.xiaoqibuz.com/xijia'
-
+    fly.config.baseURL = BaseURL
 }
 
 export default {
     baseURL: 'http://61.190.254.82:8080/xijia/',
     // 根据经纬度获取城市名
     listByGeno(params) {
-        return get('city/listByGeno', params)
+        return get(BaseURL+'city/listByGeno', params)
     },
     // 获取活动城市列表
     cityList(params) {
-        return get('city/list', params)
+        return get(BaseURL+'city/list', params)
     },
     // 获取对应城市商场列表
     mallList(params) {
-        return get('mall/list', params)
+        return get(BaseURL+'mall/list', params)
     },
     // 轮播图
     lunboApi(params) {
-        return get('banner/list', params)
+        return get(BaseURL+'banner/list', params)
     },
     // 专题活动列表
     activityList(params) {
-        return get('activity/list', params)
+        return get(BaseURL+'activity/list', params)
     },
     // 专题活动详情
     activityDetail(params) {
-        return get('activity/listDetail', params)
+        return get(BaseURL+'activity/listDetail', params)
     },
     // 球童候选人列表
     voteList(params) {
-        return get('vote/list', params)
+        return get(BaseURL+'vote/list', params)
     },
     // 球童候选人投票
     voteDo(params) {
-        return get('vote/voteDo', params)
+        return get(BaseURL+'vote/voteDo', params)
     },
     // 精选活动列表
     activityHomeList(params) {
-        return get('activityHome/list', params)
+        return get(BaseURL+'activityHome/list', params)
     },
     // 精选活动详情
     activityHomeDetail(params) {
-        return get('activityHome/listDetail', params)
+        return get(BaseURL+'activityHome/listDetail', params)
     },
     // 注册
     saveUser(params) {
-        return get('user/saveUser', params)
+        return get(BaseURL+'user/saveUser', params)
     },
     // 短信发送接口
     getCode(params) {
-        return get('user/sendSms', params)
+        return get(BaseURL+'user/sendSms', params)
     },
     // 登录
     userLogin(params) {
-        return get('user/userlogin', params)
+        return get(BaseURL+'user/userlogin', params)
     },
     // 购票列表
     ticketList(params) {
-        return get('ticket/list', params)
+        return get(BaseURL+'ticket/list', params)
     },
     // 我的购票记录
     myTicket(params) {
-        return get('ticket/myTicket', params)
+        return get(BaseURL+'ticket/myTicket', params)
     },
     // 积分明细
     userIntegral(params) {
-        return get('integralchange/getIntegral', params)
+        return get(BaseURL+'integralchange/getIntegral', params)
     },
     // 赠送记录
     getShareGift(params) {
-        return get('integralchange/getShareGift', params)
+        return get(BaseURL+'integralchange/getShareGift', params)
     },
     // 兑换记录
     getDuihuan(params) {
-        return get('integralchange/getDuihuan', params)
+        return get(BaseURL+'integralchange/getDuihuan', params)
     },
     // 关于兑换
     getShareDescription(params) {
-        return get('integralchange/getShareDescription', params)
+        return get(BaseURL+'integralchange/getShareDescription', params)
     },
     // 更新用户信息
     updateuser(params) {
-        return get('user/updateuser', params)
+        return get(BaseURL+'user/updateuser', params)
     },
     // 赠送积分
     shareGift(params) {
-        return get('integralchange/shareGift', params)
+        return get(BaseURL+'integralchange/shareGift', params)
     },
     // 领取积分
     obtailShareGift(params) {
-        return get('integralchange/obtailShareGift', params)
+        return get(BaseURL+'integralchange/obtailShareGift', params)
     },
     // 生成订单
     getPayInfo(params) {
-        return get('wxpay/getPayInfo', params)
+        return get(BaseURL+'wxpay/getPayInfo', params)
     },
     // 保存订单记录
     saveOrder(params) {
-        return get('wxpay/saveOrder', params)
+        return get(BaseURL+'wxpay/saveOrder', params)
     }
 }
