@@ -46,10 +46,10 @@
         </div>
         <ul class="listContent">
           <li v-for="(item, index) in choiseList" :key="index">
-            <span class="listName">{{ item.ticketContent }}</span>
+            <span class="listName">{{ item.ticketName }}</span>
             <span class="listPrice">¥{{ item.ticketPrice }}</span>
             <span class="listCount">
-              <i class="minus icon" @click="minusFunc(index)"></i><span class="count">{{ item.num }}</span><i class="plus icon" @click="plusFunc(index)"></i>
+              <span class="count">{{ item.num }}</span>
             </span>
           </li>
         </ul>
@@ -86,15 +86,8 @@ export default {
     addFunc (index, id) {
       if(this.userId){
         this.cartState = true
-        let _id = -1
-        this.choiseList.map((item) => {
-          if (item.ticketId === id) {
-            _id = 1
-          }
-        })
-        if (_id === -1) {
-          this.choiseList.push(this.dataList[index])
-        }
+        this.choiseList = [this.dataList[index]]
+        
         this.totalComputed()
       } else {
         wx.showToast({
