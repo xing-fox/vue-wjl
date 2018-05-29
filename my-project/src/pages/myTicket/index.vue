@@ -19,7 +19,6 @@
                 <p>合计：￥{{ item2.orderPrice }}</p>
               </li>
             </ul>
-            <div class="total">商品总价：<span>￥{{ item.orderPrice }}</span></div>
           </div>
         </div>
       </scroll-view>
@@ -31,7 +30,6 @@
 export default {
   data () {
     return {
-      currentTab: 0,
       userId:'',
       pageSize:6,
       pageNum: 1,
@@ -78,6 +76,9 @@ export default {
     wx.getStorage({
       key: 'userInfo',
       success: function(res) {
+        self.dataList = []
+        self.hasMore = true
+        self.pageNum = 1
         self.userId = res.data.userId
         self.getList(self.pageNum)
       } 

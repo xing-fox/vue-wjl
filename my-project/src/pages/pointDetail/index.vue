@@ -169,6 +169,12 @@ export default {
       key: 'userInfo',
       success: function(res) {
         self.userId = res.data.userId
+        self.golePageNum = 1
+        self.goleHasMore = true
+        self.goleList = []
+        self.giftPageNum = 1
+        self.giftHasMore = true
+        self.giftList = []
         self.getGoleList(self.golePageNum)
         self.getGiftList(self.giftPageNum)
       } 
@@ -177,6 +183,9 @@ export default {
       key: 'mallInfo',
       success: function(res) {
         self.mallId = res.data.mallId
+        self.DHPageNum = 1
+        self.DHHasMore = true
+        self.DHList = []
         self.getDHList(self.DHPageNum)
         self.$http.getShareDescription({
           mallId:self.mallId 
