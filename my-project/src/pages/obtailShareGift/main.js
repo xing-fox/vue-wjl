@@ -6,6 +6,6 @@ app.$mount()
 
 export default {
     config: {
-        navigationBarTitleText: '赠送积分'
+        navigationBarTitleText: '领取积分'
     }
 }
