@@ -1,11 +1,11 @@
 <template>
     <div class="login" style="background-image: url('../../../static/bg.jpg')">
       <div class="login-input phone">
-        <img mode='widthFix' src='../../../static/phone.png'>
+        <i></i>
         <input type="number" placeholder-class="p-gray" placeholder="请输入手机号" maxlength="11" v-model="telephone"/>
       </div>
       <div class="login-input password">
-        <img mode='widthFix' src='../../../static/pass.png'>
+        <i></i>
         <input :password="passShow" placeholder-class="p-gray" placeholder="请输入6-16位密码" maxlength="16" v-model="password" />
         <span :class="{'see' : !passShow}" @click="passShow = !passShow"></span>
       </div>
@@ -98,8 +98,15 @@ export default {
     box-sizing: border-box;
     position: fixed;
   }
-  .login img {
+  .login i {
     position: absolute;
+    left:0;
+    top:0;
+    width:96rpx;
+    height:88rpx;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size:100% auto;
   }
   .login-bg {
     top: 50rpx;
@@ -114,15 +121,13 @@ export default {
     padding-left: 96rpx;
     background: #fff;
   }
-  .login .phone image{
-    left:32rpx;
-    top:22rpx;
-    width: 29rpx;
+  .login .phone i{
+    background-image:url(../../../static/phone.png);
+    background-size:29rpx auto;
   }
-  .login .password image{
-    left:32rpx;
-    top:24rpx;
-    width: 30rpx;
+  .login .password i{
+    background-image:url(../../../static/pass.png);
+    background-size:30rpx auto;
   }
   .login .password {
     padding-right: 88rpx;

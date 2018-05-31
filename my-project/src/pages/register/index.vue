@@ -2,21 +2,21 @@
   <div class="page">
     <div class="register">
       <div class="register-input name">
-        <img mode='widthFix' src='../../../static/name.png'>
+        <i></i>
         <input placeholder-class="p-gray" placeholder="请输入姓名" v-model="userName"/>
       </div>
       <div class="register-input phone">
-        <img mode='widthFix' src='../../../static/phone.png'>
+        <i></i>
         <input type="number" placeholder-class="p-gray" placeholder="请输入手机号" v-model="telephone" maxlength="11"/>
       </div>
       <div class="register-input code">
-        <img mode='widthFix' src='../../../static/code.png'>
+        <i></i>
         <input type="number" placeholder-class="p-gray" placeholder="请输入验证码" v-model="code"/>
         <div v-if="phoneSure" @click="sendCodeFunc">获取验证码</div>
         <div v-else class="disable">{{ timeLeave }}s后重新发送</div>
       </div>
       <div class="register-input password">
-        <img mode='widthFix' src='../../../static/pass.png'>
+        <i></i>
         <input :password="passShow" placeholder-class="p-gray" placeholder="请输入6-16位密码" v-model="password" maxlength="16"/>
         <span :class="{'see' : !passShow}" @click="passShow = !passShow"></span>
       </div>
@@ -212,28 +212,31 @@ button {
   border-radius: 6rpx;
   padding-left: 96rpx;
 }
-.register image{
+.register i{
   position: absolute;
+  left:0;
+  top:0;
+  width:96rpx;
+  height:88rpx;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size:100% auto;
 }
-.register .name image{
-  left:32rpx;
-  top:24rpx;
-  width: 33rpx;
+.register .name i{
+  background-image:url(../../../static/name.png);
+  background-size:33rpx auto;
 }
-.register .phone image{
-  left:32rpx;
-  top:22rpx;
-  width: 29rpx;
+.register .phone i{
+  background-image:url(../../../static/phone.png);
+  background-size:29rpx auto;
 }
-.register .code image{
-  left:32rpx;
-  top:28rpx;
-  width: 32rpx;
+.register .code i{
+  background-image:url(../../../static/code.png);
+  background-size:32rpx auto;
 }
-.register .password image{
-  left:32rpx;
-  top:24rpx;
-  width: 30rpx;
+.register .password i{
+  background-image:url(../../../static/pass.png);
+  background-size:30rpx auto;
 }
 .register .code {
   padding-right: 200rpx;

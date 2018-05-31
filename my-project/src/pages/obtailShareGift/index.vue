@@ -116,6 +116,12 @@ export default {
     let self = this
     self.giftId = options.id
     wx.getStorage({
+      key: 'userInfo',
+      success: function(res) {
+        self.userId = res.data.userId
+      } 
+    })
+    wx.getStorage({
       key: 'mallInfo',
       success: function(res) {
         self.mallId = res.data.mallId

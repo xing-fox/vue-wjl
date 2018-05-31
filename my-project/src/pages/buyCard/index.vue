@@ -282,6 +282,7 @@ page{
               display: inline-block;
               width: 30rpx;
               height: 30rpx;
+              vertical-align:middle;
               background-image: url('../../../static/plus.png');
               background-size: auto 100%;
               background-position:center;

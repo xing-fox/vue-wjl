@@ -59,10 +59,8 @@ export default {
       let self = this
       wx.login({
         success: function(res) {
-          self.body = ''
-          self.dataList.map((item) => {
-            self.body += item.ticketId + '/' + item.num + ','
-          })
+          self.body = `${self.cityId}/${self.mallId}/${self.dataList[0].ticketId}/${self.dataList[0].num}`
+          console.log(self.body)
           self.getPayInfo(res.code)
         }
       });
@@ -97,7 +95,8 @@ export default {
         'signType': 'MD5',
         'paySign': data.paySign,
         'success':function(res){
-          self.saveOrder(data.orderSeq);
+          self.resShow = true
+          self.resStatus = true
           console.log(res)
         },
         'fail':function(res){
@@ -105,20 +104,6 @@ export default {
           self.resStatus = false
           console.log(res)
         }
-      })
-    },
-    saveOrder (order){
-      let self = this
-      self.$http.saveOrder({
-        orderSeq: order,
-        userId: self.userId,
-        totalFee: self.totalMoney,
-        body: self.body,
-        cityId:self.cityId,
-        malld:self.mallId
-      }).then(result => {
-        self.resShow = true
-        self.resStatus = true
       })
     }
   },

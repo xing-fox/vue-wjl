@@ -1,6 +1,9 @@
 <template>
   <div class="page" style="background-image:url(../../../static/zsjftb.jpg)">
-    <div class="btn" @click="shadowShow = true">分享赠送积分</div>
+    <div class="shareBtn">
+      <input placeholder-class="p-gray" type="number" placeholder="请输入积分" v-model="point"/>
+      <button class="btn" @click="submit">分享赠送积分</button>
+    </div>
     <div class="about">
       <div class="tit">赠送规则</div>
       <ul>
@@ -18,8 +21,8 @@
       <div class="box">
         <div class="close" @click="shadowShow = false"></div>
         <div class="title">温馨提示</div>
-        <input placeholder-class="p-gray" type="number" placeholder="请输入积分" v-model="point"/>
-        <button open-type="share" @click="submit">分享赠送</button>
+        <div class="txt">当前赠送：{{ point }}积分</div>
+        <button open-type="share">分享赠送</button>
       </div>
     </div>
   </div>
@@ -33,6 +36,7 @@ export default {
       userId:'',
       shadowShow:false,
       point:'',
+      maxPoint:0,
       giftId:'',
       time:'',
       tips:''
@@ -44,10 +48,16 @@ export default {
     submit(){
       let self = this
       if (!self.point) {
-        return wx.showToast({
-          title: '请输入积分',
-          icon: 'none'
-        })
+        return self.toast('请输入积分')
+      }
+      if (isNaN(self.point)) {
+        return  self.toast('请输入正确的数字')
+      }
+      if (self.point < 10) {
+        return  self.toast('最少赠送10个积分')
+      }
+      if (self.point > self.maxPoint) {
+        return  self.toast('您目前只有' + self.maxPoint + '积分')
       }
       self.$http.shareGift({
         mallId: self.mallId,
@@ -56,7 +66,16 @@ export default {
       }).then(res => {
         if (res.data.code == '200'){
           self.giftId = res.data.result.id
+          self.shadowShow = true
+        } else {
+          self.toast(res.data.message)
         }
+      })
+    },
+    toast(msg){
+      wx.showToast({
+        title: msg,
+        icon: 'none'
       })
     }
   },
@@ -68,6 +87,15 @@ export default {
       key: 'userInfo',
       success: function(res) {
         self.userId = res.data.userId
+        self.$http.userIntegral({
+          userId: self.userId,
+          start: 1,
+          limit:10
+        }).then(res => {
+          if (res.data.code == '200'){
+            self.maxPoint = res.data.result[0].sumGole
+          }
+        })
       } 
     })
     wx.getStorage({
@@ -89,10 +117,10 @@ export default {
   onShareAppMessage: function (res) {
     let self = this
     self.shadowShow = false
-    console.log(self.userId);
+    console.log(self.giftId);
     return {
       title: '赠送积分',
-      path: '/pages/obtailShareGift/main?id='+ self.userId
+      path: '/pages/obtailShareGift/main?id='+ self.giftId
     }
   }
 }
@@ -109,19 +137,31 @@ export default {
   background-position:center top;
   background-repeat:no-repeat;
   background-size:100% auto;
-  .btn {
-    margin:0 auto 050rpx;
-    width:284rpx;
-    height:68rpx;
-    font-size:26rpx;
-    color:#fff;
+  .shareBtn {
     text-align:center;
-    line-height:68rpx;
-    background:#17ae60;
-    button {
-      margin-bottom:36rpx;
+    input{
+      display:inline-block;
+      width:304rpx;
+      height:68rpx;
+      font-size:28rpx;
+      background:#fff;
+      border-radius:6rpx;
+      vertical-align:top;
+      padding:0 10rpx; 
+      text-align:left;
+    }
+    .btn {
+      display:inline-block;
+      margin:0 0 50rpx 50rpx;
+      width:210rpx;
+      height:68rpx;
+      font-size:28rpx;
+      color:#fff;
+      line-height:68rpx;
+      background:#17ae60;
     }
   }
+  
   .about{
     width:690rpx;
     margin:0 auto;
@@ -156,6 +196,7 @@ export default {
     width: 100%;
     height: 100%;
     background:rgba(0, 0, 0, .7);
+    z-index:2;
     .box{
       position: absolute;
       left: 50%;
@@ -183,14 +224,12 @@ export default {
         color:#2f2f2f;
         border-bottom:#d2d2d2 solid 1px;
       }
-      input {
+      .txt {
         margin: 50rpx auto;
         width: 400rpx;
         height: 82rpx;
         text-align: center;
-        font-size: 28rpx;
-        border:#d2d2d2 solid 1px;
-        border-radius: 8rpx;
+        font-size: 26rpx;
       }
       button {
         width: 290rpx;
