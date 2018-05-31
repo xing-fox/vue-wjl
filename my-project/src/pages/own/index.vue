@@ -1,7 +1,7 @@
 <template>
   <div class="page">
-    <div class="top" style="background-image: url('../../../static/bgydl.png')">
-      <img src="../../../static/logo.png">
+    <div class="top" style="background-image: url('http://61.190.254.82:8080/xijia/bgydl.png')">
+      <img src="http://61.190.254.82:8080/xijia/logo.png">
     </div>
     <ul v-if="!!userId" class="nav-list">
       <li>

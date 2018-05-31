@@ -1,5 +1,5 @@
 <template>
-  <div class="page" style="background-image:url(../../../static/zsjftb.jpg)">
+  <div class="page" style="background-image:url(http://61.190.254.82:8080/xijia/zsjftb.jpg)">
     <div class="btn" @click="shadowShow = true">领取积分</div>
     <div class="about">
       <div class="tit">赠送规则</div>

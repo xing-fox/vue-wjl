@@ -1,5 +1,5 @@
 <template>
-  <div class="page" style="background-image:url(../../../static/zsjftb.jpg)">
+  <div class="page" style="background-image:url(http://61.190.254.82:8080/xijia/zsjftb.jpg)">
     <div class="shareBtn">
       <input placeholder-class="p-gray" type="number" placeholder="请输入积分" v-model="point"/>
       <button class="btn" @click="submit">分享赠送积分</button>
