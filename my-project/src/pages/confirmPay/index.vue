@@ -15,9 +15,9 @@
       <div class="total">商品总价：<span>￥{{totalMoney}}</span></div>
       <div class="payTotal" @click="payment">确认付款</div>
     </div>
-    <div v-if="resShow" class="result">
-      <div v-if="resStatus" class="success">支付成功！</div>
-      <div v-else class="fail">支付失败！</div>
+    <div v-show="resShow" class="result">
+      <div v-show="resStatus" class="success">支付成功！</div>
+      <div v-show="!resStatus" class="fail">支付失败！</div>
       <div class="result-btn">
         <span @click="goHome">返回首页</span>
         <span @click="goTicket">购票纪录</span>
@@ -95,9 +95,10 @@ export default {
         'signType': 'MD5',
         'paySign': data.paySign,
         'success':function(res){
-          self.resShow = true
-          self.resStatus = true
-          console.log(res)
+          console.log(self.resShow,self.resStatus, res)
+          wx.redirectTo({
+            url: "/pages/payResult/main"
+          })
         },
         'fail':function(res){
           self.resShow = true
