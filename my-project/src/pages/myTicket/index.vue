@@ -15,8 +15,7 @@
               <li v-for="(item2, index2) in item.list" :key="index2">
                 <div class="ticketName">{{ item2.ticketName }}</div>
                 <div class="price">单价：￥{{ item2.unitTicketPrice }}<span>X{{ item2.orderNum }}</span></div>
-                <div class="num">数量：{{ item2.orderNum }}张</div>
-                <p>合计：￥{{ item2.orderPrice }}</p>
+                <p><img src="../../../static/zsjftb.jpg"></p>
               </li>
             </ul>
           </div>
@@ -140,7 +139,7 @@ export default {
     font-size: 24rpx;
     line-height: 36rpx;
     li{
-      padding:30rpx;
+      padding:0 30rpx 40rpx;
       border-bottom:#f9f9f9 solid 10rpx;
       .ticketName{
         font-size: 26rpx;
@@ -154,11 +153,14 @@ export default {
         }
       }
       p{
-        margin-top:40rpx;
-        color:#ca0202;
-        line-height: 50rpx;
+        margin-top:30rpx;
+        padding-top:40rpx;
         border-top:#bfbfbf dashed 1rpx;
-        border-bottom:#bfbfbf solid 1rpx;
+        text-align:center;
+        img {
+          width:440rpx;
+          height:440rpx;
+        }
       }
     }
     li:last-child {

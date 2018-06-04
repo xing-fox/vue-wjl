@@ -45,7 +45,8 @@ export function post(url, params) {
 
 const env = process.env.NODE_ENV
 // const BaseURL = 'http://61.190.254.82:8080/xijia/'
-const BaseURL = 'https://83031202.xiaoqibuz.com/xijia/'
+// const BaseURL = 'https://83031202.xiaoqibuz.com/xijia/'
+const BaseURL = 'http://laliga.soccerworld.cn/xijia/'
 if (env === 'development') {
     fly.config.baseURL = BaseURL
 }

@@ -150,6 +150,19 @@ export default {
           self.choiseSquareValue = self.Square[0].mallName
           self.mallId =  self.Square[0].mallId
           self.getActivityList()
+        } else {
+          wx.removeStorage({
+            key:"mallInfo"
+          })
+          self.Square = []
+          self.mallId = ''
+          self.choiseSquareValue = '选择商场'
+          self.imgUrls1 = []
+          wx.showToast({
+            title: '当前城市暂无商场活动，尽情期待～',
+            duration: 2000,
+            icon: 'none'
+          })
         }
       })
     },
