@@ -174,24 +174,6 @@ export default {
   onShow () {
     let self = this
     wx.getStorage({
-      key: 'cityInfo',
-      success: function(res) {
-        self.cityId = res.data.cityId
-        self.$http.ticketList({
-          cid: self.cityId
-        }).then(res => {
-          if (res.data.code == '200'){
-            self.dataList = res.data.result;
-            for (let value of self.dataList) {
-              value.num = 1
-            }
-          } else {
-            self.dataList = [];
-          }
-        })
-      } 
-    })
-    wx.getStorage({
       key: 'mallInfo',
       success: function(res) {
         self.mallId = res.data.mallId
@@ -218,6 +200,26 @@ export default {
         console.log(self.userId);
       } 
     })
+    wx.getStorage({
+      key: 'cityInfo',
+      success: function(res) {
+        self.cityId = res.data.cityId
+         self.$http.ticketList({
+          cid: self.cityId,
+          mid: self.mallId
+        }).then(res => {
+          if (res.data.code == '200'){
+            self.dataList = res.data.result;
+            for (let value of self.dataList) {
+              value.num = 1
+            }
+          } else {
+            self.dataList = [];
+          }
+        })
+      } 
+    })
+    
   }
 }
 </script>
