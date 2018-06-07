@@ -78,11 +78,6 @@ export default {
         url: '/pages/activityHomeDetail/main?activityid=' + id 
       })
     },
-    goToCity(){
-      wx.navigateTo({
-        url: '/pages/activityDetail/main',
-      })
-    },
     goToUrl (url){
       if(url){
         wx.navigateTo({

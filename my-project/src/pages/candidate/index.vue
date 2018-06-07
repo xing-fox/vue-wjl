@@ -1,11 +1,12 @@
 <template>
-  <div class="page" v-if="hasData">
+  <div class="page">
     <div class="searchBox">
       <input type="number" placeholder-class="p-gray" placeholder="请输入编号" v-model="numT" auto-focus/>
       <span @click="search">搜索</span>
     </div>
     <scroll-view v-if="playerUr.length" class="player_tab" scroll-y @scrolltolower="toLow">
       <div class="player-li" v-for="(item,index) in playerUr" :key="index">
+        <button open-type="share">分享</button>
         <img :src="baseUrl+item.voteImage">
         <div class="tab_name">
           <p class="fl">{{item.voteName}}</p>
@@ -33,7 +34,6 @@ export default {
       pageSize:10,
       pageNum: 1,
       hasMore: true,
-      hasData:true,
       playerUr: []
     }
   },
@@ -53,8 +53,6 @@ export default {
             if(res.data.result.length == self.pageSize){
               self.hasMore = true
             }
-        } else if(pageNum==1) {
-          self.hasData = false 
         }
       })
     },
@@ -143,7 +141,13 @@ export default {
         self.userId = res.data.userId
       } 
     })
-    
+  },
+  onShareAppMessage: function (res) {
+    let self = this
+    return {
+      title: '今天，你投票了吗？2018年夏季世界杯火爆朋友圈，最IN的打招呼方式',
+      path: '/pages/candidate/main?activityid=' + self.activityid ,
+    }
   }
 }
 </script>
@@ -200,6 +204,7 @@ export default {
       height: 100%;
       box-sizing: border-box;
       .player-li{
+        position: relative;
         display: inline-block;
         border:1px solid #e4e4e4;
         background: #fff;
@@ -209,6 +214,18 @@ export default {
         overflow: hidden;
         border-right:10rpx;
         color: #000;
+        button{
+          position: absolute;
+          right: 0;
+          top:0;
+          width: 80rpx;
+          padding:0;
+          height: 50rpx;
+          color:#fff;
+          font-size: 24rpx;
+          line-height: 50rpx;
+          background:rgba(0, 0, 0, .4);
+        }
         img{
           width:100%;
           height:318rpx;

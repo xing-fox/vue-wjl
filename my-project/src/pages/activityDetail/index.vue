@@ -24,6 +24,10 @@
         <div class="title"><span>活动须知</span></div>
         <div class="cont">{{ activityData.activityDetails }}</div>
       </div>
+      <div class="team">
+        <a>巴萨</a>
+        <a>皇马</a>
+      </div>
     </div>
     <div class="btn" @click="goToBuy">
       <button type="primary">立即购票参与活动</button>
@@ -178,6 +182,21 @@ export default {
       margin-bottom: 18rpx;
       p{
         text-indent: 48rpx;
+      }
+    }
+    .team {
+      padding:40rpx 0;
+      display: flex;
+      justify-content:space-between;
+      a {
+        width: 280rpx;
+        height:56rpx;
+        line-height: 56rpx;
+        color: #02a319;
+        text-align: center;
+        font-size: 24rpx;
+        border-radius: 4rpx;
+        border:#02a319 solid 1rpx;
       }
     }
   }
