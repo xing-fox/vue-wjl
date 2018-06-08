@@ -15,7 +15,7 @@
               <li v-for="(item2, index2) in item.list" :key="index2">
                 <div class="ticketName">{{ item2.ticketName }}</div>
                 <div class="price">单价：￥{{ item2.unitTicketPrice }}<span>X{{ item2.orderNum }}</span></div>
-                <p><img src="../../../static/zsjftb.jpg"></p>
+                <p><img src="http://61.190.254.82:8080/xijia/zsjftb.jpg"></p>
               </li>
             </ul>
           </div>

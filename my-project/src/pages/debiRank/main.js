@@ -6,6 +6,6 @@ app.$mount()
 
 export default {
   config: {
-    navigationBarTitleText:'球童选拔排行榜'
+    navigationBarTitleText:'积分榜'
   }
 }

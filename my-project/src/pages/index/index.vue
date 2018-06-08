@@ -38,7 +38,7 @@
       </div>
       <ul v-if="imgUrls1.length" class="tab2_content">
         <li v-for="(item, index) in imgUrls1" :key="index">
-          <img :src="baseUrl+item.activityPic" @click="goToActivity(item.activityId,item.type)">
+          <img :src="baseUrl+item.activityPic" @click="goToActivity(item.activityId,item.type,item.activityName)">
           <div class="tab2_content_name">
             <span>{{ item.activityName }}</span>
           </div>
@@ -68,10 +68,21 @@ export default {
   },
   components: {},
   methods: {
-    goToActivity(id,type){
-      wx.navigateTo({
-        url: '/pages/activityDetail/main?activityid=' + id +'&type=' + type
-      })
+    goToActivity(id,type,title){
+      if (type == '3') {
+        wx.navigateTo({
+          url: '/pages/caddieList/main?activityid=' + id +'&title=' + title
+        })
+      } else if (type == '4') {
+        wx.navigateTo({
+          url: '/pages/debiRank/main?activityid=' + id +'&title=' + title
+        })
+      } else {
+        wx.navigateTo({
+          url: '/pages/activityDetail/main?activityid=' + id +'&type=' + type
+        })
+      }
+      
     },
     goToActivityHome(id){
       wx.navigateTo({
