@@ -82,7 +82,6 @@ export default {
           url: '/pages/activityDetail/main?activityid=' + id +'&type=' + type
         })
       }
-      
     },
     goToActivityHome(id){
       wx.navigateTo({
