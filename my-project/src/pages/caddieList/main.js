@@ -5,7 +5,7 @@ const app = new Vue(App)
 app.$mount()
 
 export default {
-  config: {
-    navigationBarTitleText:'球童选拔排行榜'
-  }
+    config: {
+        navigationBarTitleText: '球童选拔排行榜'
+    }
 }

@@ -101,6 +101,12 @@
 					"name": "确认订单",
 					"pathName": "pages/confirmPay/main",
 					"query": "id=17"
+				},
+				{
+					"id": -1,
+					"name": "排行榜",
+					"pathName": "pages/caddieList/main",
+					"query": ""
 				}
 			]
 		}

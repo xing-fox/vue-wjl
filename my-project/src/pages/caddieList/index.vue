@@ -5,28 +5,42 @@
         <div :class="{'on' : currentTab==1}" @click="swichNav(1)">投票结果</div>
     </div>  
     <swiper :current="currentTab" class="swiper-box" duration="300" @change="bindChange">
-        <swiper-item>  
-          <div class="listTip xbox">
-            <div class="xbox-1-3 tl">排名</div>
-            <div class="xbox-1-3 tc">球童姓名</div>
-            <div class="xbox-1-3 tr">投票数</div>
-          </div>
+        <swiper-item>
+          <scroll-view v-if="playerList.length" class="point-List" scroll-y @scrolltolower="toLow">
+             <div class="listBox">
+              <div class="listTip xbox">
+                <div class="tl">排名</div>
+                <div class="tc">球童姓名</div>
+                <div class="tr">投票数</div>
+              </div>
 
-          <div class="xbox player_tab" v-for="(item,index) in playerUr" :key="index">
-            <div class="xbox-1-3 tl">{{item.number}}</div>
-            <div class="xbox-1-3 tc"><img :src="item.img">{{item.name}}</div>
-            <div class="xbox-1-3 tr">{{item.list}}</div>
-          </div>
-        </swiper-item>
-        <swiper-item>  
-          <!-- <scroll-view v-if="giftList.length" class="point-List" scroll-y @scrolltolower="giftToLow">
-            <div class="list" v-for="(item, index) in giftList" :key="index" >
-              <p>{{ item.mallName }}</p>
-              <span>{{ item.createTime }}</span>
-              <div class="mark">{{ item.score }}积分</div>
+              <div class="xbox player_tab" v-for="(item,index) in playerList" :key="index">
+                <div class="tl">{{item.voteId}}</div>
+                <div class="tc"><img :src="baseUrl+item.voteImage">{{item.voteName}}</div>
+                <div class="tr">{{item.voteNum}}</div>
+              </div>
             </div>
           </scroll-view>
-          <div v-else class="noData">暂无数据</div>  -->
+          <div v-else class="noData">暂无数据</div>   
+         
+        </swiper-item>
+        <swiper-item>  
+          <scroll-view v-if="RList.length" class="point-List" scroll-y @scrolltolower="RtoLow">
+             <div class="listBox">
+              <div class="listTip xbox">
+                <div class="tl">排名</div>
+                <div class="tc">球童姓名</div>
+                <div class="tr">投票数</div>
+              </div>
+
+              <div class="xbox player_tab" v-for="(item,index) in RList" :key="index">
+                <div class="tl">{{item.voteId}}</div>
+                <div class="tc"><img :src="baseUrl+item.voteImage">{{item.voteName}}</div>
+                <div class="tr">{{item.voteNum}}</div>
+              </div>
+            </div>
+          </scroll-view>
+          <div v-else class="noData">暂无数据</div>  
         </swiper-item>
     </swiper> 
     
@@ -37,33 +51,16 @@
 export default {
   data () {
     return {
+      mallId:'',
       currentTab: 0,
-      playerUr: [
-        {
-          img: '../../../static/qiutonglist.png',
-          name: '小一',
-          number: '1',
-          list: '256',
-        },
-        {
-          img: '../../../static/qiutonglist.png',
-          name: '小二',
-          number: '2',
-          list: '1252',
-        },
-        {
-          img: '../../../static/qiutonglist.png',
-          name: '小三',
-          number: '3',
-          list: '2303',
-        },
-        {
-          img:'../../../static/qiutonglist.png',
-          name: '小四',
-          number: '4',
-          list: '28',
-        }
-      ]
+      pageSize:10,
+      playerPageNum: 1,
+      playerHasMore: true,
+      playerList:[],
+      RPageNum: 1,
+      RHasMore: true,
+      RList:[],
+      baseUrl: this.$http.baseURL
     }
   },
   components: {
@@ -81,8 +78,74 @@ export default {
         that.currentTab = tab 
       }
     },
+    getList(pageNum){
+      let self = this
+      self.playerHasMore = false
+      self.$http.listTp({
+        type: '1',
+        start: pageNum,
+        limit:self.pageSize,
+        mallId:self.mallId
+      }).then(res => {
+        if (res.data.code == '200'){
+          self.playerList = self.playerList.concat(res.data.result)
+          if(res.data.result.length == self.pageSize){
+            self.playerHasMore = true
+          }
+        }
+      })
+    },
+    getRList(pageNum){
+      let self = this
+      self.RHasMore = false
+      self.$http.listTp({
+        type: '2',
+        start: pageNum,
+        limit:self.pageSize,
+        mallId:self.mallId
+      }).then(res => {
+        if (res.data.code == '200'){
+          self.RList = self.RList.concat(res.data.result)
+          if(res.data.result.length == self.pageSize){
+            self.RHasMore = true
+          }
+        }
+      })
+    },
+    toLow() {
+      if(this.playerHasMore){
+        this.playerPageNum++;
+        this.getList(this.playerPageNum)
+      }
+    },
+    RtoLow(){
+      if(this.RHasMore){
+        this.RPageNum++;
+        this.getRList(this.RPageNum)
+      }
+    }
   },
   created () {
+  },
+  onLoad (options) {
+    let self = this
+    wx.getStorage({
+      key: 'mallInfo',
+      success: function(res) {
+        self.mallId = res.data.mallId
+        self.playerPageNum = 1
+        self.playerHasMore = true
+        self.playerList = []
+        self.getList(self.playerPageNum)
+        self.RPageNum = 1
+        self.RHasMore = true
+        self.RList = []
+        self.getRList(self.RPageNum)
+      } 
+    })
+    wx.setNavigationBarTitle({
+      title: options.title
+    })
   }
 }
 </script>
@@ -93,35 +156,17 @@ export default {
     width: 100%;
     height: 100%;
     box-sizing: border-box;
-    padding:0 30rpx;
-    .xbox{display:-webkit-flex;display:flex;font-size:34rpx;height: 120rpx;line-height: 120rpx;}
-    .xbox-1-3{width: 33.3328%;}
-    .tl{text-align: left}
-    .tc{text-align:center}
-    .tr{text-align:right}
-    .player_tab{
-      width:100%;  
-      font-size:34rpx;   
-      border-top:1px solid #eee;
-      img{
-        width:75rpx;
-        height:75rpx;
-        border-radius:50%;
-        margin-right:20rpx;
-        vertical-align:middle;
-      }
-    }
+    padding:40rpx 30rpx 0;
     .swiper-tab{  
       position: relative;
       z-index: 1;
       display: flex;
-      box-sizing: border-box;
       width: 100%;
-      height:56rpx;
-      line-height: 56rpx;
+      height:52rpx;
+      line-height: 52rpx;
       color: #02a319;
       text-align: center;
-      font-size: 24rpx;
+      font-size: 26rpx;
       border-radius: 4rpx;
       border:#02a319 solid 1rpx;
       justify-content:space-between;
@@ -141,8 +186,41 @@ export default {
       height:100%; 
       width: 100%; 
       overflow: hidden;
-      padding:100rpx 30rpx 0;
+      padding:160rpx 30rpx 0;
       box-sizing: border-box;
+      .listBox {
+        border-radius: 20rpx;
+        background:#fdfdfd;
+        box-shadow:0 0 10px 1rpx rgba(0, 0, 0, .05) inset;
+      }
+      .xbox{
+        display:flex;
+        font-size:28rpx;
+        height: 108rpx;
+        text-align:center;
+        line-height: 108rpx;
+      }
+      .tl{
+        width: 20%;
+      }
+      .tc{
+         width: 50%;
+      }
+      .tr{
+         width: 30%;
+      }
+      .player_tab{
+        width:100%;  
+        font-size:28rpx;   
+        border-top:1px solid #eee;
+        img{
+          width:70rpx;
+          height:70rpx;
+          border-radius:50%;
+          margin-right:20rpx;
+          vertical-align:middle;
+        }
+      }
     } 
   }
 </style>

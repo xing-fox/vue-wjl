@@ -24,9 +24,8 @@
         <div class="title"><span>活动须知</span></div>
         <div class="cont">{{ activityData.activityDetails }}</div>
       </div>
-      <div class="team">
-        <a>巴萨</a>
-        <a>皇马</a>
+      <div v-if="teamShow" class="team">
+        <a v-for="(item, index) in teamList" :key="index" @click="selectTeam(item.teamId,item.teamName)">{{ item.teamName }}</a>
       </div>
     </div>
     <div class="btn" @click="goToBuy">
@@ -39,8 +38,11 @@
 export default {
   data () {
     return {
+      userId:'',
       activityid: '',
       caddieShow: false,
+      teamShow: false,
+      teamList:[],
       caddieData:[],
       activityData:{},
       baseUrl: this.$http.baseURL
@@ -58,6 +60,42 @@ export default {
       wx.switchTab({
         url: '/pages/buyCard/main',
       })
+    },
+    selectTeam (teamId,teamName){
+      let self = this
+      if(!self.userId){
+        wx.showToast({
+          title: '请先登录',
+          icon: 'none',
+          duration:2000,
+          success:function(){
+            setTimeout(() => {
+              wx.switchTab({
+                url: "/pages/own/main"
+              })
+            },1500)
+            
+          }
+        })
+      } else {
+        self.$http.selectTeam({
+          userId: self.userId,
+          activityId: self.activityid,
+          teamId:teamId
+        }).then(res => {
+          if (res.data.code == '200'){
+            wx.showToast({
+              title: '成功加入' + teamName + '球队',
+              icon: 'none'
+            })
+          } else {
+            wx.showToast({
+              title: res.data.message,
+              icon: 'none'
+            })
+          }
+        })
+      }
     }
   },
   created () {
@@ -65,7 +103,7 @@ export default {
   onLoad (options) {
     let self = this
     self.activityid = options.activityid
-    self.caddieShow = options.type == "1" ? true : false
+    self.teamShow = options.type == "2" ? true : false
     self.$http.activityDetail({
       activityId: self.activityid
     }).then(res => {
@@ -75,10 +113,20 @@ export default {
         self.activityData.enddate = self.$format.formatT(self.activityData.enddate,1)
         self.caddieData = res.data.result[0].voteDoList
         self.caddieShow = self.caddieData.length ? true : false
+        if (self.teamShow) {
+          self.teamList = res.data.result[0].teamName ? JSON.parse(res.data.result[0].teamName) : [];
+          console.log(self.teamList)
+        }
         wx.setNavigationBarTitle({
-          title: self.activityData.activityName + '详情'
+          title: self.activityData.activityName
         })
       }
+    })
+    wx.getStorage({
+      key: 'userInfo',
+      success: function(res) {
+        self.userId = res.data.userId
+      } 
     })
   }
 }

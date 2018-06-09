@@ -206,7 +206,7 @@ export default {
         self.cityId = res.data.cityId
          self.$http.ticketList({
           cid: self.cityId,
-          mid: self.mallId
+          mallId: self.mallId
         }).then(res => {
           if (res.data.code == '200'){
             self.dataList = res.data.result;
