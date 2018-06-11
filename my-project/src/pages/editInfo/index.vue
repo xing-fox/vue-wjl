@@ -1,6 +1,6 @@
 <template>
   <div class="page">
-    <div class="top" style="background-image: url('http://61.190.254.82:8080/xijia/bgydl.png')">
+    <div class="top" :style="{ background: bgImg }">
       <i></i>
     </div>
     <ul class="list-input">
@@ -29,7 +29,8 @@ export default {
       oldPass: '',
       newPass: '',
       oldPassShow:true,
-      newPassShow:true
+      newPassShow:true,
+      bgImg: 'url('+this.$http.baseURL + 'bgydl.jpg)'
     }
   },
   components: {
@@ -98,7 +99,7 @@ export default {
     text-align: center;
     box-sizing: border-box;
     padding-top: 46rpx;
-    background-size: 100% 100%;
+    background-size: 100% 100% !important;
     i {
       display:inline-block;
       width: 130rpx;

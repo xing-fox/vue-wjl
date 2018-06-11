@@ -59,7 +59,10 @@ export default {
       let self = this
       wx.login({
         success: function(res) {
-          self.body = `${self.cityId}/${self.mallId}/${self.dataList[0].ticketId}/${self.dataList[0].num}`
+          self.body = ''
+          self.dataList.map((item) => {
+            self.body += self.cityId + '/' + self.mallId + '/' + item.ticketId + '/' + item.num + ','
+          })
           console.log(self.body)
           self.getPayInfo(res.code)
         }

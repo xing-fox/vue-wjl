@@ -21,7 +21,7 @@
 
                 <div class="xbox player_tab" v-for="(item,index) in resultData[0].list" :key="index">
                   <div class="tl">{{item.id}}</div>
-                  <div class="tc"><img :src="baseUrl+item.voteImage">{{item.userName}}</div>
+                  <div class="tc"><img :src="item.img">{{item.userName}}</div>
                   <div class="tr">{{item.ballNum}}</div>
                 </div>
               </div>
@@ -44,7 +44,7 @@
 
                 <div class="xbox player_tab" v-for="(item,index) in resultData[1].list" :key="index">
                   <div class="tl">{{item.id}}</div>
-                  <div class="tc"><img :src="baseUrl+item.voteImage">{{item.userName}}</div>
+                  <div class="tc"><img :src="item.img">{{item.userName}}</div>
                   <div class="tr">{{item.ballNum}}</div>
                 </div>
               </div>
@@ -88,7 +88,6 @@ export default {
     getList(){
       let self = this
       self.$http.debiRank({
-        userId:self.userId,
         mallId:self.mallId
       }).then(res => {
         if (res.data.code == '200'){

@@ -1,5 +1,5 @@
 <template>
-  <div class="page" style="background-image:url(http://61.190.254.82:8080/xijia/zsjftb.jpg)">
+  <div class="page" :style="{ background: bgImg }">
     <div class="shareBtn">
       <input placeholder-class="p-gray" type="number" placeholder="请输入积分" v-model="point"/>
       <button class="btn" @click="submit">分享赠送积分</button>
@@ -39,7 +39,8 @@ export default {
       maxPoint:0,
       giftId:'',
       time:'',
-      tips:''
+      tips:'',
+      bgImg: 'url('+this.$http.baseURL + 'zsjftb.jpg) center top #030304 no-repeat'
     }
   },
   components: {
@@ -133,10 +134,7 @@ export default {
   overflow-y: auto;
   box-sizing:border-box;
   padding-top:436rpx;
-  background-color:#030304;
-  background-position:center top;
-  background-repeat:no-repeat;
-  background-size:100% auto;
+  background-size:100% auto !important;
   .shareBtn {
     text-align:center;
     input{

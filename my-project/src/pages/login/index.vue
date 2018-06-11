@@ -1,5 +1,5 @@
 <template>
-    <div class="login" style="background-image: url('http://61.190.254.82:8080/xijia/bg.jpg')">
+    <div class="login" :style="{ background: bgImg }">
       <div class="login-input phone">
         <i></i>
         <input type="number" placeholder-class="p-gray" placeholder="请输入手机号" maxlength="11" v-model="telephone"/>
@@ -13,7 +13,7 @@
         <button type="primary" @click="submit">登录</button>
       </div>
       <div class="logo">
-        <img mode='widthFix' src='http://61.190.254.82:8080/xijia/logo.png'>
+        <img mode='widthFix' :src='logoImg'>
       </div>
     </div>
 </template>
@@ -24,7 +24,9 @@ export default {
     return {
       telephone:'',
       password:'',
-      passShow:true
+      passShow:true,
+      logoImg: this.$http.baseURL + 'logo.png',
+      bgImg: 'url('+this.$http.baseURL + 'bg.jpg)'
     };
   },
   components: {},
@@ -91,7 +93,7 @@ export default {
     border-radius: 5rpx;
   }
   .login {
-    background-size: 100% 100%; 
+    background-size: 100% 100% !important; 
     padding: 490rpx 30rpx 0;
     width: 100%;
     height: 100%;

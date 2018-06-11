@@ -52,7 +52,7 @@ if (env === 'development') {
 }
 
 export default {
-    baseURL: 'http://61.190.254.82:8080/xijia/',
+    baseURL: BaseURL,
     // 根据经纬度获取城市名
     listByGeno(params) {
         return get(BaseURL + 'city/listByGeno', params)
@@ -112,6 +112,14 @@ export default {
     // 我的购票记录
     myTicket(params) {
         return get(BaseURL + 'ticket/myTicket_1', params)
+    },
+    // 购票详情
+    ticketDetail(params) {
+        return get(BaseURL + 'ticket/myTicket_2', params)
+    },
+    // 购票详情
+    getCode(params) {
+        return get(BaseURL + 'ticket/myTicket_3', params)
     },
     // 积分明细
     userIntegral(params) {

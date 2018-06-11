@@ -1,5 +1,5 @@
 <template>
-  <div class="page" style="background-image:url(http://61.190.254.82:8080/xijia/zsjftb.jpg)">
+  <div class="page"  :style="{ background: bgImg }">
     <div class="btn" @click="shadowShow = true">领取积分</div>
     <div class="about">
       <div class="tit">赠送规则</div>
@@ -47,7 +47,8 @@ export default {
       giftId:'',
       passShow:true,
       time:'',
-      tips:''
+      tips:'',
+      bgImg: 'url('+this.$http.baseURL + 'zsjftb.jpg) center top #030304 no-repeat'
     }
   },
   components: {
@@ -147,10 +148,7 @@ export default {
   overflow-y: auto;
   box-sizing:border-box;
   padding-top:436rpx;
-  background-color:#030304;
-  background-position:center top;
-  background-repeat:no-repeat;
-  background-size:100% auto;
+  background-size:100% auto !important;
   .btn {
     margin:0 auto 050rpx;
     width:284rpx;
