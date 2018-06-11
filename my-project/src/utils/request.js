@@ -111,7 +111,7 @@ export default {
     },
     // 我的购票记录
     myTicket(params) {
-        return get(BaseURL + 'ticket/myTicket', params)
+        return get(BaseURL + 'ticket/myTicket_1', params)
     },
     // 积分明细
     userIntegral(params) {

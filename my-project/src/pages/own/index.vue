@@ -1,7 +1,8 @@
 <template>
   <div class="page">
     <div class="top" style="background-image: url('http://61.190.254.82:8080/xijia/bgydl.png')">
-      <img src="http://61.190.254.82:8080/xijia/logo.png">
+      <i></i>
+      <p v-if="!!userId">当前积分：{{ total }}</p>
     </div>
     <ul v-if="!!userId" class="nav-list">
       <li>
@@ -11,15 +12,15 @@
         </div>
       </li>
       <li>
-        <div  @click="openPoint">
-          <i class="icon3"></i>
-          积分明细
+        <div  @click="openShareGift">
+          <i class="icon2"></i>
+          赠送积分
         </div>
       </li>
       <li>
-        <div  @click="openShareGift">
-          <i class="icon5"></i>
-          赠送积分
+        <div  @click="openPoint">
+          <i class="icon3"></i>
+          积分明细
         </div>
       </li>
       <li>
@@ -28,6 +29,18 @@
           编辑资料
         </div>
       </li>
+      <li>
+        <div  @click="openEditInfo">
+          <i class="icon5"></i>
+          扫一扫
+        </div>
+      </li>
+      <!--<li>
+        <div  @click="openEditInfo">
+          <i class="icon6"></i>
+          使用记录
+        </div>
+      </li>-->
     </ul>
     <div v-if="!!userId" class="btn">
       <button type="primary" @click="logOut">退出账号</button>
@@ -44,6 +57,7 @@ export default {
   data() {
     return {
       userId:'',
+      total:0,
       editInfo: false
     }
   },
@@ -96,6 +110,15 @@ export default {
       key: 'userInfo',
       success: function(res) {
         self.userId = res.data.userId
+        self.$http.userIntegral({
+          userId: self.userId,
+          start: 1,
+          limit:10
+        }).then(res => {
+          if (res.data.code == '200'){
+            self.total = res.data.result[0].sumGole 
+          }
+        })
       } 
     })
   }
@@ -118,9 +141,17 @@ page {
     box-sizing: border-box;
     padding-top: 46rpx;
     background-size: 100% 100%;
-    img {
-      width: 126rpx;
-      height: 126rpx;
+    i {
+      display:inline-block;
+      width: 130rpx;
+      height: 130rpx;
+      border-radius:50%;
+      background:url("../../../static/logoblack.png") center #fff no-repeat;
+      background-size:72rpx 72rpx;
+    }
+    p{
+      color:#fff;
+      font-size:24rpx;
     }
   }
   .nav-list li {
@@ -143,7 +174,7 @@ page {
       background-image: url(../../../static/menpiao.png);
     }
     .icon2 {
-      background-image: url(../../../static/jfdh.png);
+      background-image: url(../../../static/zsjficon.png);
     }
     .icon3 {
       background-image: url(../../../static/jfmx.png);
@@ -152,7 +183,10 @@ page {
       background-image: url(../../../static/bianj.png);
     }
     .icon5 {
-      background-image: url(../../../static/zsjficon.png);
+      background-image: url(../../../static/sysicon.png);
+    }
+    .icon6 {
+      background-image: url(../../../static/syjltb.png);
     }
     div{
       color:#313131;
@@ -163,7 +197,7 @@ page {
     }
   }
   .btn {
-    padding: 180rpx 32rpx 0;
+    padding: 80rpx 32rpx 0;
     button {
       margin-bottom: 36rpx;
     }

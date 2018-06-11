@@ -1,7 +1,7 @@
 <template>
   <div class="page">
     <div class="top" style="background-image: url('http://61.190.254.82:8080/xijia/bgydl.png')">
-      <img src="http://61.190.254.82:8080/xijia/logo.png">
+      <i></i>
     </div>
     <ul class="list-input">
       <li class="password">
@@ -97,12 +97,15 @@ export default {
     width: 100%;
     text-align: center;
     box-sizing: border-box;
-    padding-top:52rpx;
+    padding-top: 46rpx;
     background-size: 100% 100%;
-    img {
-      width: 145rpx;
-      height:145rpx;
+    i {
+      display:inline-block;
+      width: 130rpx;
+      height: 130rpx;
       border-radius:50%;
+      background:url("../../../static/logoblack.png") center #fff no-repeat;
+      background-size:72rpx 72rpx;
     }
   }
   .list-input {
