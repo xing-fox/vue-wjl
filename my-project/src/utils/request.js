@@ -14,10 +14,10 @@ export function get(url, params) {
             resolve(response)
         }, err => {
             wx.hideLoading()
-            wx.showToast({
-                title: err.message,
-                icon: 'none'
-            })
+            // wx.showToast({
+            //     title: err.message,
+            //     icon: 'none'
+            // })
             reject(err)
         }).catch((error) => {
             reject(error)
@@ -32,10 +32,10 @@ export function post(url, params) {
             resolve(response)
         }, err => {
             wx.hideLoading()
-            wx.showToast({
-                title: err.message,
-                icon: 'none'
-            })
+            // wx.showToast({
+            //     title: err.message,
+            //     icon: 'none'
+            // })
             reject(err)
         }).catch((error) => {
             reject(error)
@@ -117,8 +117,8 @@ export default {
     ticketDetail(params) {
         return get(BaseURL + 'ticket/myTicket_2', params)
     },
-    // 购票详情
-    getCode(params) {
+    // 获取购票二维码
+    getQRCode(params) {
         return get(BaseURL + 'ticket/myTicket_3', params)
     },
     // 积分明细

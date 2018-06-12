@@ -56,16 +56,15 @@ export default {
         pwd: self.password
       }).then(res => {
         let resD = res.data
-        console.log(res.data)
         if(resD.code == '200'){
           wx.setStorage({
             key:"userInfo",
             data:{userId: resD.result.userId},
             success:function(){
               self.password = ''
-              wx.switchTab({
-                url: "/pages/own/main"
-              })
+              // wx.switchTab({
+              //   url: "/pages/own/main"
+              // })
             }
           })
         } else {

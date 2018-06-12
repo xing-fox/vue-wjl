@@ -30,7 +30,7 @@
         </div>
       </li>
       <li>
-        <div  @click="openEditInfo">
+        <div>
           <i class="icon5"></i>
           扫一扫
         </div>

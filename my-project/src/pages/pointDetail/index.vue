@@ -61,7 +61,7 @@ export default {
     return {
       mallId:'',
       userId:'',
-      total:'',
+      total:0,
       currentTab: 0,
       pageSize:10,
       golePageNum: 1,

@@ -24,13 +24,16 @@ export default {
   methods: {
     getData(orderId){
       let self = this
-      self.$http.getCode({
+      self.$http.getQRCode({
         userId: self.userId,
         orderId:orderId
       }).then(res => {
         if (res.data.code == '200'){
-         self.erweima = res.data.result.erweima
-         self.orderSeq = res.data.result.orderSeq
+          self.erweima = res.data.result.erweima
+          self.orderSeq = res.data.result.orderSeq
+        } else {
+          self.erweima = ''
+          self.orderSeq = ''
         }
       })
     }
@@ -52,7 +55,7 @@ export default {
 </script>
 <style lang="less" scoped>
 .codeBox {
-  padding:160rpx;
+  padding:160rpx 30rpx;
   text-align: center;
   font-size: 26rpx;
   color:#949494;

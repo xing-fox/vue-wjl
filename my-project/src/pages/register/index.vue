@@ -157,6 +157,12 @@ export default {
             icon: 'none'
           })
         }
+      }).catch((cat) => {
+        self.phoneSure = true
+        wx.showToast({
+          title: '发送失败，请稍后重试',
+          icon: 'none'
+        })
       })
     }
   },

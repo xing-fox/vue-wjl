@@ -50,6 +50,12 @@ export default {
             item.time = item.createTime ? self.$format.formatT(item.createTime,1) : '--'
           })
           self.dataList = res.data.result
+        } else {
+          self.dataList = []
+          wx.showToast({
+            title: res.data.message,
+            icon: 'none',
+          })
         }
       })
     }
