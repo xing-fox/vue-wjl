@@ -57,14 +57,18 @@ export default {
       }).then(res => {
         let resD = res.data
         if(resD.code == '200'){
+          let userData = {
+            userId: resD.result.userId
+          }
+          resD.result.list[0] && resD.result.list[0].city_id ? userData.cityid = resD.result.list[0].city_id : ''
           wx.setStorage({
             key:"userInfo",
-            data:{userId: resD.result.userId},
+            data: userData,
             success:function(){
               self.password = ''
-              // wx.switchTab({
-              //   url: "/pages/own/main"
-              // })
+              wx.switchTab({
+                url: "/pages/own/main"
+              })
             }
           })
         } else {

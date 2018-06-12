@@ -14,10 +14,10 @@ export function get(url, params) {
             resolve(response)
         }, err => {
             wx.hideLoading()
-            // wx.showToast({
-            //     title: err.message,
-            //     icon: 'none'
-            // })
+                // wx.showToast({
+                //     title: err.message,
+                //     icon: 'none'
+                // })
             reject(err)
         }).catch((error) => {
             reject(error)
@@ -32,10 +32,10 @@ export function post(url, params) {
             resolve(response)
         }, err => {
             wx.hideLoading()
-            // wx.showToast({
-            //     title: err.message,
-            //     icon: 'none'
-            // })
+                // wx.showToast({
+                //     title: err.message,
+                //     icon: 'none'
+                // })
             reject(err)
         }).catch((error) => {
             reject(error)
@@ -168,5 +168,21 @@ export default {
     // 德比大战排行榜
     debiRank(params) {
         return get(BaseURL + 'debi/debiRank', params)
+    },
+    // 扫一扫-激活票中 体验券 选择的活动
+    jihuoHuod(params) {
+        return get(BaseURL + 'xianxia/jihuo_huod', params)
+    },
+    // 扫一扫-保存激活数据
+    jihuoSave(params) {
+        return get(BaseURL + 'xianxia/jihuo_save', params)
+    },
+    // 扫一扫-活动数据列表
+    jihuoData(params) {
+        return get(BaseURL + 'xianxia/jihuo_data', params)
+    },
+    // 扫一扫-活动数据 保存积分
+    jihuoSaveData(params) {
+        return get(BaseURL + 'xianxia/jihuo_saveData', params)
     }
 }

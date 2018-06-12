@@ -107,6 +107,24 @@
 					"name": "排行榜",
 					"pathName": "pages/caddieList/main",
 					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "激活票",
+					"pathName": "pages/activate/main",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "活动数据",
+					"pathName": "pages/activateData/main",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "活动数据",
+					"pathName": "pages/scanCode/main",
+					"query": ""
 				}
 			]
 		}

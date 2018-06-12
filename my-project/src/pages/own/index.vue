@@ -29,8 +29,8 @@
           编辑资料
         </div>
       </li>
-      <li>
-        <div>
+      <li v-if="userCity && (userCity == cityId)">
+        <div @click="openScanCode">
           <i class="icon5"></i>
           扫一扫
         </div>
@@ -56,7 +56,9 @@
 export default {
   data() {
     return {
+      cityId:'',
       userId:'',
+      userCity: '',
       total:0,
       editInfo: false,
       bgImg: 'url('+this.$http.baseURL + 'bgydl.jpg)'
@@ -85,6 +87,11 @@ export default {
         url: "/pages/shareGift/main"
       })
     },
+    openScanCode (){
+      wx.navigateTo({
+        url: "/pages/scanCode/main"
+      })
+    },
     goToLogin () {
       wx.navigateTo({
         url: "/pages/login/main"
@@ -111,6 +118,7 @@ export default {
       key: 'userInfo',
       success: function(res) {
         self.userId = res.data.userId
+        self.userCity = res.data.cityid ? res.data.cityid : ''
         self.$http.userIntegral({
           userId: self.userId,
           start: 1,
@@ -120,6 +128,12 @@ export default {
             self.total = res.data.result[0].sumGole 
           }
         })
+      } 
+    })
+    wx.getStorage({
+      key: 'cityInfo',
+      success: function(res) {
+        self.cityId = res.data.cityId
       } 
     })
   }
