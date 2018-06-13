@@ -25,12 +25,13 @@
       <div class="tab1_title bor-1px-b">
         <span>精选活动</span>
       </div>
-      <ul class="tab1_content">
+      <ul v-if="imgUrls.length" class="tab1_content">
         <li v-for="(item, index) in imgUrls" :key="index" @click="goToActivityHome(item.activityId)">
           <img :src="baseUrl+item.activityPic">
           <div><span>{{ item.activityName }}</span></div>
         </li>
       </ul>
+      <div v-else class="noData">暂无数据</div> 
     </div>
     <div class="tab">
       <div class="tab2_title bor-1px-b">
@@ -186,6 +187,16 @@ export default {
           self.imgUrls1 = []
         }
       })
+      
+      self.$http.activityHomeList({
+        mId: self.mallId
+      }).then(res => {
+        if (res.data.code == '200'){
+          self.imgUrls = res.data.result;
+        } else {
+          self.imgUrls = []
+        }
+      })
     },
     CityChange(e){
       let self = this
@@ -220,11 +231,6 @@ export default {
     self.$http.lunboApi({}).then(res => {
       if (res.data.code == '200'){
         self.Abs = res.data.result;
-      }
-    })
-    self.$http.activityHomeList({}).then(res => {
-      if (res.data.code == '200'){
-        self.imgUrls = res.data.result;
       }
     })
   },
