@@ -42,7 +42,7 @@ export default {
   methods: {
     getList(pageNum){
       let self = this
-      self.goleHasMore = false
+      self.hasMore = false
       self.$http.voteList({
         acId: self.activityid,
         start: pageNum,
@@ -65,7 +65,7 @@ export default {
     search(){
       let self = this
       if(self.numT){
-        self.goleHasMore = false
+        self.hasMore = false
         self.pageNum = 1;
         self.num = self.numT
         self.$http.voteList({

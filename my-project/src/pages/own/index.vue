@@ -35,12 +35,12 @@
           扫一扫
         </div>
       </li>
-      <!--<li>
-        <div  @click="openEditInfo">
+      <li>
+        <div  @click="openUseRecord">
           <i class="icon6"></i>
           使用记录
         </div>
-      </li>-->
+      </li>
     </ul>
     <div v-if="!!userId" class="btn">
       <button type="primary" @click="logOut">退出账号</button>
@@ -90,6 +90,11 @@ export default {
     openScanCode (){
       wx.navigateTo({
         url: "/pages/scanCode/main"
+      })
+    },
+    openUseRecord (){
+      wx.navigateTo({
+        url: "/pages/useRecord/main"
       })
     },
     goToLogin () {
