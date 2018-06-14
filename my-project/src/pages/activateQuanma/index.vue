@@ -2,8 +2,8 @@
   <div class="page">
     <ul class="list">
       <li>
-        <span class="lable">订单编号</span>
-        <i>{{ orderSeq }}</i>
+        <span class="lable">兑换券码</span>
+        <input type="number" placeholder-class="p-gray" placeholder="请输入兑换券码" v-model="quanma"/>
       </li>
       <li>
         <span class="lable">姓名</span>
@@ -25,7 +25,7 @@
           </label>
         </radio-group>
       </li>
-      <li v-if="type == '2'">
+      <li>
         <span class="lable">体验劵</span>
         <div class="searchBox">
           <picker @change="PickerChange" :range="Square" :range-key="'name'">
@@ -50,9 +50,7 @@ export default {
   data() {
     return {
       userId:'',
-      orderSeq: '',
-      orderId:'',
-      type:'',
+      quanma:'',
       name:'',
       age:'',
       nation:'',
@@ -81,28 +79,21 @@ export default {
     },
     submit(){
       let self = this
-      // if (!self.name) {
-      //   return wx.showToast({
-      //     title: '请输入姓名',
-      //     icon: 'none'
-      //   })
-      // }
-      // if (!self.age) {
-      //   return wx.showToast({
-      //     title: '请输入年龄',
-      //     icon: 'none'
-      //   })
-      // }
+      if (!self.quanma) {
+        return wx.showToast({
+          title: '请输入兑换券码',
+          icon: 'none'
+        })
+      }
       if (!self.nation) {
         return wx.showToast({
           title: '请输入国籍',
           icon: 'none'
         })
       }
-      self.$http.jihuoSave({
+      self.$http.jihuoSaveQuanma({
         user_id:self.userId,
-        orderSeq:self.orderSeq,
-        orderId:self.orderId,
+        quanma:self.quanma,
         nation:self.nation,
         name: self.name,
         age: self.age,
@@ -136,9 +127,6 @@ export default {
   },
   onLoad (options) {
     let self = this
-    self.orderSeq = options.orderSeq
-    self.orderId = options.orderId
-    self.type = options.type
     wx.getStorage({
       key: 'userInfo',
       success: function(res) {
@@ -153,6 +141,8 @@ export default {
   },
   onUnload () {
     let self = this
+    self.userId = ''
+    self.quanma = ''
     self.name = ''
     self.age = ''
     self.nation = ''
@@ -166,6 +156,7 @@ export default {
     self.tiyanquan = 0
     self.choiseSquareValue = '请选择活动名称'
   }
+
 }
 </script>
 <style lang="less" scoped>

@@ -118,6 +118,13 @@ export default {
     wx.setNavigationBarTitle({
       title: options.title
     })
+  },
+  onUnload () {
+    let self = this
+    self.resultData = []
+    self.currentTab = 0
+    self.title1 = '球队'
+    self.title2 = '球队'
   }
 }
 </script>

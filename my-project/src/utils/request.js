@@ -184,5 +184,9 @@ export default {
     // 扫一扫-活动数据 保存积分
     jihuoSaveData(params) {
         return get(BaseURL + 'xianxia/jihuo_saveData', params)
+    },
+    // 扫一扫-通过券码保存激活数据
+    jihuoSaveQuanma(params) {
+        return get(BaseURL + 'xianxia/jihuo_saveQuanma', params)
     }
 }

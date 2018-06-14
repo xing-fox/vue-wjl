@@ -148,6 +148,14 @@ export default {
       title: '今天，你投票了吗？2018年夏季世界杯火爆朋友圈，最IN的打招呼方式',
       path: '/pages/candidate/main?activityid=' + self.activityid ,
     }
+  },
+  onUnload () {
+    let self = this
+    self.activityData = {}
+    self.num = ''
+    self.numT = ''
+    self.pageNum =  1
+    self.hasMore = true
   }
 }
 </script>

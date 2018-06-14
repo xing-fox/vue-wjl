@@ -65,6 +65,7 @@ export default {
   onLoad(options){
     let self = this
     self.orderSeq = options.orderSeq
+    self.dataList = []
     wx.getStorage({
       key: 'userInfo',
       success: function(res) {

@@ -42,6 +42,10 @@ export default {
         })
       }
     })
+  },
+  onUnload () {
+    let self = this
+    self.activityData = {}
   }
 }
 </script>

@@ -236,6 +236,7 @@ export default {
   },
   onLoad () {
     let self = this
+    
     wx.getStorage({
       key: 'cityInfo',
       success: function(res) {

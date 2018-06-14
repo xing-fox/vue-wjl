@@ -48,8 +48,6 @@ export default {
       baseUrl: this.$http.baseURL
     }
   },
-  components: {
-  },
   methods: {
     goToCandidate(){
       wx.navigateTo({
@@ -128,6 +126,13 @@ export default {
         self.userId = res.data.userId
       } 
     })
+  },
+  onUnload () {
+    let self = this
+    self.caddieShow = false
+    self.teamList = []
+    self.caddieData = []
+    self.activityData = {}
   }
 }
 </script>

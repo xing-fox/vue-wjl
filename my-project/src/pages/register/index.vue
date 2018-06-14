@@ -197,6 +197,17 @@ export default {
         }
       }
     })
+  },
+  onUnload () {
+    let self = this
+    self.phoneSure = true
+    self.passShow = true
+    self.userName = ''
+    self.telephone = ''
+    self.code = ''
+    self.password = ''
+    self.timeLeave = 60
+    self.timeInter = ''
   }
 }
 </script>

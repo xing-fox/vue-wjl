@@ -51,8 +51,6 @@ export default {
       bgImg: 'url('+this.$http.baseURL + 'zsjftb.jpg) center top #030304 no-repeat'
     }
   },
-  components: {
-  },
   methods: {
     submit(){
       let self = this
@@ -137,6 +135,16 @@ export default {
         })
       } 
     })
+  },
+  onUnload () {
+    let self = this
+    self.shadowShow = false
+    self.passShow = true
+    self.telephone = ''
+    self.password = ''
+    self.giftId = ''
+    self.time = ''
+    self.tips = ''
   }
 }
 </script>

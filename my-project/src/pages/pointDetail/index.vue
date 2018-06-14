@@ -165,6 +165,8 @@ export default {
   },
   onShow () {
     let self = this
+    self.total = 0
+    self.currentTab = 0
     wx.getStorage({
       key: 'userInfo',
       success: function(res) {

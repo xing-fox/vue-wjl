@@ -81,6 +81,8 @@ export default {
     let self = this
     self.oldPass = ''
     self.newPass = ''
+    self.oldPassShow = true
+    self.newPassShow = true
     wx.getStorage({
       key: 'userInfo',
       success: function(res) {

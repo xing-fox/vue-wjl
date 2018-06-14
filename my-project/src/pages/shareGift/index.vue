@@ -123,6 +123,15 @@ export default {
       title: '赠送积分',
       path: '/pages/obtailShareGift/main?id='+ self.giftId
     }
+  },
+  onUnload () {
+    let self = this
+    self.shadowShow = false
+    self.point = ''
+    self.maxPoint = 0
+    self.giftId = ''
+    self.time = ''
+    self.tips = ''
   }
 }
 </script>

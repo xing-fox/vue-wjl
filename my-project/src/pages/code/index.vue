@@ -50,6 +50,11 @@ export default {
         self.getData(self.orderId)
       } 
     })
+  },
+  onUnload () {
+    let self = this
+    self.erweima = ''
+    self.orderSeq = ''
   }
 }
 </script>

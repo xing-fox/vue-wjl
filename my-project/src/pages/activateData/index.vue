@@ -42,8 +42,6 @@ export default {
   },
   onShow(){
     let self = this
-    self.name = ''
-    self.dataList = []
     wx.getStorage({
       key: 'userInfo',
       success: function(res) {
@@ -59,6 +57,11 @@ export default {
         })
       } 
     })
+  },
+  onUnload () {
+    let self = this
+    self.name = ''
+    self.dataList = []
   }
 }
 </script>
