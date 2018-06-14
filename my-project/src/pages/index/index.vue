@@ -329,7 +329,7 @@ export default {
           display: inline-block;
           line-height: 35rpx;
           padding: 0 0 0 10rpx;
-          border-left: 2px solid #f39f49;
+          border-left: 2px solid #05a21b;
         }
       }
       .tab1_content{
@@ -375,7 +375,7 @@ export default {
           display: inline-block;
           line-height: 35rpx;
           padding: 0 0 0 10rpx;
-          border-left: 2px solid #f39f49;
+          border-left: 2px solid #05a21b;
         }
       }
       .tab2_content{

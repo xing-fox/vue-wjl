@@ -1,7 +1,7 @@
 <template>
   <div class="page">
     <div v-if="activityData.activityDetailsPic" class="top">
-      <img :src="baseUrl+activityData.activityDetailsPic">
+      <img :src="baseUrl+activityData.activityDetailsPic" mode="widthFix">
     </div>
     <div v-if="caddieShow" class="caddie-list" @click="goToCandidate">
       <div class="title">
@@ -136,7 +136,7 @@ export default {
   .top {
     img {
       width: 100%;
-      height:420rpx;
+      height:auto;
     }
   }
   .caddie-list {

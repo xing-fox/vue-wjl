@@ -2,7 +2,7 @@
   <div class="page">
     <div v-if="activityData.activityDetails || activityData.activityDetailsPic">
       <div v-if="activityData.activityDetailsPic" class="top">
-        <img :src="baseUrl+activityData.activityDetailsPic">
+        <img :src="baseUrl+activityData.activityDetailsPic" mode="widthFix">
       </div>
       
       <div class="act-info" v-if="activityData.activityDetails">
@@ -50,7 +50,7 @@ export default {
   .top {
     img {
       width: 100%;
-      height:420rpx;
+      height:auto;
     }
   }
   .act-info {

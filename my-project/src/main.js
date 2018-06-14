@@ -18,15 +18,16 @@ export default {
         pages: ['^pages/index/main'],
         window: {
             backgroundTextStyle: 'light',
-            navigationBarBackgroundColor: '#fff',
+            navigationBarBackgroundColor: '#ffffff',
             navigationBarTitleText: 'WeChat',
-            navigationBarTextStyle: 'black'
+            navigationBarTextStyle: 'black',
+            backgroundColor: "#fff"
         },
         tabBar: {
             color: '#333333',
             selectedColor: '#07a216',
-            borderStyle: 'white',
-            backgroundColor: '#f8f9fb',
+            borderStyle: 'black',
+            backgroundColor: '#ffffff',
             list: [{
                     text: '首页',
                     pagePath: 'pages/index/main',
