@@ -14,10 +14,10 @@ export function get(url, params) {
             resolve(response)
         }, err => {
             wx.hideLoading()
-                // wx.showToast({
-                //     title: err.message,
-                //     icon: 'none'
-                // })
+                wx.showToast({
+                    title: '请求失败，请稍后重试',
+                    icon: 'none'
+                })
             reject(err)
         }).catch((error) => {
             reject(error)

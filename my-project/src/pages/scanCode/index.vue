@@ -4,6 +4,7 @@
       <button type="primary" @click="goToActivate">激活票</button>
       <button type="primary" @click="goToQuanma">兑换券码</button>
       <button type="primary" @click="goToActivateData">活动数据</button>
+      <button type="primary" @click="goToQuanmaData">兑换码活动数据</button>
     </div>
   </div>
 </template>
@@ -69,9 +70,13 @@ export default {
     goToQuanma (){
       wx.navigateTo({
         url: "/pages/activateQuanma/main"
-      })
-          
+      }) 
     },
+    goToQuanmaData (){
+      wx.navigateTo({
+        url: "/pages/activateQuanmaData/main"
+      }) 
+    }
   }
 }
 </script>

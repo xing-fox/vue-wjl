@@ -8,7 +8,7 @@
         </p>
         <p>
           <label>得分:</label>
-          <input type="number" readonly :value="item.score"/>
+          <input type="number" disabled :value="item.score"/>
         </p>
       </li>
     </ul>

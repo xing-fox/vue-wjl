@@ -1,7 +1,7 @@
 <template>
   <div class="page">
     <div class="searchBox">
-      <input type="number" placeholder-class="p-gray" placeholder="请输入编号" v-model="numT" auto-focus/>
+      <input type="number" placeholder-class="p-gray" placeholder="请输入编号" v-model="numT"/>
       <span @click="search">搜索</span>
     </div>
     <scroll-view v-if="playerUr.length" class="player_tab" scroll-y @scrolltolower="toLow">

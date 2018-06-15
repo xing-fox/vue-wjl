@@ -125,6 +125,12 @@
 					"name": "活动数据",
 					"pathName": "pages/scanCode/main",
 					"query": ""
+				},
+				{
+					"id": 15,
+					"name": "兑换码活动数据",
+					"pathName": "pages/activateQuanmaData/main",
+					"query": ""
 				}
 			]
 		}
