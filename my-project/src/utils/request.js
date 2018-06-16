@@ -14,10 +14,10 @@ export function get(url, params) {
             resolve(response)
         }, err => {
             wx.hideLoading()
-                wx.showToast({
-                    title: '请求失败，请稍后重试',
-                    icon: 'none'
-                })
+            wx.showToast({
+                title: '请求失败，请稍后重试',
+                icon: 'none'
+            })
             reject(err)
         }).catch((error) => {
             reject(error)
@@ -188,5 +188,13 @@ export default {
     // 扫一扫-通过券码保存激活数据
     jihuoSaveQuanma(params) {
         return get(BaseURL + 'xianxia/jihuo_saveQuanma', params)
+    },
+    // 券码-活动数据列表
+    jihuoDataQuanma(params) {
+        return get(BaseURL + 'xianxia/jihuo_data_quanma', params)
+    },
+    // 券码-活动数据 保存积分
+    jihuoSaveDataQuanma(params) {
+        return get(BaseURL + 'xianxia/jihuo_saveData_quanma', params)
     }
 }

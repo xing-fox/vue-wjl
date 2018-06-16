@@ -38,12 +38,6 @@
 			"list": [
 				{
 					"id": -1,
-					"name": "注册",
-					"pathName": "pages/register/main",
-					"query": ""
-				},
-				{
-					"id": -1,
 					"name": "登录",
 					"pathName": "pages/login/main",
 					"query": ""
@@ -61,69 +55,15 @@
 					"query": ""
 				},
 				{
-					"id": 4,
-					"name": "我的门票",
-					"pathName": "pages/myTicket/main",
-					"query": "tab=1"
-				},
-				{
-					"id": -1,
-					"name": "积分明细",
-					"pathName": "pages/pointDetail/main",
-					"query": ""
-				},
-				{
-					"id": -1,
-					"name": "球童候选人",
-					"pathName": "pages/candidate/main",
-					"query": ""
-				},
-				{
 					"id": -1,
 					"name": "赠送积分",
 					"pathName": "pages/shareGift/main",
 					"query": ""
 				},
 				{
-					"id": 8,
-					"name": "领取积分",
-					"pathName": "pages/obtailShareGift/main",
-					"query": "id=32"
-				},
-				{
-					"id": -1,
-					"name": "编辑资料",
-					"pathName": "pages/editInfo/main",
-					"query": ""
-				},
-				{
-					"id": -1,
-					"name": "确认订单",
-					"pathName": "pages/confirmPay/main",
-					"query": "id=17"
-				},
-				{
-					"id": -1,
-					"name": "排行榜",
-					"pathName": "pages/caddieList/main",
-					"query": ""
-				},
-				{
 					"id": -1,
 					"name": "激活票",
 					"pathName": "pages/activate/main",
-					"query": ""
-				},
-				{
-					"id": -1,
-					"name": "活动数据",
-					"pathName": "pages/activateData/main",
-					"query": ""
-				},
-				{
-					"id": -1,
-					"name": "活动数据",
-					"pathName": "pages/scanCode/main",
 					"query": ""
 				},
 				{

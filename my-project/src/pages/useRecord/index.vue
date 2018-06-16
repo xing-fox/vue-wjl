@@ -91,8 +91,9 @@ export default {
   color:#2f2f2f;
   line-height:100rpx;
   p{
-    padding:30rpx 30rpx;
-    font-size:30rpx;
+    margin: 0 30rpx;
+    font-size:30rpx !important;
+    border-bottom:#e5e5e5 solid 1rpx;
   }
   .list-scroll {
     position: absolute;
@@ -102,13 +103,30 @@ export default {
     width:100%;
     height: 100%;
     box-sizing: border-box;
-    border-top:#e5e5e5 solid 1rpx;
+    
     .list {
       border-bottom:#e5e5e5 solid 1rpx;
     }
   }
   lable {
     display:inline-block;
+    font-size:26rpx;
+    text-align: center;
+    vertical-align: top;
+  }
+  .lab1 {
+    width: 26%;
+  }
+  .lab2 {
+    width: 44%;
+  }
+  .lab3 {
+    width: 30%;
+    span {
+      border:#a1a1a1 solid 1rpx;
+      padding:4rpx 22rpx;
+      border-radius: 6rpx;
+    }
   }
 }
 </style>

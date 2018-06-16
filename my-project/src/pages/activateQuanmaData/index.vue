@@ -1,7 +1,7 @@
 <template>
   <div class="page">
     <div class="searchBox">
-      <input type="number" placeholder-class="p-gray" placeholder="请输入兑换券码" v-model="orderId" focus/>
+      <input type="number" placeholder-class="p-gray" placeholder="请输入兑换券码" v-model="quanma" focus/>
       <span @click="search">搜索</span>
     </div>
     <div class="result" v-if="dataList.length">
@@ -27,7 +27,7 @@ export default {
   data() {
     return {
       userId:'',
-      orderId:'',
+      quanma:'',
       name:'',
       dataList: []
     }
@@ -38,14 +38,14 @@ export default {
     goToDetail(name,xianxiaId){
       let self = this
       wx.navigateTo({
-        url: "/pages/activateDataDetail/main?name=" + name + "&xianxiaId=" + xianxiaId + "&orderId=" + self.orderId
+        url: "/pages/activateDataDetail/main?name=" + name + "&xianxiaId=" + xianxiaId + "&quanma=" + self.quanma
       })
     },
     search(){
       let self = this
-      if(self.orderId){
-        self.$http.jihuoData({
-          orderId: self.orderId,
+      if(self.quanma){
+        self.$http.jihuoDataQuanma({
+          quanma: self.quanma,
           userId: self.userId
         }).then(res => {
           if (res.data.code == '200'){
@@ -69,17 +69,13 @@ export default {
       
     }
   },
-  onLoad (options) {
-    let self = this
-    self.orderId = options.orderId
-  },
   onShow(){
     let self = this
     wx.getStorage({
       key: 'userInfo',
       success: function(res) {
         self.userId = res.data.userId
-        if(self.orderId) {
+        if(self.quanma) {
           self.search();
         }
       } 
@@ -87,6 +83,7 @@ export default {
   },
   onUnload () {
     let self = this
+    self.quanma = ''
     self.name = ''
     self.dataList = []
   }

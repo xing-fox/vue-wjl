@@ -19,6 +19,7 @@ export default {
     return {
       userId:'',
       orderId:'',
+      quanma:'',
       xianxiaId:'',
       name:'',
       score:''
@@ -35,39 +36,52 @@ export default {
           icon: 'none'
         })
       }
-      self.$http.jihuoSaveData({
-        userId:self.userId,
-        orderId:self.orderId,
-        xianxiaId:self.xianxiaId,
-        score: self.score
-      }).then(res => {
-        let resD = res.data
-        if(resD.code == '200'){
-          wx.showToast({
-            title: '提交成功',
-            icon: 'none',
-            complete:function(){
-              setTimeout(() => {
-                wx.navigateBack({
-                  delta: 1
-                })
-              },1500)
-            }
-          })
-        } else {
-          wx.showToast({
-            title: resD.message,
-            icon: 'none'
-          })
-        }
-      }).catch((cat) => {
-        console.log(cat)
-      })
+      if(!self.quanma){
+        self.$http.jihuoSaveData({
+          userId:self.userId,
+          orderId:self.orderId,
+          xianxiaId:self.xianxiaId,
+          score: self.score
+        }).then(res => {
+          self.ajaxData (res.data)
+        })
+      } else {
+        self.$http.jihuoSaveDataQuanma({
+          userId:self.userId,
+          quanma:self.quanma,
+          xianxiaId:self.xianxiaId,
+          score: self.score
+        }).then(res => {
+          self.ajaxData (res.data)
+        })
+      }
+      
+    },
+    ajaxData (resD){
+      if(resD.code == '200'){
+        wx.showToast({
+          title: '提交成功',
+          icon: 'none',
+          complete:function(){
+            setTimeout(() => {
+              wx.navigateBack({
+                delta: 1
+              })
+            },1500)
+          }
+        })
+      } else {
+        wx.showToast({
+          title: resD.message,
+          icon: 'none'
+        })
+      }
     }
   },
   onLoad (options) {
     let self = this
     self.orderId = options.orderId
+    self.quanma = options.quanma
     self.name = options.name
     self.xianxiaId = options.xianxiaId
     self.score = ''
