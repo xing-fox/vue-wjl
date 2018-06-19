@@ -200,5 +200,13 @@ export default {
     // 使用记录的列表
     useList(params) {
         return get(BaseURL + 'shiyong/use_list', params)
+    },
+    // 使用记录的列表--查看功能
+    useQuery(params) {
+        return get(BaseURL + 'shiyong/use_query', params)
+    },
+    // 使用记录--编辑详情的介绍 维护
+    saveContent(params) {
+        return get(BaseURL + 'shiyong/save_content', params)
     }
 }

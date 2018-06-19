@@ -9,7 +9,7 @@
         <div class="list" v-for="(item,index) in dataList" :key="index">
           <lable class="lab1">{{item.name}}</lable>
           <lable class="lab2">{{item.age}}</lable>
-          <lable class="lab3"><span @click="openDetail(item.id)">查看</span></lable>
+          <lable class="lab3"><span @click="openDetail(item.orderId)">查看</span></lable>
         </div>
       </div>
     </div>
@@ -22,10 +22,7 @@ export default {
   data() {
     return {
       userId:'',
-      dataList: [
-        {name:'张晓燕',age:'30',id:1},
-        {name:'张晓燕',age:'30',id:1}
-      ]
+      dataList: []
     }
   },
   components: {
@@ -53,8 +50,8 @@ export default {
       key: 'userInfo',
       success: function(res) {
         self.userId = res.data.userId
-        // self.dataList = []
-        // self.getList()
+        self.dataList = []
+        self.getList()
       } 
     })
   }
