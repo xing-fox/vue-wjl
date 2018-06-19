@@ -2,20 +2,24 @@
   <div class="page">
     <ul class="list">
       <li>
-        <span class="lable">订单编号</span>
-        <i>{{ orderSeq }}</i>
-      </li>
-      <li>
         <span class="lable">姓名</span>
-        <input placeholder-class="p-gray" placeholder="请输入姓名" v-model="name"/>
+        <i>张晓燕</i>
       </li>
       <li>
         <span class="lable">年龄</span>
-        <input type="number" placeholder-class="p-gray" placeholder="请输入年龄" v-model="age" maxlength="2"/>
+        <i>29</i>
       </li>
       <li>
-        <span class="lable">国籍</span>
-        <input placeholder-class="p-gray" placeholder="请输入国籍" v-model="nation"/>
+        <span class="lable">性别</span>
+        <i>男</i>
+      </li>
+      <li>
+        <span class="lable">得分情况</span>
+        <i>268</i>
+      </li>
+      <li>
+        <span class="lable">活动名称</span>
+        <i>西甲俱乐部</i>
       </li>
       <li>
         <span class="lable">性别</span>
@@ -34,13 +38,9 @@
           </picker>
         </div>
       </li>
-      <li>
-        <span class="lable">Email</span>
-        <input placeholder-class="p-gray" placeholder="请输入Email" v-model="email"/>
-      </li>
     </ul>
     <div class="btn">
-      <button type="primary" @click="submit">激活</button>
+      <button type="primary" @click="submit">球童报名</button>
     </div>
   </div>
 </template>
@@ -156,19 +156,19 @@ export default {
 <style lang="less" scoped>
 .page {
   .list {
-    padding:90rpx;
+    padding:60rpx 30rpx 90rpx;
     li {
       position: relative;
       height: 65rpx;
       line-height: 65rpx;
-      margin-bottom: 60rpx;
-      padding-left: 140rpx;
+      padding: 30rpx 30rpx 30rpx 200rpx;
       color:#2f2f2f;
       font-size: 30rpx;
+      border-bottom:#efefef solid 1rpx;
       span.lable{
         position: absolute;
-        left:0;
-        top:0;
+        left:60rpx;
+        top:30rpx;
         width:140rpx;
         height:65rpx;
       }

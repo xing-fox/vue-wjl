@@ -196,5 +196,9 @@ export default {
     // 券码-活动数据 保存积分
     jihuoSaveDataQuanma(params) {
         return get(BaseURL + 'xianxia/jihuo_saveData_quanma', params)
+    },
+    // 使用记录的列表
+    useList(params) {
+        return get(BaseURL + 'shiyong/use_list', params)
     }
 }
