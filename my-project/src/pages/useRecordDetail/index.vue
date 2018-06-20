@@ -1,40 +1,43 @@
 <template>
   <div class="page">
-    <ul class="list">
-      <li>
-        <span class="lable">姓名</span>
-        <i>{{ useInfo.name }}</i>
-      </li>
-      <li>
-        <span class="lable">年龄</span>
-        <i>{{ useInfo.age }}</i>
-      </li>
-      <li>
-        <span class="lable">性别</span>
-        <i>{{ useInfo.sex }}</i>
-      </li>
-      <li>
-        <span class="lable">得分情况</span>
-        <i>{{ useInfo.totalSum }}</i>
-      </li>
-      <li>
-        <span class="lable">上传头像</span>
-        <div @click="updataImg" class="updataImg">
-          <img :src="img">
-        </div>
-      </li>
-      <li>
-        <span class="lable">介绍</span>
-        <div class="textA">
-          <textarea :focus="focus" v-model="content"/>
-          <span v-if="!focus" @click="focusTap" class="editBtn">编辑</span>
-          <span v-else @click="saveContent" class="editBtn">保存</span>
-        </div>
-      </li>
-    </ul>
-    <div class="btn">
-      <button type="primary" @click="submit">球童报名</button>
+    <div v-if="useInfo">
+      <ul class="list">
+        <li>
+          <span class="lable">姓名</span>
+          <i>{{ useInfo.name }}</i>
+        </li>
+        <li>
+          <span class="lable">年龄</span>
+          <i>{{ useInfo.age }}</i>
+        </li>
+        <li>
+          <span class="lable">性别</span>
+          <i>{{ useInfo.sex }}</i>
+        </li>
+        <li>
+          <span class="lable">得分情况</span>
+          <i>{{ useInfo.totalSum }}</i>
+        </li>
+        <li>
+          <span class="lable">上传头像</span>
+          <div @click="updataImg" class="updataImg">
+            <img :src="baseUrl+img">
+          </div>
+        </li>
+        <li>
+          <span class="lable">介绍</span>
+          <div class="textA">
+            <textarea :focus="focus" v-model="content"/>
+            <span v-if="!focus" @click="focusTap" class="editBtn">编辑</span>
+            <span v-else @click="saveContent" class="editBtn">保存</span>
+          </div>
+        </li>
+      </ul>
+      <div class="btn">
+        <button type="primary" @click="submit">球童报名</button>
+      </div>
     </div>
+    <div v-else class="noData">暂无数据</div>
   </div>
 </template>
 
@@ -44,10 +47,13 @@ export default {
     return {
       userId:'',
       orderId:'',
+      cityId:'',
+      mallId:'',
       img:'',
       content:'',
-      useInfo:{},
-      focus:false
+      useInfo:'',
+      focus:false,
+      baseUrl: this.$http.baseURL
     }
   },
   components: {
@@ -60,19 +66,30 @@ export default {
         sizeType: ['compressed'], 
         sourceType: ['album', 'camera'], 
         success: function (res) {
-          self.img = res.tempFilePaths[0]
-          console.log(res);
+          let tempFilePaths = res.tempFilePaths
           wx.uploadFile({
-            url: self.$http.baseURL+'shiyong/upload_img', 
-            filePath: self.img,
+            url: self.baseUrl + 'shiyong/upload_img', 
+            filePath: tempFilePaths[0],
             name: 'file',
             formData:{
               'file': 'file'
             },
             success: function(res){
-              var data = res.data
-              //do something
-              console.log(res);
+              var data = JSON.parse(res.data)
+              if(data.code == '200'){
+                self.img = data.result
+              } else {
+                wx.showToast({
+                  title: data.message,
+                  icon: 'none'
+                })
+              }
+            },
+            fail:function(){
+              wx.showToast({
+                title: '上传头像失败',
+                icon: 'none'
+              })
             }
           })
         }
@@ -109,39 +126,31 @@ export default {
     },
     submit(){
       let self = this
-      // if (!self.name) {
-      //   return wx.showToast({
-      //     title: '请输入姓名',
-      //     icon: 'none'
-      //   })
-      // }
-      // if (!self.age) {
-      //   return wx.showToast({
-      //     title: '请输入年龄',
-      //     icon: 'none'
-      //   })
-      // }
-      if (!self.nation) {
+      if (!self.img) {
         return wx.showToast({
-          title: '请输入国籍',
+          title: '请上传照片',
           icon: 'none'
         })
       }
-      self.$http.jihuoSave({
-        user_id:self.userId,
-        orderSeq:self.orderSeq,
+      if (!self.content) {
+        return wx.showToast({
+          title: '请输入介绍内容',
+          icon: 'none'
+        })
+      }
+      self.$http.qiutBaoming({
+        userId:self.userId,
         orderId:self.orderId,
-        nation:self.nation,
-        name: self.name,
-        age: self.age,
-        sex: self.sexId,
-        tiyanquan: self.tiyanquan,
-        email: self.email
+        name: self.useInfo.name,
+        content: self.content,
+        img: self.img,
+        cityId: self.cityId,
+        mId: self.mallId
       }).then(res => {
         let resD = res.data
         if(resD.code == '200'){
           wx.showToast({
-            title: '激活成功',
+            title: '报名成功',
             icon: 'none',
             complete:function(){
               setTimeout(() => {
@@ -158,7 +167,10 @@ export default {
           })
         }
       }).catch((cat) => {
-        console.log(cat)
+        wx.showToast({
+          title: '报名失败，请稍后重试',
+          icon: 'none'
+        })
       })
     },
   },
@@ -175,11 +187,36 @@ export default {
         }).then(res => {
           if (res.data.code == '200'){
             self.useInfo = res.data.result[0] ? res.data.result[0] : {}
+            self.content = self.useInfo.content
+            self.img = self.useInfo.img
+          } else {
+            wx.showToast({
+              title: res.data.message,
+              icon: 'none'
+            })
           }
         })
       } 
     })
-    
+    wx.getStorage({
+      key: 'cityInfo',
+      success: function(res) {
+        self.cityId = res.data.cityId
+      } 
+    })
+    wx.getStorage({
+      key: 'mallInfo',
+      success: function(res) {
+        self.mallId = res.data.mallId
+      } 
+    })
+  },
+  onUnload () {
+    let self = this
+    self.img = ''
+    self.content = ''
+    self.useInfo = ''
+    self.focus = false
   }
 }
 </script>

@@ -208,5 +208,9 @@ export default {
     // 使用记录--编辑详情的介绍 维护
     saveContent(params) {
         return get(BaseURL + 'shiyong/save_content', params)
+    },
+    // 使用记录--球童报名
+    qiutBaoming(params) {
+        return get(BaseURL + 'shiyong/qiut_baoming', params)
     }
 }

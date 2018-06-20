@@ -148,7 +148,7 @@ export default {
     text-align:center;
     input{
       display:inline-block;
-      width:304rpx;
+      width:284rpx;
       height:68rpx;
       font-size:28rpx;
       background:#fff;
@@ -160,7 +160,7 @@ export default {
     .btn {
       display:inline-block;
       margin:0 0 50rpx 50rpx;
-      width:210rpx;
+      width:230rpx;
       height:68rpx;
       font-size:28rpx;
       color:#fff;

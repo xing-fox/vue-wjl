@@ -10,6 +10,10 @@
         <input placeholder-class="p-gray" placeholder="请输入姓名" v-model="name"/>
       </li>
       <li>
+        <span class="lable">手机号</span>
+        <input type="number" placeholder-class="p-gray" placeholder="请输入手机号" v-model="mobile" maxlength="11"/>
+      </li>
+      <li>
         <span class="lable">年龄</span>
         <input type="number" placeholder-class="p-gray" placeholder="请输入年龄" v-model="age" maxlength="2"/>
       </li>
@@ -55,6 +59,7 @@ export default {
       age:'',
       nation:'',
       email:'',
+      mobile:'',
       sex: [
         {name: '男', value: 1, checked: 'true'},
         {name: '女', value: 2},
@@ -85,17 +90,12 @@ export default {
           icon: 'none'
         })
       }
-      if (!self.nation) {
-        return wx.showToast({
-          title: '请输入国籍',
-          icon: 'none'
-        })
-      }
       self.$http.jihuoSaveQuanma({
         user_id:self.userId,
         quanma:self.quanma,
         nation:self.nation,
         name: self.name,
+        mobile:self.mobile,
         age: self.age,
         sex: self.sexId,
         tiyanquan: self.tiyanquan,
@@ -146,10 +146,11 @@ export default {
     self.name = ''
     self.age = ''
     self.nation = ''
+    self.mobile = ''
     self.email = ''
     self.sex = [
-      {name: '男', value: 1, checked: 'true'},
-      {name: '女', value: 2}
+        {name: '男', value: 1, checked: 'true'},
+        {name: '女', value: 2},
     ],
     self.sexId = '1'
     self.Square = []
@@ -162,7 +163,7 @@ export default {
 <style lang="less" scoped>
 .page {
   .list {
-    padding:90rpx;
+    padding:60rpx 90rpx;
     li {
       position: relative;
       height: 65rpx;

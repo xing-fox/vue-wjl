@@ -81,24 +81,6 @@ export default {
     },
     submit(){
       let self = this
-      // if (!self.name) {
-      //   return wx.showToast({
-      //     title: '请输入姓名',
-      //     icon: 'none'
-      //   })
-      // }
-      // if (!self.age) {
-      //   return wx.showToast({
-      //     title: '请输入年龄',
-      //     icon: 'none'
-      //   })
-      // }
-      if (!self.nation) {
-        return wx.showToast({
-          title: '请输入国籍',
-          icon: 'none'
-        })
-      }
       self.$http.jihuoSave({
         user_id:self.userId,
         orderSeq:self.orderSeq,
